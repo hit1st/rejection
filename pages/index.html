@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h4>Current Score:  <span id="current-score">0</span></h4>
+  <form onsubmit="processInput()">
+    <label for="question">Question:</label><br>
+    <input type="text" id="question" name="question" value="" placeholder="type your question"><br>
+    <label for="askee">Askee:</label><br>
+    <input type="text" id="askee" name="askee" value="" placeholder=" someone"><br>
+    <input type="radio" id="accepted" name="status" value="accepted">
+    <label for="accepted">Accepted</label><br>
+    <input type="radio" id="rejected" name="status" value="rejected" checked>
+    <label for="rejected">Rejected</label><br><br>
+    <input type="submit">
+    <input type="reset">
+  </form>
+
+</body>
+<script type="module" src="index.js"></script>
+<!-- <script src="../src/features/form-values/form-values.js"></script> -->
+<!-- <script src="../src/features/stored-questions/stored-questions.js"></script> -->
+<!-- <script src="../src/features/rejection/rejection-reducer.js"></script> -->
+</html>

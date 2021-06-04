@@ -4,7 +4,10 @@
   "description": "A portfolio project for professional developers to highlight skills with modern tech stacks like React, Redux, Serverless, etc.",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test babel-node ./src/index-test.js"
+    "test": "NODE_ENV=test babel-node ./src/index-test.js",
+    "watch": "watch 'clear && npm rum -s test | tap-nirvana' src",
+    "update": "updtr",
+    "dev": "babel-node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -21,12 +24,14 @@
     "@babel/node": "^7.13.10",
     "babel-eslint": "^10.1.0",
     "babel-plugin-styled-components": "^1.12.0",
+    "node-localstorage": "^2.1.6",
     "riteway": "^6.2.1",
     "tap-nirvana": "^1.1.0",
     "updtr": "^3.1.0",
     "watch": "^1.0.2"
   },
   "dependencies": {
+    "express": "^4.17.1",
     "next": "^10.0.8",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
