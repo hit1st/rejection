@@ -11,19 +11,33 @@ describe('reducer/addQuestion', async assert => {
   });
 
   {
-  const question = {
-    question: 'Can I have a raise?',
-    askee: 'Boss',
-    status: 'Accepted'
+    const question = {
+      question: 'Can I have a raise?',
+      askee: 'Boss',
+      status: 'Accepted'
+    };
+
+    assert({
+      given: 'a new question',
+      should: 'have id prop',
+      actual: addQuestion(question).payload.hasOwnProperty('id'),
+      expected: true,
+    });
   }
 
-  assert({
-    given: 'a new question',
-    should: 'have unique id prop',
-    actual: addQuestion(question).payload.hasOwnProperty('id'),
-    expected: true,
-  });
+  {
+    const question = {
+      question: 'Can I have a raise?',
+      askee: 'Boss',
+      status: 'Accepted'
+    };
 
+    assert({
+      given: 'a new question',
+      should: 'have timestamp prop',
+      actual: addQuestion(question).payload.hasOwnProperty('timestamp'),
+      expected: true,
+    });
   }
 
   {
@@ -34,12 +48,11 @@ describe('reducer/addQuestion', async assert => {
     }
 
   assert({
-    given: 'a new question',
-    should: 'have timestamp prop',
-    actual: addQuestion(question).payload.hasOwnProperty('timestamp'),
-    expected: true,
-  });
-
+      given: 'a new question',
+      should: 'have question prop',
+      actual: addQuestion(question).payload.question,
+      expected: question.question,
+    });
   }
 
   {
@@ -47,15 +60,14 @@ describe('reducer/addQuestion', async assert => {
       question: 'Can I have a raise?',
       askee: 'Boss',
       status: 'Accepted'
-    }
+    };
 
-  assert({
-    given: 'a new question',
-    should: 'have question prop',
-    actual: addQuestion(question).payload.hasOwnProperty('question'),
-    expected: true,
-  });
-
+    assert({
+      given: 'a new question',
+      should: 'have askee prop',
+      actual: addQuestion(question).payload.askee,
+      expected: question.askee,
+    });
   }
 
   {
@@ -63,30 +75,14 @@ describe('reducer/addQuestion', async assert => {
       question: 'Can I have a raise?',
       askee: 'Boss',
       status: 'Accepted'
-    }
+    };
 
-  assert({
-    given: 'a new question',
-    should: 'have askee prop',
-    actual: addQuestion(question).payload.hasOwnProperty('askee'),
-    expected: true,
-  });
-
-  }
-
-  {
-    const question = {
-      question: 'Can I have a raise?',
-      askee: 'Boss',
-      status: 'Accepted'
-    }
-
-  assert({
-    given: 'a new question',
-    should: 'have status prop',
-    actual: addQuestion(question).payload.hasOwnProperty('status'),
-    expected: true,
-  });
+    assert({
+      given: 'a new question',
+      should: 'have status prop',
+      actual: addQuestion(question).payload.status,
+      expected: question.status,
+    });
   }
 });
 
@@ -103,18 +99,17 @@ describe('reducer', async assert => {
       question: 'Can I have a raise?',
       askee: 'Boss',
       status: 'Accepted'
-    }
+    };
 
-    const executed = addQuestion(question);
+    const actual = reducer(reducer(), addQuestion(question));
+    const { id, timestamp } = actual[0];
+    const expected = [{ ...question, id, timestamp }];
 
     assert({
       given: 'a new question',
       should: 'add the question to the state',
-      actual: reducer(reducer(), addQuestion(question)),
-      expected: [Object.assign({}, question, {
-        id: executed.payload.id,
-        timestamp: executed.payload.timestamp
-      })]
+      actual,
+      expected
     });
   }
 });

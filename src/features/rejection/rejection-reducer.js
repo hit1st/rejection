@@ -1,19 +1,19 @@
+import { v4 as getId } from 'uuid';
+
 const addQuestion = ({
   question,
   askee,
   status
 } = {}) => {
   if (!question || !askee || !status) return;
-  const id = (() => JSON.stringify(Date.now()))();
-  const timestamp = (() => Date.now())();
   return { 
-    type: 'rejection/addQuestion',
+    type: 'REJECTION::ADD_QUESTION',
     payload: {
-      id,
-      timestamp,
       question,
       askee,
-      status
+      status,
+      id: getId(),
+      timestamp: Date.now(),
     }
   };
 };
@@ -27,10 +27,12 @@ const getScore = state =>
 const reducer = (
   state = [],
   { type, payload } = {}
-  ) => {
+) => {
   switch (type) {
-    case 'rejection/addQuestion': return [...state, payload]
-    default: return state;
+    case 'REJECTION::ADD_QUESTION':
+      return [...state, payload]
+    default:
+      return state;
   };
 };
 

@@ -1,7 +1,7 @@
 import { describe } from 'riteway';
 import { LocalStorage} from 'node-localstorage';
 
-import { getStoredQuestions } from './get-stored-questions.js';
+import { getStoredQuestions } from './stored-questions.js';
 
 describe('getStoredQuestions', async assert => {
   {
@@ -29,6 +29,7 @@ describe('getStoredQuestions', async assert => {
     const myStorage = window.localStorage;
     myStorage.setItem('questions', JSON.stringify(questions));
     // console.log('myStorage questions: ', JSON.parse(myStorage.getItem('questions')));
+
     assert({
       given: 'no arguments',
       should: 'return array',
