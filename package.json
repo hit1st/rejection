@@ -7,7 +7,9 @@
     "test": "NODE_ENV=test nyc riteway -r @babel/register ./src/index-test.js | tap-nirvana",
     "watch": "watch 'clear && npm run -s test' src",
     "update": "updtr",
-    "dev": "babel-node server/server.js"
+    "dev": "parcel -p 8081 ./pages/index.html",
+    "dev-express": "babel-node server/server.js",
+    "build": "parcel build ./pages/index.html"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
     "node-localstorage": "^2.1.6",
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
+    "parcel-bundler": "^1.12.5",
     "riteway": "^6.2.1",
     "tap-nirvana": "^1.1.0",
     "testcafe": "^1.14.2",
