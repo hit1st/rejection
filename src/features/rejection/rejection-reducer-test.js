@@ -101,15 +101,15 @@ describe('reducer', async assert => {
       status: 'Accepted'
     };
 
-    const actual = reducer(reducer(), addQuestion(question));
-    const { id, timestamp } = actual[0];
-    const expected = [{ ...question, id, timestamp }];
+    const actualExecuted = reducer(reducer(), addQuestion(question));
+    const { question: actualQuestion, askee, status, } = actualExecuted[0];
+    const actual = [{ question: actualQuestion, askee, status }];
 
     assert({
       given: 'a new question',
       should: 'add the question to the state',
       actual,
-      expected
+      expected: [question]
     });
   }
 });
