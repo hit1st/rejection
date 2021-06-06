@@ -6,7 +6,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import Rejections from '../src/features/rejections-component/rejections.js';
+import Rejections from '../src/features/rejections/rejections.js';
 import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
 // import getFormValues from '../src/features/form-values/form-values.js';
