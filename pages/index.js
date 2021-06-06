@@ -6,7 +6,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import { reducer, addQuestion, getScore } from '../src/features/rejection/rejection-reducer.js';
+import Rejections from '../src/features/rejections-component/rejections.js';
+import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
 // import getFormValues from '../src/features/form-values/form-values.js';
 
@@ -25,35 +26,21 @@ import { reducer, addQuestion, getScore } from '../src/features/rejection/reject
 
 const store = createStore(reducer);
 
-const Rejections = () => {
-  const accepted = () => store.dispatch(addQuestion({
-    question: 'Did it work?',
-    askee: 'V8',
-    status: 'Accepted'
-  }));
-  const rejected = () => store.dispatch(addQuestion({
-    question: 'Did it work?',
-    askee: 'V8',
-    status: 'Rejected'
-  }));
-
-  return (
-    <>
-      <h1>Score: {getScore(store.getState())}</h1>
-      <ul>
-        {store.getState().map(rejection => 
-          <li key={rejection.id}>
-            {JSON.stringify(rejection)}
-          </li>
-        )}
-      </ul>
-      <button onClick={accepted}>Accepted</button>
-      <button onClick={rejected}>Rejected</button>
-    </>
-  );
-};
 const render = () => {
-  ReactDOM.render(<Rejections />, document.getElementById('root'));
+  ReactDOM.render(<Rejections
+    score={getScore(store.getState())}
+    rejections={store.getState()}
+    accepted={() => store.dispatch(addQuestion({
+      question: 'Did it work?',
+      askee: 'V8',
+      status: 'Accepted'
+    }))}
+    rejected={() => store.dispatch(addQuestion({
+      question: 'Did it work?',
+      askee: 'V8',
+      status: 'Rejected'
+    }))}
+  />, document.getElementById('root'));
 };
 
 store.subscribe(render);
