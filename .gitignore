@@ -57,11 +57,12 @@ typings/
 # dotenv environment variables file
 .env
 
-# cache
-.cache
 
 # next.js build output
 .next
 
 # parcel build output
-dist
+dist/
+
+# parcel cache
+.cache/
