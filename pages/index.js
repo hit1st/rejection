@@ -3,10 +3,10 @@
 // const 
 
 // export default Rejection;
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
-import Rejections from '../src/features/rejections/rejections.js';
+// import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
 import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
 // import getFormValues from '../src/features/form-values/form-values.js';
@@ -26,19 +26,56 @@ import { reducer, getScore, addQuestion } from '../src/features/rejection/reject
 
 const store = createStore(reducer);
 
+const RejectionsApp = ({ score, rejections, rejection }) => {
+  const [question, setQuestion] = useState('');
+  const [askee, setAskee] = useState('');
+  const handleQuestionChange = (event) => {
+    event.preventDefault();
+    setQuestion(event.target.value);
+  };
+  const handleAskeeChange = (event) => {
+    event.preventDefault();
+    setAskee(event.target.value);
+  };
+  const handleClick = (e) => {
+    e.preventDefault();
+    const input = e.target.outerText === 'Accepted' ? 
+      { question, askee, status: 'Accepted' } :
+      { question, askee, status: 'Rejected' };
+    rejection(input);
+    setQuestion('');
+    setAskee('');
+  };
+
+  return (
+    <>
+      <h1>Score: {score}</h1>
+      <h3>Question</h3>
+      <input onChange={handleQuestionChange} value={question} />
+      <h3>Askee</h3>
+      <input onChange={handleAskeeChange} value={askee} />
+      <button onClick={handleClick}>Accepted</button>
+      <button onClick={handleClick}>Rejected</button>
+      <ul>
+        {rejections.map(rejection => 
+          <li key={rejection.id}>
+            <p>Question: {rejection.question}</p>
+            <p>Askee: {rejection.askee}</p>
+            <p>Status: {rejection.status}</p>
+          </li>
+        )}
+      </ul>
+    </>
+  );
+};
 const render = () => {
-  ReactDOM.render(<Rejections
+  ReactDOM.render(<RejectionsApp
     score={getScore(store.getState())}
     rejections={store.getState()}
-    accepted={() => store.dispatch(addQuestion({
-      question: 'Did it work?',
-      askee: 'V8',
-      status: 'Accepted'
-    }))}
-    rejected={() => store.dispatch(addQuestion({
-      question: 'Did it work?',
-      askee: 'V8',
-      status: 'Rejected'
+    rejection={({ question, askee, status }) => store.dispatch(addQuestion({
+      question,
+      askee,
+      status
     }))}
   />, document.getElementById('root'));
 };
