@@ -1,32 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getScore, addQuestion } from '../rejection/rejection-reducer.js';
-
-const Rejection = ({
-  question,
-  askee,
-  status
-}) => {
-  return (
-    <li>
-      <p>Question: {question}</p>
-      <p>Askee: {askee}</p>
-      <p>Status: {status}</p>
-    </li>
-  );
-};
-
-const RejectionsList = ({
-  rejections
-}) => (
-  <ul>
-    {rejections.map(rejection => 
-      <Rejection
-        key={rejection.id}
-        {...rejection}
-      />)}
-  </ul>
-);
+import VisibleRejectionsList from '../rejections-list/rejections-list.js';
 
 const AddRejection = () => {
   const dispatch = useDispatch();
@@ -100,36 +75,6 @@ const FilterLink = ({
       {children}
     </Link>
   );
-};
-
-const getVisibleRejections = (
-  rejections,
-  filter
-) => {
-  switch (filter) {
-    case 'SHOW_ALL':
-      return rejections;
-    case 'SHOW_ACCEPTED':
-      return rejections.filter(rejection => rejection.status === 'Accepted');
-    case 'SHOW_REJECTED':
-      return rejections.filter(rejection => rejection.status === 'Rejected');
-  };
-};
-
-
-const VisibleRejectionsList = () => {
-  const { rejections, visibilityFilter } = useSelector(state => state);
-
-  return (
-    <RejectionsList
-      rejections={
-        getVisibleRejections(
-          rejections,
-          visibilityFilter
-        )
-      }
-    /> 
-  )
 };
 
 const Score = () => {

@@ -1,18 +1,60 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-const RejectionsApp = ({ score, rejections, accepted, rejected }) => (
-  <>
-    <h1>Score: {score}</h1>
-    <button onClick={accepted}>Accepted</button>
-    <button onClick={rejected}>Rejected</button>
-    <ul>
-      {rejections.map(rejection => 
-        <li key={rejection.id}>
-          {JSON.stringify(rejection)}
-        </li>
-      )}
-    </ul>
-  </>
+const Rejection = ({
+  question,
+  askee,
+  status
+}) => {
+  return (
+    <li>
+      <p>Question: {question}</p>
+      <p>Askee: {askee}</p>
+      <p>Status: {status}</p>
+    </li>
+  );
+};
+
+const RejectionsList = ({
+  rejections
+}) => (
+  <ul>
+    {rejections.map(rejection => 
+      <Rejection
+        key={rejection.id}
+        {...rejection}
+      />)}
+  </ul>
 );
 
-export default RejectionsApp;
+const getVisibleRejections = (
+  rejections,
+  filter
+) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return rejections;
+    case 'SHOW_ACCEPTED':
+      return rejections.filter(rejection => rejection.status === 'Accepted');
+    case 'SHOW_REJECTED':
+      return rejections.filter(rejection => rejection.status === 'Rejected');
+  };
+};
+
+const VisibleRejectionsList = () => {
+  const { rejections, visibilityFilter } = useSelector(state => state);
+
+  return (
+    <RejectionsList
+      rejections={
+        getVisibleRejections(
+          rejections,
+          visibilityFilter
+        )
+      }
+    /> 
+  )
+};
+
+export { Rejection, RejectionsList, getVisibleRejections };
+export default VisibleRejectionsList;

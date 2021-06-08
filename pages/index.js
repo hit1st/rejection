@@ -21,7 +21,8 @@ import store from '../src/features/rejections-app/store.js';
 
 
 ReactDOM.render(
-<Provider store={store}>
-  <RejectionsApp />
-</Provider>,
-document.getElementById('root'));
+  <Provider store={store}>
+    <RejectionsApp />
+  </Provider>,
+  document.getElementById('root')
+);
