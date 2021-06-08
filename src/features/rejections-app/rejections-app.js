@@ -1,41 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addQuestion } from '../rejection/rejection-reducer.js';
-import VisibleRejectionsList from '../rejections-list/rejections-list.js';
 import Score from '../score/score.js';
-
-const AddRejection = () => {
-  const dispatch = useDispatch();
-  let question;
-  let askee;
-  const handleClick = e => {
-    e.preventDefault();
-    dispatch(addQuestion({
-      question: question.value,
-      askee: askee.value,
-      status: e.target.outerText
-    }));
-    question.value = '';
-    askee.value = '';
-  };
-
-  return (
-    <>
-      <h3>Question</h3>
-      <input ref={node => {
-        question = node;
-      }} />
-      <h3>Askee</h3>
-      <input ref={node => {
-        askee = node;
-      }} />
-      <div>
-        <button onClick={handleClick}>Accepted</button>
-        <button onClick={handleClick}>Rejected</button>
-      </div>
-    </>
-  );
-};
+import AddRejection from '../add-rejection/add-rejection.js';
+import VisibleRejectionsList from '../rejections-list/rejections-list.js';
 
 const Link = ({
   active,
