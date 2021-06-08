@@ -5,7 +5,7 @@
 // export default Rejection;
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 // import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
 import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
@@ -24,59 +24,162 @@ import { reducer, getScore, addQuestion } from '../src/features/rejection/reject
 
 // export default processInput;
 
-const store = createStore(reducer);
+const Rejection = ({
+  question,
+  askee,
+  status
+}) => {
+  return (
+    <li>
+      <p>Question: {question}</p>
+      <p>Askee: {askee}</p>
+      <p>Status: {status}</p>
+    </li>
+  );
+};
 
-const RejectionsApp = ({ score, rejections, rejection }) => {
-  const [question, setQuestion] = useState('');
-  const [askee, setAskee] = useState('');
-  const handleQuestionChange = (event) => {
-    event.preventDefault();
-    setQuestion(event.target.value);
-  };
-  const handleAskeeChange = (event) => {
-    event.preventDefault();
-    setAskee(event.target.value);
-  };
-  const handleClick = (e) => {
+const RejectionsList = ({
+  rejections
+}) => (
+  <ul>
+    {rejections.map(rejection => 
+      <Rejection
+        key={rejection.id}
+        {...rejection}
+      />)}
+  </ul>
+);
+
+const AddRejection = ({
+  onAddClick
+}) => {
+  let question;
+  let askee;
+  const handleClick = e => {
     e.preventDefault();
-    const input = e.target.outerText === 'Accepted' ? 
-      { question, askee, status: 'Accepted' } :
-      { question, askee, status: 'Rejected' };
-    rejection(input);
-    setQuestion('');
-    setAskee('');
+    onAddClick({
+      question: question.value,
+      askee: askee.value,
+      status: e.target.outerText
+    });
+    question.value = '';
+    askee.value = '';
   };
 
   return (
     <>
-      <h1>Score: {score}</h1>
       <h3>Question</h3>
-      <input onChange={handleQuestionChange} value={question} />
+      <input ref={node => {
+        question = node;
+      }} />
       <h3>Askee</h3>
-      <input onChange={handleAskeeChange} value={askee} />
-      <button onClick={handleClick}>Accepted</button>
-      <button onClick={handleClick}>Rejected</button>
-      <ul>
-        {rejections.map(rejection => 
-          <li key={rejection.id}>
-            <p>Question: {rejection.question}</p>
-            <p>Askee: {rejection.askee}</p>
-            <p>Status: {rejection.status}</p>
-          </li>
-        )}
-      </ul>
+      <input ref={node => {
+        askee = node;
+      }} />
+      <div>
+        <button onClick={handleClick}>Accepted</button>
+        <button onClick={handleClick}>Rejected</button>
+      </div>
     </>
   );
 };
+
+const FilterLink = ({
+  filter,
+  children
+}) => {
+  return (
+    <a href='#'
+      onClick={e => {
+        e.preventDefault();
+        store.dispatch({
+          type: 'SET_VISIBILITY_FILTER',
+          filter
+        });
+      }}
+    >
+      {children}
+    </a>
+  )
+};
+
+const getVisibleRejections = (
+  rejections,
+  filter
+) => {
+  switch (filter) {
+    case 'SHOW_ALL':
+      return rejections;
+    case 'SHOW_ACCEPTED':
+      return rejections.filter(rejection => rejection.status === 'Accepted');
+    case 'SHOW_REJECTED':
+      return rejections.filter(rejection => rejection.status === 'Rejected');
+  };
+};
+
+const visibilityFilter = (
+  state = 'SHOW_ALL',
+  action
+) => {
+  switch (action.type) {
+    case 'SET_VISIBILITY_FILTER':
+      return action.filter;
+    default:
+      return state;
+  }
+}
+const rejectionsApp = combineReducers({
+  rejections: reducer,
+  visibilityFilter: visibilityFilter
+});
+
+const Score = ({ rejections }) => <h1>Score: {getScore(rejections)}</h1>;
+
+const VisibleRejections = () => (
+  <p>
+    Show:
+    {'  '}
+    <FilterLink
+      filter='SHOW_ALL'
+    >
+      All
+    </FilterLink>
+    {'  '}
+    <FilterLink
+      filter='SHOW_ACCEPTED'
+    >
+      Accepted
+    </FilterLink>
+    {'  '}
+    <FilterLink
+      filter='SHOW_REJECTED'
+    >
+      Rejected
+    </FilterLink>
+  </p>
+);
+
+const store = createStore(rejectionsApp);
+
+const RejectionsApp = ({ rejections, addRejection, visibilityFilter }) => (
+  <>
+    <Score rejections={rejections} />
+    <AddRejection onAddClick={addRejection} />
+    <VisibleRejections />
+    <RejectionsList rejections={getVisibleRejections(rejections, visibilityFilter)} />
+  </>
+);
+
+
 const render = () => {
   ReactDOM.render(<RejectionsApp
-    score={getScore(store.getState())}
-    rejections={store.getState()}
-    rejection={({ question, askee, status }) => store.dispatch(addQuestion({
+    {...store.getState()}
+    addRejection={({ question, askee, status }) => store.dispatch(addQuestion({
       question,
       askee,
       status
     }))}
+
   />, document.getElementById('root'));
 };
 
