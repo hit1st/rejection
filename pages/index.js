@@ -1,11 +1,7 @@
-// import Rejection from '../src/features/rejection/index.js';
-
-// const 
-
-// export default Rejection;
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 // import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
 import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
@@ -23,6 +19,7 @@ import { reducer, getScore, addQuestion } from '../src/features/rejection/reject
 // window.processInput = processInput;
 
 // export default processInput;
+
 
 const Rejection = ({
   question,
@@ -50,18 +47,17 @@ const RejectionsList = ({
   </ul>
 );
 
-const AddRejection = ({
-  onAddClick
-}) => {
+const AddRejection = () => {
+  const dispatch = useDispatch();
   let question;
   let askee;
   const handleClick = e => {
     e.preventDefault();
-    onAddClick({
+    dispatch(addQuestion({
       question: question.value,
       askee: askee.value,
       status: e.target.outerText
-    });
+    }));
     question.value = '';
     askee.value = '';
   };
@@ -84,23 +80,45 @@ const AddRejection = ({
   );
 };
 
-const FilterLink = ({
-  filter,
-  children
+const Link = ({
+  active,
+  children,
+  onClick
 }) => {
+  if (active) return <span>{children}</span>;
   return (
     <a href='#'
       onClick={e => {
         e.preventDefault();
-        store.dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        });
+        onClick();
       }}
     >
       {children}
     </a>
   )
+};
+
+const FilterLink = ({
+  filter,
+  children
+}) => {
+  const { visibilityFilter } = useSelector(state => state);
+  const dispatch = useDispatch();
+  return (
+    <Link
+      active={
+        filter === visibilityFilter
+      }
+      onClick={() => 
+        dispatch({
+          type: 'SET_VISIBILITY_FILTER',
+          filter
+        })
+      }
+    >
+      {children}
+    </Link>
+  );
 };
 
 const getVisibleRejections = (
@@ -127,15 +145,32 @@ const visibilityFilter = (
     default:
       return state;
   }
-}
-const rejectionsApp = combineReducers({
-  rejections: reducer,
-  visibilityFilter: visibilityFilter
-});
+};
 
-const Score = ({ rejections }) => <h1>Score: {getScore(rejections)}</h1>;
+const VisibleRejectionsList = () => {
+  const { rejections, visibilityFilter } = useSelector(state => state);
 
-const VisibleRejections = () => (
+  return (
+    <RejectionsList
+      rejections={
+        getVisibleRejections(
+          rejections,
+          visibilityFilter
+        )
+      }
+    /> 
+  )
+};
+
+const Score = () => {
+  const { rejections } = useSelector(state => state);
+
+  return (
+    <h1>Score: {getScore(rejections)}</h1>
+  );
+};
+
+const RejectionsVisibility = () => (
   <p>
     Show:
     {'  '}
@@ -159,29 +194,25 @@ const VisibleRejections = () => (
   </p>
 );
 
+const rejectionsApp = combineReducers({
+  rejections: reducer,
+  visibilityFilter: visibilityFilter
+});
+
 const store = createStore(rejectionsApp);
 
-const RejectionsApp = ({ rejections, addRejection, visibilityFilter }) => (
+const RejectionsApp = () => (
   <>
-    <Score rejections={rejections} />
-    <AddRejection onAddClick={addRejection} />
-    <VisibleRejections />
-    <RejectionsList rejections={getVisibleRejections(rejections, visibilityFilter)} />
+    <Score />
+    <AddRejection />
+    <RejectionsVisibility />
+    <VisibleRejectionsList />
   </>
 );
 
 
-const render = () => {
-  ReactDOM.render(<RejectionsApp
-    {...store.getState()}
-    addRejection={({ question, askee, status }) => store.dispatch(addQuestion({
-      question,
-      askee,
-      status
-    }))}
-
-  />, document.getElementById('root'));
-};
-
-store.subscribe(render);
-render();
+ReactDOM.render(
+<Provider store={store}>
+  <RejectionsApp />
+</Provider>,
+document.getElementById('root'));

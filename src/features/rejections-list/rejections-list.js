@@ -1,8 +1,10 @@
 import React from 'react';
 
-const Rejections = ({ score, rejections, accepted, rejected }) => (
+const RejectionsApp = ({ score, rejections, accepted, rejected }) => (
   <>
     <h1>Score: {score}</h1>
+    <button onClick={accepted}>Accepted</button>
+    <button onClick={rejected}>Rejected</button>
     <ul>
       {rejections.map(rejection => 
         <li key={rejection.id}>
@@ -10,9 +12,7 @@ const Rejections = ({ score, rejections, accepted, rejected }) => (
         </li>
       )}
     </ul>
-    <button onClick={accepted}>Accepted</button>
-    <button onClick={rejected}>Rejected</button>
   </>
 );
 
-export default Rejections;
+export default RejectionsApp;
