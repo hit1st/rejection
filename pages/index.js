@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider, useSelector, useDispatch } from 'react-redux';
-// import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
+import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
 import { reducer, getScore, addQuestion } from '../src/features/rejection/rejection-reducer.js';
+import store from '../src/features/rejections-app/store.js';
 // import { storeQuestions, getStoredQuestions } from '../src/features/stored-questions/stored-questions.js';
 // import getFormValues from '../src/features/form-values/form-values.js';
 
@@ -199,16 +200,16 @@ const rejectionsApp = combineReducers({
   visibilityFilter: visibilityFilter
 });
 
-const store = createStore(rejectionsApp);
+// const store = createStore(rejectionsApp);
 
-const RejectionsApp = () => (
-  <>
-    <Score />
-    <AddRejection />
-    <RejectionsVisibility />
-    <VisibleRejectionsList />
-  </>
-);
+// const RejectionsApp = () => (
+//   <>
+//     <Score />
+//     <AddRejection />
+//     <RejectionsVisibility />
+//     <VisibleRejectionsList />
+//   </>
+// );
 
 
 ReactDOM.render(
