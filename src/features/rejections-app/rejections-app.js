@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getScore, addQuestion } from '../rejection/rejection-reducer.js';
+import { addQuestion } from '../rejection/rejection-reducer.js';
 import VisibleRejectionsList from '../rejections-list/rejections-list.js';
+import Score from '../score/score.js';
 
 const AddRejection = () => {
   const dispatch = useDispatch();
@@ -74,14 +75,6 @@ const FilterLink = ({
     >
       {children}
     </Link>
-  );
-};
-
-const Score = () => {
-  const { rejections } = useSelector(state => state);
-
-  return (
-    <h1>Score: {getScore(rejections)}</h1>
   );
 };
 
