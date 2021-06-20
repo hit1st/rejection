@@ -8,6 +8,10 @@ const AddRejection = () => {
   let askee;
   const handleClick = e => {
     e.preventDefault();
+    if (!question.value || !askee.value) {
+      // handle use case of no input value
+      return;
+    }
     dispatch(addQuestion({
       question: question.value,
       askee: askee.value,

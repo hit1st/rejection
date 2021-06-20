@@ -5,7 +5,7 @@ import { reducer, addQuestion, getScore } from './rejection-reducer.js';
 describe('reducer/addQuestion', async assert => {
   assert({
     given: 'no arguments',
-    should: 'return an undefined',
+    should: 'return undefined',
     actual: addQuestion(),
     expected: undefined,
   });
