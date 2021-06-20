@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux';
 import { reducer } from '../rejection/rejection-reducer.js';
 import visibilityFilter from '../visibility/visibility-filter.js';
 import { loadState, saveState } from '../local-storage/localStorage';
-import throttle from 'lodash/throttle';
+import { throttle } from 'lodash';
 
 const rejectionsApp = combineReducers({
   rejections: reducer,
