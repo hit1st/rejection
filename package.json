@@ -7,9 +7,10 @@
     "test": "NODE_ENV=test nyc riteway -r @babel/register ./src/index-test.js | tap-nirvana",
     "watch": "watch 'clear && npm run -s test' src",
     "update": "updtr",
-    "dev": "parcel -p 8081 ./pages/index.html",
-    "dev-express": "babel-node server/server.js",
-    "build": "parcel build ./pages/index.html"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "repository": {
     "type": "git",
