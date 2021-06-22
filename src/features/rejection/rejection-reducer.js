@@ -1,11 +1,11 @@
-import { v4 as getId } from 'uuid';
-import { pipe } from 'lodash/fp';
-import { addPropsToPayload } from '../add-props-to-payload/add-props-to-payload.js';
+import cuid from 'cuid';
 
-const getQuestion = ({
-  question,
-  askee,
-  status
+const addQuestion = ({
+  question = '',
+  askee = '',
+  status = '',
+  id =  cuid(),
+  timestamp = Date.now()
 } = {}) => {
   if (!question || !askee || !status) return;
   return { 
@@ -14,14 +14,11 @@ const getQuestion = ({
       question,
       askee,
       status,
+      id,
+      timestamp
     }
   };
 };
-
-const addQuestion = pipe(
-  getQuestion,
-  addPropsToPayload({ id: getId(), timestamp: Date.now() })
-);
 
 const getScore = state => 
   state.reduce((score, question) => 
@@ -42,6 +39,6 @@ const reducer = (
 };
 
 
-export { reducer, getQuestion, addQuestion, getScore };
+export { reducer, addQuestion, getScore };
 
 

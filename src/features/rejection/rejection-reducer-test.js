@@ -1,12 +1,12 @@
 import { describe } from 'riteway';
 
-import { reducer, getQuestion, addQuestion, getScore } from './rejection-reducer.js';
+import { reducer, addQuestion, getScore } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
     given: 'no arguments',
     should: 'return undefined',
-    actual: getQuestion(),
+    actual: addQuestion(),
     expected: undefined,
   });
 
@@ -14,14 +14,21 @@ describe('reducer/addQuestion', async assert => {
     const question = {
       question: 'Can I have a raise?',
       askee: 'Boss',
-      status: 'Accepted'
-    }
+      status: 'Accepted',
+      id: 12345,
+      timestamp: 12345
+    };
+
+    const expected = {
+      type: 'REJECTION::ADD_QUESTION',
+      payload: question
+    };
 
   assert({
       given: 'a new question',
-      should: 'have question prop',
-      actual: getQuestion(question).payload.question,
-      expected: question.question,
+      should: 'return an action object',
+      actual: addQuestion(question),
+      expected
     });
   }
 
@@ -29,14 +36,14 @@ describe('reducer/addQuestion', async assert => {
     const question = {
       question: 'Can I have a raise?',
       askee: 'Boss',
-      status: 'Accepted'
+      status: 'Accepted',
     };
 
-    assert({
+  assert({
       given: 'a new question',
-      should: 'have askee prop',
-      actual: getQuestion(question).payload.askee,
-      expected: question.askee,
+      should: 'return have an id property',
+      actual: !!addQuestion(question).payload.id,
+      expected: true
     });
   }
 
@@ -44,14 +51,14 @@ describe('reducer/addQuestion', async assert => {
     const question = {
       question: 'Can I have a raise?',
       askee: 'Boss',
-      status: 'Accepted'
+      status: 'Accepted',
     };
 
-    assert({
+  assert({
       given: 'a new question',
-      should: 'have status prop',
-      actual: getQuestion(question).payload.status,
-      expected: question.status,
+      should: 'return have a timestamp property',
+      actual: !!addQuestion(question).payload.timestamp,
+      expected: true
     });
   }
 });
@@ -68,17 +75,15 @@ describe('reducer', async assert => {
     const question = {
       question: 'Can I have a raise?',
       askee: 'Boss',
-      status: 'Accepted'
+      status: 'Accepted',
+      id: 12345,
+      timestamp: 12345
     };
-
-    const actualExecuted = reducer(reducer(), addQuestion(question));
-    const { question: actualQuestion, askee, status, } = actualExecuted[0];
-    const actual = [{ question: actualQuestion, askee, status }];
 
     assert({
       given: 'a new question',
       should: 'add the question to the state',
-      actual,
+      actual: reducer(reducer(), addQuestion(question)),
       expected: [question]
     });
   }
