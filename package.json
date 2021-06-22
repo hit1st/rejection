@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test nyc riteway -r @babel/register ./src/index-test.js | tap-nirvana",
+    "test:functional": "testcafe chrome src/functional-tests",
     "watch": "watch 'clear && npm run -s test' src",
     "update": "updtr",
     "dev": "next dev -p 8081",
