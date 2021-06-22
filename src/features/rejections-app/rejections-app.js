@@ -6,6 +6,7 @@ import VisibleRejectionsList from '../rejections-list/rejections-list.js';
 
 const RejectionsApp = () => (
   <>
+    <h1>Rejections</h1>
     <Score />
     <AddRejection />
     <RejectionsVisibility />
