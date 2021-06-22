@@ -1,44 +1,14 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getScore } from './rejection-reducer.js';
+import { reducer, getQuestion, addQuestion, getScore } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
     given: 'no arguments',
     should: 'return undefined',
-    actual: addQuestion(),
+    actual: getQuestion(),
     expected: undefined,
   });
-
-  {
-    const question = {
-      question: 'Can I have a raise?',
-      askee: 'Boss',
-      status: 'Accepted'
-    };
-
-    assert({
-      given: 'a new question',
-      should: 'have id prop',
-      actual: addQuestion(question).payload.hasOwnProperty('id'),
-      expected: true,
-    });
-  }
-
-  {
-    const question = {
-      question: 'Can I have a raise?',
-      askee: 'Boss',
-      status: 'Accepted'
-    };
-
-    assert({
-      given: 'a new question',
-      should: 'have timestamp prop',
-      actual: addQuestion(question).payload.hasOwnProperty('timestamp'),
-      expected: true,
-    });
-  }
 
   {
     const question = {
@@ -50,7 +20,7 @@ describe('reducer/addQuestion', async assert => {
   assert({
       given: 'a new question',
       should: 'have question prop',
-      actual: addQuestion(question).payload.question,
+      actual: getQuestion(question).payload.question,
       expected: question.question,
     });
   }
@@ -65,7 +35,7 @@ describe('reducer/addQuestion', async assert => {
     assert({
       given: 'a new question',
       should: 'have askee prop',
-      actual: addQuestion(question).payload.askee,
+      actual: getQuestion(question).payload.askee,
       expected: question.askee,
     });
   }
@@ -80,7 +50,7 @@ describe('reducer/addQuestion', async assert => {
     assert({
       given: 'a new question',
       should: 'have status prop',
-      actual: addQuestion(question).payload.status,
+      actual: getQuestion(question).payload.status,
       expected: question.status,
     });
   }
