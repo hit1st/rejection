@@ -11,6 +11,6 @@ test('Page should load and display the correct title.', async t => {
 
 test('Page should load and display the score.', async t => {
   const actual = Selector('h3').innerText;
-  const expected = 'Score: 0';
+  const expected = 'Score: ';
   await t.expect(actual).eql(expected);
 });
