@@ -17,6 +17,7 @@ function* fetchState() {
   try {
     const serializedState = yield call(getLocalState, 'state');
     const localState = yield call(JSON.parse, serializedState);
+    console.log('localState: ', localState);
     yield put(handleLocalState(localState));
   } catch (err) {
     console.error(err);
@@ -26,7 +27,7 @@ function* fetchState() {
 function* saveState() {
   try {
     const rejections = yield select(getRejections);
-    const serializedState = yield call(JSON.stringify, rejections);
+    const serializedState = yield call(JSON.stringify, { rejections });
     yield call(setLocalState, serializedState);
   } catch (err) {
     console.error(err);
