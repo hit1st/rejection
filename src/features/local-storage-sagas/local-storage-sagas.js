@@ -34,6 +34,7 @@ function* saveState() {
 }
 
 function* watchFetchState() {
+  // checkif action should be 'REJECTION::ADD_QUESTION'
   yield takeEvery('FETCH_STATE', fetchState);
 };
 
@@ -48,5 +49,12 @@ function* rootSaga() {
   ]);
 };
 
-export { fetchState, getLocalState, handleFetchState };
+export {
+  fetchState,
+  saveState,
+  getLocalState,
+  setLocalState,
+  handleFetchState,
+  getRejections
+};
 export default rootSaga;

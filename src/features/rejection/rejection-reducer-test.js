@@ -75,27 +75,29 @@ describe('reducer/handleLocalState', async assert => {
   });
 
   {
-    const state = [
-      {
-        question: 'Can I have a raise?',
-        askee: 'Boss',
-        status: 'Accepted'
-      },
-      {
-        question: 'Can you buy me a burger?',
-        askee: 'Coworker',
-        status: 'Rejected'
-      },
-      {
-        question: 'Can I take some time to grab my wallet?',
-        askee: 'Boss',
-        status: 'Accepted'
-      },
-    ];
+    const state = {
+      rejections: [
+        {
+          question: 'Can I have a raise?',
+          askee: 'Boss',
+          status: 'Accepted'
+        },
+        {
+          question: 'Can you buy me a burger?',
+          askee: 'Coworker',
+          status: 'Rejected'
+        },
+        {
+          question: 'Can I take some time to grab my wallet?',
+          askee: 'Boss',
+          status: 'Accepted'
+        },
+      ]
+    };
 
     const expected = {
       type: 'ADD_LOCAL_STATE',
-      payload: [...state]
+      payload: [...state.rejections]
     };
 
     assert({
@@ -133,36 +135,37 @@ describe('reducer', async assert => {
   }
 
   {
-    const state = [
-      {
-        question: 'Can I have a raise?',
-        askee: 'Boss',
-        status: 'Accepted',
-        id: 12345,
-        timestamp: 12345
-      },
-      {
-        question: 'Can you buy me a burger?',
-        askee: 'Coworker',
-        status: 'Rejected',
-        id: 12346,
-        timestamp: 12346
-      },
-      {
-        question: 'Can I take some time to grab my wallet?',
-        askee: 'Boss',
-        status: 'Accepted',
-        id: 12347,
-        timestamp: 12347
-      },
-
-    ];
+    const state = {
+      rejections: [
+        {
+          question: 'Can I have a raise?',
+          askee: 'Boss',
+          status: 'Accepted',
+          id: 12345,
+          timestamp: 12345
+        },
+        {
+          question: 'Can you buy me a burger?',
+          askee: 'Coworker',
+          status: 'Rejected',
+          id: 12346,
+          timestamp: 12346
+        },
+        {
+          question: 'Can I take some time to grab my wallet?',
+          askee: 'Boss',
+          status: 'Accepted',
+          id: 12347,
+          timestamp: 12347
+        },
+      ]
+    };
 
     assert({
       given: 'a new state',
       should: 'return new state',
       actual: reducer(reducer(), handleLocalState(state)),
-      expected: state
+      expected: state.rejections
     });
   }
 });

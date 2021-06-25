@@ -1,7 +1,17 @@
 import { describe } from 'riteway'
 
-import { put, call } from 'redux-saga/effects'
-import { fetchState, getLocalState } from './local-storage-sagas'
+import {
+  put,
+  call,
+  select
+} from 'redux-saga/effects'
+import {
+  fetchState,
+  saveState,
+  getLocalState,
+  setLocalState,
+  getRejections
+} from './local-storage-sagas'
 import { handleLocalState } from '../rejection/rejection-reducer.js'
 
 describe('getLocalState', async (assert) => {
@@ -34,9 +44,9 @@ describe('fetchState Saga test', async (assert) => {
 
   assert({
     given: 'no arguments',
-    should: 'call getLocalState(undefined)',
+    should: `call getLocalState('state')`,
     actual: iterator.next().value,
-    expected: call(getLocalState, undefined)
+    expected: call(getLocalState, 'state')
   })
 
   assert({
@@ -48,9 +58,9 @@ describe('fetchState Saga test', async (assert) => {
 
   assert({
     given: 'no arguments',
-    should: 'put handleLocalState([])',
+    should: 'put handleLocalState(undefined)',
     actual: iterator.next().value,
-    expected: put(handleLocalState([]))
+    expected: put(handleLocalState(undefined))
   })
 
   assert({
@@ -59,46 +69,36 @@ describe('fetchState Saga test', async (assert) => {
     actual: iterator.next(),
     expected: { done: true, value: undefined }
   })
+})
 
-  {
-    const state = JSON.stringify(
-      [
-        {
-          question: 'May I have a raise?',
-          askee: 'Boss',
-          status: 'Rejected'
-        }
-      ]
-    )
+describe('saveState Saga test', async (assert) => {
+  const iterator = saveState()
 
-    const iterator = fetchState(state)
+  assert({
+    given: 'no arguments',
+    should: `call select()`,
+    actual: iterator.next().value,
+    expected: select(getRejections)
+  })
 
-    assert({
-      given: 'an argument',
-      should: `'call getLocalState(JSON.stringify(state))`,
-      actual: iterator.next().value,
-      expected: call(getLocalState, state)
-    })
+  assert({
+    given: 'no arguments',
+    should: 'call JSON.stringify({ rejections: undefined })',
+    actual: iterator.next().value,
+    expected: call(JSON.stringify, { rejections: undefined })
+  })
 
-    assert({
-      given: 'an argument',
-      should: 'call JSON.parse(state)',
-      actual: iterator.next().value,
-      expected: call(JSON.parse, undefined)
-    })
+  assert({
+    given: 'no arguments',
+    should: 'call setLocalState(undefined)',
+    actual: iterator.next().value,
+    expected: call(setLocalState, undefined)
+  })
 
-    assert({
-      given: 'an argument',
-      should: 'put handleLocalState([])',
-      actual: iterator.next().value,
-      expected: put(handleLocalState(undefined))
-    })
-
-    assert({
-      given: 'an argument',
-      should: 'be done',
-      actual: iterator.next(),
-      expected: { done: true, value: undefined }
-    })
-  }
+  assert({
+    given: 'no arguments',
+    should: 'be done',
+    actual: iterator.next(),
+    expected: { done: true, value: undefined }
+  })
 })

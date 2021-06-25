@@ -20,7 +20,7 @@ const addQuestion = ({
   };
 };
 
-const handleLocalState = (localState = {}) => {
+const handleLocalState = (localState = { rejections: [] }) => {
   return {
     type: 'ADD_LOCAL_STATE',
     payload: localState.rejections
