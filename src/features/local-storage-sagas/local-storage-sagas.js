@@ -1,7 +1,7 @@
 import { put, takeEvery, all, call, select } from 'redux-saga/effects';
 import { handleLocalState } from '../rejection/rejection-reducer.js';
 
-const getRejections = state => state.rejections;
+const getRejections = (state = { rejections: [] }) => state.rejections;
 
 const getLocalState = (state = '[]') => state === 'state' ? localStorage.getItem('state') : state;
 
@@ -34,7 +34,6 @@ function* saveState() {
 }
 
 function* watchFetchState() {
-  // checkif action should be 'REJECTION::ADD_QUESTION'
   yield takeEvery('FETCH_STATE', fetchState);
 };
 

@@ -14,6 +14,28 @@ import {
 } from './local-storage-sagas'
 import { handleLocalState } from '../rejection/rejection-reducer.js'
 
+describe('getRejections', async (assert) => {
+  assert({
+    given: 'no arguments',
+    should: 'return an empty array',
+    actual: getRejections(),
+    expected: []
+  })
+
+  {
+    const state = {
+      rejections: [1, 2, 3]
+    }
+
+    assert({
+      given: 'an argument',
+      should: 'return an array',
+      actual: getRejections(state),
+      expected: state.rejections
+    })
+  }
+})
+
 describe('getLocalState', async (assert) => {
   assert({
     given: 'no arguments',
