@@ -1,5 +1,6 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { handleFetchState } from '../local-storage-sagas/local-storage-sagas.js';
 
 const Rejection = ({
   question,
@@ -43,6 +44,10 @@ const getVisibleRejections = (
 
 const VisibleRejectionsList = () => {
   const { rejections, visibilityFilter } = useSelector(state => state);
+  const dispatch = useDispatch();
+  useEffect(() => { 
+    dispatch(handleFetchState())
+  }, []);
 
   return (
     <RejectionsList

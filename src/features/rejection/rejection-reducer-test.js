@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getScore } from './rejection-reducer.js';
+import { reducer, addQuestion, getScore, handleLocalState } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
@@ -24,7 +24,7 @@ describe('reducer/addQuestion', async assert => {
       payload: question
     };
 
-  assert({
+    assert({
       given: 'a new question',
       should: 'return an action object',
       actual: addQuestion(question),
@@ -39,7 +39,7 @@ describe('reducer/addQuestion', async assert => {
       status: 'Accepted',
     };
 
-  assert({
+    assert({
       given: 'a new question',
       should: 'return have an id property',
       actual: !!addQuestion(question).payload.id,
@@ -54,11 +54,55 @@ describe('reducer/addQuestion', async assert => {
       status: 'Accepted',
     };
 
-  assert({
+    assert({
       given: 'a new question',
       should: 'return have a timestamp property',
       actual: !!addQuestion(question).payload.timestamp,
       expected: true
+    });
+  }
+});
+
+describe('reducer/handleLocalState', async assert => {
+  assert({
+    given: 'no arguments',
+    should: 'return action object',
+    actual: handleLocalState(),
+    expected: {
+      type: 'ADD_LOCAL_STATE',
+      payload: []
+    },
+  });
+
+  {
+    const state = [
+      {
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: 'Accepted'
+      },
+      {
+        question: 'Can you buy me a burger?',
+        askee: 'Coworker',
+        status: 'Rejected'
+      },
+      {
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: 'Accepted'
+      },
+    ];
+
+    const expected = {
+      type: 'ADD_LOCAL_STATE',
+      payload: [...state]
+    };
+
+    assert({
+      given: 'a local state',
+      should: 'return an action object',
+      actual: handleLocalState(state),
+      expected
     });
   }
 });
@@ -85,6 +129,40 @@ describe('reducer', async assert => {
       should: 'add the question to the state',
       actual: reducer(reducer(), addQuestion(question)),
       expected: [question]
+    });
+  }
+
+  {
+    const state = [
+      {
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: 'Accepted',
+        id: 12345,
+        timestamp: 12345
+      },
+      {
+        question: 'Can you buy me a burger?',
+        askee: 'Coworker',
+        status: 'Rejected',
+        id: 12346,
+        timestamp: 12346
+      },
+      {
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: 'Accepted',
+        id: 12347,
+        timestamp: 12347
+      },
+
+    ];
+
+    assert({
+      given: 'a new state',
+      should: 'return new state',
+      actual: reducer(reducer(), handleLocalState(state)),
+      expected: state
     });
   }
 });
