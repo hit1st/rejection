@@ -31,7 +31,7 @@ describe('getRejections', async (assert) => {
       given: 'an argument',
       should: 'return an array',
       actual: getRejections(state),
-      expected: state.rejections
+      expected: [...state.rejections]
     })
   }
 })
