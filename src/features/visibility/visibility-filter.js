@@ -1,3 +1,5 @@
+const getVisibilityFilter = state => state ? state.visibilityFilter : undefined;
+
 const visibilityFilter = (
   state = 'SHOW_ALL',
   { type, filter } = {}
@@ -10,4 +12,5 @@ const visibilityFilter = (
   }
 };
 
+export { getVisibilityFilter }
 export default visibilityFilter;
