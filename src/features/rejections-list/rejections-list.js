@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { handleFetchState } from '../local-storage-sagas/local-storage-sagas.js';
+import { getRejections } from '../rejection/rejection-reducer.js';
+import { getVisibilityFilter } from '../visibility/visibility-filter.js';
 
 const Rejection = ({
   question,
@@ -43,8 +45,10 @@ const getVisibleRejections = (
 };
 
 const VisibleRejectionsList = () => {
-  const { rejections, visibilityFilter } = useSelector(state => state);
+  const rejections = useSelector(getRejections);
+  const visibilityFilter = useSelector(getVisibilityFilter);
   const dispatch = useDispatch();
+
   useEffect(() => { 
     dispatch(handleFetchState())
   }, []);
