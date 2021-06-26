@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getScore, handleLocalState } from './rejection-reducer.js';
+import { reducer, addQuestion, getRejections, getScore, handleLocalState } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
@@ -168,6 +168,47 @@ describe('reducer', async assert => {
       expected: state.rejections
     });
   }
+});
+
+describe('redueder/getRejections', async assert => {
+  assert({
+    given: 'no arguments',
+    should: 'return undefined',
+    actual: getRejections(),
+    expected: undefined
+  });
+  
+  {
+    const state = {};
+
+    assert({
+      given: 'invalid state',
+      should: 'return undefined',
+      actual: getRejections(state),
+      expected: undefined
+    });    
+  }
+
+  {
+    const state = {
+      rejections: [
+        {
+          question: 'Can I have a raise?',
+          askee: 'Boss',
+          status: 'Accepted'
+        }
+      ]
+    };
+
+    assert({
+      given: 'state',
+      should: 'return an array of rejections',
+      actual: getRejections(state),
+      expected: [...state.rejections]
+    });
+
+  }
+
 });
 
 describe('reducer/getScore', async assert => {

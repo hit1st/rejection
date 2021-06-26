@@ -1,5 +1,7 @@
 import cuid from 'cuid';
 
+const getRejections = state => state ? state.rejections : undefined;
+
 const addQuestion = ({
   question = '',
   askee = '',
@@ -28,10 +30,11 @@ const handleLocalState = (localState = { rejections: [] }) => {
 };
 
 const getScore = state =>
-  state.reduce((score, question) =>
+  state.reduce((score, question) => (
     question.status === 'Accepted' ? score + 1 :
-      question.status === 'Rejected' ? score + 10 :
-        score, 0);
+    question.status === 'Rejected' ? score + 10 :
+    score
+  ), 0);
 
 const reducer = (
   state = [],
@@ -48,4 +51,4 @@ const reducer = (
 };
 
 
-export { reducer, addQuestion, getScore, handleLocalState };
+export { reducer, addQuestion, getRejections, getScore, handleLocalState };
