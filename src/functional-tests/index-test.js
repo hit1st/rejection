@@ -1,4 +1,5 @@
 import { Selector } from 'testcafe';
+import { ReactSelector } from 'testcafe-react-selectors';
 
 fixture`Rejection Homepage`
   .page('http://localhost:8081');
@@ -10,7 +11,16 @@ test('Page should load and display the correct title.', async t => {
 });
 
 test('Page should load and display the score.', async t => {
-  const actual = Selector('h3').innerText;
-  const expected = 'Score: ';
+  const actual = (await Selector('h3').innerText).includes('Score: ');
+  const expected = true;
+  await t.expect(actual).eql(expected);
+});
+
+test('Page should load and display the score.', async t => {
+  const score = ReactSelector('DisplayScore');
+  const displayScoreState = await score.getReact();
+  const actual = displayScoreState.props.score;
+  const expected = 0
+
   await t.expect(actual).eql(expected);
 });
