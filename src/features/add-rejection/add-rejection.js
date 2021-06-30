@@ -1,39 +1,69 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addQuestion } from '../rejection/rejection-reducer.js';
+import { addQuestion, clearState } from '../rejection/rejection-reducer.js';
+
+const Button = ({ label, handleClick }) => (
+  <button onClick={handleClick}>{label}</button>
+);
+
+const Input = ({ header, value, onChangeHandler }) => (
+  <>
+    <h3>{header}</h3>
+    <input value={value} onChange={onChangeHandler} />
+  </>
+);
 
 const AddRejection = () => {
   const dispatch = useDispatch();
-  let question;
-  let askee;
+  const [ question, setQuestion ] = useState('');
+  const [ askee, setAskee ] = useState('');
+
   const handleClick = e => {
     e.preventDefault();
-    if (!question.value || !askee.value) {
-      // handle use case of no input value
-      return;
-    }
+    if (!question || !askee) return;
+
     dispatch(addQuestion({
-      question: question.value,
-      askee: askee.value,
+      question,
+      askee,
       status: e.target.outerText
     }));
-    question.value = '';
-    askee.value = '';
+    setQuestion('');
+    setAskee('');
   };
+
+  const inputSetter = setter => e => {
+    e.preventDefault();
+    setter(e.target.value);
+  }
 
   return (
     <>
-      <h2>Question</h2>
-      <input ref={node => {
-        question = node;
-      }} />
-      <h2>Askee</h2>
-      <input ref={node => {
-        askee = node;
-      }} />
+      <Input
+        header={'Question'}
+        value={question}
+        onChangeHandler={inputSetter(setQuestion)}
+      />
+      <Input
+        header={'Askee'}
+        value={askee}
+        onChangeHandler={inputSetter(setAskee)}
+      />
       <div>
-        <button onClick={handleClick}>Accepted</button>
-        <button onClick={handleClick}>Rejected</button>
+        <Button
+          label={'Accepted'}
+          handleClick={handleClick}
+        />
+        <Button
+          label={'Rejected'}
+          handleClick={handleClick}
+        />
+        <Button
+          label={'Clear rejections'}
+          handleClick={e => {
+            e.preventDefault();
+            dispatch(clearState());
+          }}
+        />
       </div>
     </>
   );
