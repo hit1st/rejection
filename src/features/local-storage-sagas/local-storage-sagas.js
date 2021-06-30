@@ -1,7 +1,5 @@
 import { put, takeEvery, all, call, select } from 'redux-saga/effects';
-import { handleLocalState } from '../rejection/rejection-reducer.js';
-
-const getRejections = (state = { rejections: [] }) => state.rejections;
+import { handleLocalState, getRejections } from '../rejection/rejection-reducer.js';
 
 const getLocalState = (state = '[]') => state === 'state' ? localStorage.getItem('state') : state;
 
@@ -31,7 +29,16 @@ function* saveState() {
   } catch (err) {
     console.error(err);
   }
-}
+};
+
+function* clearState() {
+  try {
+    const clearedState = yield call(JSON.stringify, { rejections: null });
+    yield call(setLocalState, clearedState);
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 function* watchFetchState() {
   yield takeEvery('FETCH_STATE', fetchState);
@@ -41,19 +48,24 @@ function* watchSaveState() {
   yield takeEvery('REJECTION::ADD_QUESTION', saveState);
 }
 
+function* watchClearState() {
+  yield takeEvery('REJECTION::CLEAR_STATE', clearState)
+}
+
 function* rootSaga() {
   yield all([
     watchSaveState(),
-    watchFetchState()
+    watchFetchState(),
+    watchClearState()
   ]);
 };
 
 export {
   fetchState,
   saveState,
+  clearState,
   getLocalState,
   setLocalState,
   handleFetchState,
-  getRejections
 };
 export default rootSaga;
