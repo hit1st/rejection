@@ -49,7 +49,7 @@ function* watchSaveState() {
 }
 
 function* watchClearState() {
-  yield takeEvery('REJECTION::CLEAR_STATE', clearState)
+  yield takeEvery('REJECTION::CLEAR_REJECTIONS', clearState)
 }
 
 function* rootSaga() {

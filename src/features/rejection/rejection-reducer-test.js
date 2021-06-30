@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getRejections, getScore, handleLocalState, clearState } from './rejection-reducer.js';
+import { reducer, addQuestion, getRejections, getScore, handleLocalState, clearRejections } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
@@ -109,13 +109,13 @@ describe('reducer/handleLocalState', async assert => {
   }
 });
 
-describe('reducer/clearState', async assert => {
+describe('reducer/clearRejections', async assert => {
   assert({
     given: 'no arguments',
     should: 'return action object',
-    actual: clearState(),
+    actual: clearRejections(),
     expected: {
-      type: 'REJECTION::CLEAR_STATE',
+      type: 'REJECTION::CLEAR_REJECTIONS',
     },
   });
 });
@@ -183,7 +183,7 @@ describe('reducer', async assert => {
   assert({
     given: 'no state and clearState action',
     should: 'return an empty array',
-    actual: reducer(undefined, clearState()),
+    actual: reducer(undefined, clearRejections()),
     expected: []
   });
 });
