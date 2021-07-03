@@ -61,11 +61,5 @@ typings/
 # next.js build output
 .next
 
-# parcel build output
-dist/
-
-# parcel cache
-.cache/
-
-# firebase
-firebase/
+#fauna secrets
+secret.md
