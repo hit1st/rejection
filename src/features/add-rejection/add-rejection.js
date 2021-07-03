@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addQuestion, clearState } from '../rejection/rejection-reducer.js';
+import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
 
 const Button = ({ label, handleClick }) => (
   <button onClick={handleClick}>{label}</button>
@@ -61,7 +61,7 @@ const AddRejection = () => {
           label={'Clear rejections'}
           handleClick={e => {
             e.preventDefault();
-            dispatch(clearState());
+            dispatch(clearRejections());
           }}
         />
       </div>

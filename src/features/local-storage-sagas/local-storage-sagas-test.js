@@ -10,10 +10,11 @@ import {
   saveState,
   getLocalState,
   setLocalState,
+  clearState
 } from './local-storage-sagas'
 import { handleLocalState, getRejections } from '../rejection/rejection-reducer.js'
 
-describe('getLocalState', async (assert) => {
+describe('local-storage-sagas/getLocalState', async (assert) => {
   assert({
     given: 'no arguments',
     should: 'should return empty array string',
@@ -38,7 +39,7 @@ describe('getLocalState', async (assert) => {
 })
 
 
-describe('fetchState Saga test', async (assert) => {
+describe('local-storage-sagas/fetchState', async (assert) => {
   const iterator = fetchState()
 
   assert({
@@ -70,7 +71,7 @@ describe('fetchState Saga test', async (assert) => {
   })
 })
 
-describe('saveState Saga test', async (assert) => {
+describe('local-storage-sagas/saveState', async (assert) => {
   const iterator = saveState()
 
   assert({
@@ -85,6 +86,31 @@ describe('saveState Saga test', async (assert) => {
     should: 'call JSON.stringify({ rejections: undefined })',
     actual: iterator.next().value,
     expected: call(JSON.stringify, { rejections: undefined })
+  })
+
+  assert({
+    given: 'no arguments',
+    should: 'call setLocalState(undefined)',
+    actual: iterator.next().value,
+    expected: call(setLocalState, undefined)
+  })
+
+  assert({
+    given: 'no arguments',
+    should: 'be done',
+    actual: iterator.next(),
+    expected: { done: true, value: undefined }
+  })
+})
+
+describe('local-storage-sagas/clearState ', async (assert) => {
+  const iterator = clearState()
+
+  assert({
+    given: 'no arguments',
+    should: 'call JSON.stringify({ rejections: null })',
+    actual: iterator.next().value,
+    expected: call(JSON.stringify, { rejections: null })
   })
 
   assert({
