@@ -15,11 +15,32 @@
       }
     ]
   ],
+  "env": {
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": "entry",
+            "corejs": "3.0.0",
+            "targets": {
+              "node": "current",
+              "browsers": [
+                "last 2 Chrome versions"
+              ]
+            }
+          }
+        ],
+        "@babel/preset-react"
+      ]
+    }
+  },
   "plugins": [
     [
       "@babel/plugin-transform-runtime",
       {
-        "regenerator": true
+        "regenerator": true,
+        "corejs": 3
       }
     ]
   ]
