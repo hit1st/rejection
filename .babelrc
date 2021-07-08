@@ -1,20 +1,4 @@
 {
-  "presets": [
-    "next/babel",
-    [
-      "@babel/preset-env",
-      {
-        "useBuiltIns": "entry",
-        "corejs": "3.0.0",
-        "targets": {
-          "node": "current",
-          "browsers": [
-            "last 2 Chrome versions"
-          ]
-        }
-      }
-    ]
-  ],
   "env": {
     "test": {
       "presets": [
@@ -32,16 +16,43 @@
           }
         ],
         "@babel/preset-react"
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "regenerator": true,
+            "corejs": 3
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": [
+        "next/babel",
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": "entry",
+            "corejs": "3.0.0",
+            "targets": {
+              "node": "current",
+              "browsers": [
+                "last 2 Chrome versions"
+              ]
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "regenerator": true,
+            "corejs": 3
+          }
+        ]
       ]
     }
-  },
-  "plugins": [
-    [
-      "@babel/plugin-transform-runtime",
-      {
-        "regenerator": true,
-        "corejs": 3
-      }
-    ]
-  ]
+  }
 }
