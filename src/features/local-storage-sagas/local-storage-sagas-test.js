@@ -10,33 +10,10 @@ import {
   saveState,
   getLocalState,
   setLocalState,
+  clearLocalState,
   clearState
 } from './local-storage-sagas'
 import { handleLocalState, getRejections } from '../rejection/rejection-reducer.js'
-
-describe('local-storage-sagas/getLocalState', async (assert) => {
-  assert({
-    given: 'no arguments',
-    should: 'should return empty array string',
-    actual: getLocalState(),
-    expected: '[]'
-  })
-
-  {
-    const state = JSON.stringify([{
-      question: 'Can I have a job?',
-      askee: 'Potential Employer',
-      status: 'Rejected'
-    }])
-
-    assert({
-      given: `argument other than 'state'`,
-      should: 'should return argument',
-      actual: getLocalState(state),
-      expected: state
-    });
-  }
-})
 
 
 describe('local-storage-sagas/fetchState', async (assert) => {
@@ -44,9 +21,9 @@ describe('local-storage-sagas/fetchState', async (assert) => {
 
   assert({
     given: 'no arguments',
-    should: `call getLocalState('state')`,
+    should: `call getLocalState()`,
     actual: iterator.next().value,
-    expected: call(getLocalState, 'state')
+    expected: call(getLocalState)
   })
 
   assert({
@@ -108,16 +85,9 @@ describe('local-storage-sagas/clearState ', async (assert) => {
 
   assert({
     given: 'no arguments',
-    should: 'call JSON.stringify({ rejections: null })',
+    should: 'call cleatLocalState',
     actual: iterator.next().value,
-    expected: call(JSON.stringify, { rejections: null })
-  })
-
-  assert({
-    given: 'no arguments',
-    should: 'call setLocalState(undefined)',
-    actual: iterator.next().value,
-    expected: call(setLocalState, undefined)
+    expected: call(clearLocalState)
   })
 
   assert({

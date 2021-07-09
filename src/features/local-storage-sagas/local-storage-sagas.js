@@ -1,9 +1,12 @@
 import { put, takeEvery, all, call, select } from 'redux-saga/effects';
 import { handleLocalState, getRejections } from '../rejection/rejection-reducer.js';
 
-const getLocalState = (state = '[]') => state === 'state' ? localStorage.getItem('state') : state;
+const getLocalState = (state = JSON.stringify({ rejections: [] })) =>
+  localStorage.getItem('state') ? localStorage.getItem('state') : state;
 
 const setLocalState = (serializedState) => localStorage.setItem('state', serializedState);
+
+const clearLocalState = () => localStorage.removeItem('state');
 
 const handleFetchState = () => {
   return {
@@ -13,7 +16,7 @@ const handleFetchState = () => {
 
 function* fetchState() {
   try {
-    const serializedState = yield call(getLocalState, 'state');
+    const serializedState = yield call(getLocalState);
     const localState = yield call(JSON.parse, serializedState);
     yield put(handleLocalState(localState));
   } catch (err) {
@@ -33,8 +36,7 @@ function* saveState() {
 
 function* clearState() {
   try {
-    const clearedState = yield call(JSON.stringify, { rejections: null });
-    yield call(setLocalState, clearedState);
+    yield call(clearLocalState);
   } catch (err) {
     console.error(err);
   }
@@ -64,6 +66,7 @@ export {
   fetchState,
   saveState,
   clearState,
+  clearLocalState,
   getLocalState,
   setLocalState,
   handleFetchState,
