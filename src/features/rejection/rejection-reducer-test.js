@@ -116,7 +116,7 @@ describe('reducer/clearRejections', async assert => {
     actual: clearRejections(),
     expected: {
       type: 'REJECTION::CLEAR_REJECTIONS',
-    },
+    }
   });
 });
 
