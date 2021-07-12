@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
+import Input, { updateQuestion, updateAskee, clearQuestion, clearAskee, getQuestion, getAskee } from './input.js';
 
 const Button = ({ label, handleClick }) => (
   <button onClick={handleClick}>{label}</button>
 );
 
-const Input = ({ header, value, onChangeHandler }) => (
-  <>
-    <h3>{header}</h3>
-    <input value={value} onChange={onChangeHandler} />
-  </>
-);
+// const Input = () => {}
+// const Input = ({ header, value, onChangeHandler }) => (
+//   <>
+//     <h3>{header}</h3>
+//     <input value={value} onChange={onChangeHandler} />
+//   </>
+// );
 
 const AddRejection = () => {
   const dispatch = useDispatch();
-  const [ question, setQuestion ] = useState('');
-  const [ askee, setAskee ] = useState('');
+  const question = useSelector(getQuestion);
+  const askee = useSelector(getAskee);
+  // const [ question, setQuestion ] = useState('');
+  // const [ askee, setAskee ] = useState('');
 
   const handleClick = e => {
     e.preventDefault();
@@ -27,13 +31,15 @@ const AddRejection = () => {
       askee,
       status: e.target.outerText
     }));
-    setQuestion('');
-    setAskee('');
+    // setQuestion('');
+    // setAskee('');
+    clearQuestion();
+    clearAskee();
   };
 
   const inputSetter = setter => e => {
     e.preventDefault();
-    setter(e.target.value);
+    dispatch(setter(e.target.value));
   }
 
   return (
@@ -41,12 +47,14 @@ const AddRejection = () => {
       <Input
         header={'Question'}
         value={question}
-        onChangeHandler={inputSetter(setQuestion)}
+        // onChangeHandler={inputSetter(setQuestion)}
+        onChangeHandler={inputSetter(updateQuestion)}
       />
       <Input
         header={'Askee'}
         value={askee}
-        onChangeHandler={inputSetter(setAskee)}
+        // onChangeHandler={inputSetter(setAskee)}
+        onChangeHandler={inputSetter(updateAskee)}
       />
       <div>
         <Button
@@ -70,3 +78,5 @@ const AddRejection = () => {
 };
 
 export default AddRejection;
+
+export { Input };
