@@ -1,8 +1,4 @@
 import React from 'react';
-import { createNamedWrapperReducer, createNamedWrapperActionCreator } from '../../utils/redux-wrappers';
-
-const getQuestion = state => state ? state.question : undefined;
-const getAskee = state => state ? state.askee : undefined;
 
 const displayView = ({ header, value, onChangeHandler }) => {
   if (!header || !onChangeHandler) return null;
@@ -29,8 +25,6 @@ const clearInput = (name) => () => ({
   name,
   type: 'ADD_REJECTION::CLEAR_INPUT'
 });
-const clearQuestion = clearInput('question');
-const clearAskee = clearInput('askee');
 
 const inputReducer = (
   state = '',
@@ -46,11 +40,6 @@ const inputReducer = (
   }
 };
 
-const questionInputReducer = createNamedWrapperReducer(inputReducer, 'question');
-const askeeInputReducer = createNamedWrapperReducer(inputReducer, 'askee');
-const updateQuestion = createNamedWrapperActionCreator(updateInput, 'question');
-const updateAskee = createNamedWrapperActionCreator(updateInput, 'askee');
-
 export default Input;
 
-export { inputReducer, updateInput, clearInput, questionInputReducer, askeeInputReducer, updateQuestion, updateAskee, clearQuestion, clearAskee, getQuestion, getAskee };
+export { inputReducer, updateInput, clearInput };

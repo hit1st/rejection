@@ -1,26 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import {
+  createNamedWrapperReducer,
+  createNamedWrapperActionCreator
+} from '../../utils/redux-wrappers';
 import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
-import Input, { updateQuestion, updateAskee, clearQuestion, clearAskee, getQuestion, getAskee } from './input.js';
+import Input, { inputReducer, updateInput, clearInput } from './input.js';
 
 const Button = ({ label, handleClick }) => (
   <button onClick={handleClick}>{label}</button>
 );
 
-// const Input = () => {}
-// const Input = ({ header, value, onChangeHandler }) => (
-//   <>
-//     <h3>{header}</h3>
-//     <input value={value} onChange={onChangeHandler} />
-//   </>
-// );
+const getQuestion = state => state ? state.question : undefined;
+const getAskee = state => state ? state.askee : undefined;
+
+const clearQuestion = clearInput('question');
+const clearAskee = clearInput('askee');
+
+const questionInputReducer = createNamedWrapperReducer(inputReducer, 'question');
+const askeeInputReducer = createNamedWrapperReducer(inputReducer, 'askee');
+const updateQuestion = createNamedWrapperActionCreator(updateInput, 'question');
+const updateAskee = createNamedWrapperActionCreator(updateInput, 'askee');
 
 const AddRejection = () => {
   const dispatch = useDispatch();
   const question = useSelector(getQuestion);
   const askee = useSelector(getAskee);
-  // const [ question, setQuestion ] = useState('');
-  // const [ askee, setAskee ] = useState('');
 
   const handleClick = e => {
     e.preventDefault();
@@ -31,13 +36,11 @@ const AddRejection = () => {
       askee,
       status: e.target.outerText
     }));
-    // setQuestion('');
-    // setAskee('');
     clearQuestion();
     clearAskee();
   };
 
-  const inputSetter = setter => e => {
+  const dispatchTo = setter => e => {
     e.preventDefault();
     dispatch(setter(e.target.value));
   }
@@ -47,14 +50,12 @@ const AddRejection = () => {
       <Input
         header={'Question'}
         value={question}
-        // onChangeHandler={inputSetter(setQuestion)}
-        onChangeHandler={inputSetter(updateQuestion)}
+        onChangeHandler={dispatchTo(updateQuestion)}
       />
       <Input
         header={'Askee'}
         value={askee}
-        // onChangeHandler={inputSetter(setAskee)}
-        onChangeHandler={inputSetter(updateAskee)}
+        onChangeHandler={dispatchTo(updateAskee)}
       />
       <div>
         <Button
@@ -79,4 +80,4 @@ const AddRejection = () => {
 
 export default AddRejection;
 
-export { Input };
+export { questionInputReducer, askeeInputReducer };
