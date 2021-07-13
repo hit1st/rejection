@@ -5,7 +5,7 @@ import {
   createNamedWrapperActionCreator
 } from '../../utils/redux-wrappers';
 import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
-import Input, { inputReducer, updateInput, clearInput } from './input.js';
+import Input, { inputReducer, updateInput, clearInput } from '../input/input.js';
 
 const Button = ({ label, handleClick }) => (
   <button onClick={handleClick}>{label}</button>
