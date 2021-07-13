@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from '../link/link.js';
+import { getVisibilityFilter } from '../visibility/visibility-filter.js';
 
 const FilterLink = ({
   filter,
   children
 }) => {
-  const { visibilityFilter } = useSelector(state => state);
+  const visibilityFilter = useSelector(getVisibilityFilter);
   const dispatch = useDispatch();
   return (
     <Link
