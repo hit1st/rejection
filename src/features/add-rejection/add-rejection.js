@@ -6,10 +6,7 @@ import {
 } from '../../utils/redux-wrappers';
 import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
 import Input, { inputReducer, updateInput, clearInput } from '../input/input.js';
-
-const Button = ({ label, handleClick }) => (
-  <button onClick={handleClick}>{label}</button>
-);
+import Button from '../button/button.js';
 
 const getQuestion = state => state ? state.question : undefined;
 const getAskee = state => state ? state.askee : undefined;
