@@ -33,8 +33,8 @@ const AddRejection = () => {
       askee,
       status: e.target.outerText
     }));
-    clearQuestion();
-    clearAskee();
+    dispatch(clearQuestion());
+    dispatch(clearAskee());
   };
 
   const dispatchTo = setter => e => {
@@ -68,6 +68,8 @@ const AddRejection = () => {
           handleClick={e => {
             e.preventDefault();
             dispatch(clearRejections());
+            dispatch(clearQuestion());
+            dispatch(clearAskee());
           }}
         />
       </div>
