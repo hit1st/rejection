@@ -90,11 +90,13 @@ describe('Input component', async assert => {
   const createInput = ({ 
     headerValue,
     inputValue,
+    inputClass,
     onChangeHandler
   }) => {
     return render(<Input
       header={headerValue}
       value={inputValue}
+      inputClass={inputClass}
       onChangeHandler={onChangeHandler}
     />)
   };
@@ -150,6 +152,23 @@ describe('Input component', async assert => {
       should: 'render the correct header text.',
       actual: contains(values.headerValue),
       expected: values.headerValue
+    });
+  }
+
+  {
+    const values = {
+      headerValue: 'Name',
+      inputValue: 'str',
+      inputClass: 'the-input',
+      onChangeHandler: () => {}
+    };
+    const $ = createInput(values);
+
+    assert({
+      given: 'an inputClass string',
+      should: 'render input with inputClass string',
+      actual: $(`.${values.inputClass}`)['0'].name,
+      expected: 'input'
     });
   }
 
