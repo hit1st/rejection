@@ -19,64 +19,94 @@ const askeeInputReducer = createNamedWrapperReducer(inputReducer, 'askee');
 const updateQuestion = createNamedWrapperActionCreator(updateInput, 'question');
 const updateAskee = createNamedWrapperActionCreator(updateInput, 'askee');
 
-const AddRejection = () => {
-  const dispatch = useDispatch();
-  const question = useSelector(getQuestion);
-  const askee = useSelector(getAskee);
-
-  const handleClick = e => {
-    e.preventDefault();
-    if (!question || !askee) return;
-
-    dispatch(addQuestion({
-      question,
-      askee,
-      status: e.target.outerText
-    }));
-    dispatch(clearQuestion());
-    dispatch(clearAskee());
-  };
-
-  const dispatchTo = setter => e => {
-    e.preventDefault();
-    dispatch(setter(e.target.value));
-  }
-
-  return (
-    <>
+const AddRejection = ({
+  question,
+  askee,
+  handleInputClick,
+  handleClearClick,
+  questionOnChangeHandler,
+  askeeOnChangeHandler
+}) => [
+    handleInputClick,
+    handleClearClick,
+    questionOnChangeHandler,
+    askeeOnChangeHandler
+  ].every(el => el) &&
+  question !== undefined &&
+  askee !== undefined ?
+  (
+    <div className={'add-question'}>
       <Input
         header={'Question'}
         value={question}
-        onChangeHandler={dispatchTo(updateQuestion)}
+        inputClass={'question'}
+        onChangeHandler={questionOnChangeHandler}
       />
       <Input
         header={'Askee'}
         value={askee}
-        onChangeHandler={dispatchTo(updateAskee)}
+        inputClass={'askee'}
+        onChangeHandler={askeeOnChangeHandler}
       />
       <div>
         <Button
           label={'Accepted'}
-          handleClick={handleClick}
+          buttonClass={'accepted'}
+          handleClick={handleInputClick}
         />
         <Button
           label={'Rejected'}
-          handleClick={handleClick}
+          buttonClass={'rejected'}
+          handleClick={handleInputClick}
         />
         <Button
           label={'Clear rejections'}
-          handleClick={e => {
-            e.preventDefault();
-            dispatch(clearRejections());
-            dispatch(clearQuestion());
-            dispatch(clearAskee());
-          }}
+          buttonClass={'clear-rejections'}
+          handleClick={handleClearClick}
         />
       </div>
-    </>
-  );
+    </div>
+  ) : 
+  null;
+
+const AddRejectionContainer = () => {
+  const dispatch = useDispatch();
+  const question = useSelector(getQuestion);
+  const askee = useSelector(getAskee);
+
+  const dispatchTo = setter => e => {
+    e.preventDefault();
+    dispatch(setter(e.target.value));
+  };
+  
+  const props = {
+    question,
+    askee,
+    handleInputClick: e => {
+      e.preventDefault();
+      if (!question || !askee) return;
+    
+      dispatch(addQuestion({
+        question,
+        askee,
+        status: e.target.outerText
+      }));
+      dispatch(clearQuestion());
+      dispatch(clearAskee());
+    },
+    handleClearClick: e => {
+      e.preventDefault();
+      dispatch(clearRejections());
+      dispatch(clearQuestion());
+      dispatch(clearAskee());
+    },
+    questionOnChangeHandler: dispatchTo(updateQuestion),
+    askeeOnChangeHandler: dispatchTo(updateAskee)
+  };
+
+  return <AddRejection {...props} />
 };
 
-export default AddRejection;
+export default AddRejectionContainer;
 
-export { questionInputReducer, askeeInputReducer };
+export { AddRejection, questionInputReducer, askeeInputReducer };
