@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from '../link/link.js';
-import { getVisibilityFilter } from '../visibility/visibility-filter.js';
+import { getVisibilityFilter, setVisibilityFilter } from '../visibility/visibility-filter.js';
 
 const FilterLink = ({
   filter,
@@ -14,11 +14,8 @@ const FilterLink = ({
       active={
         filter === visibilityFilter
       }
-      onClick={() => 
-        dispatch({
-          type: 'SET_VISIBILITY_FILTER',
-          filter
-        })
+      onClick={
+        () => dispatch(setVisibilityFilter(filter))
       }
     >
       {children}

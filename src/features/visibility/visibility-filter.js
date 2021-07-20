@@ -1,3 +1,10 @@
+const setVisibilityFilter = (filter) => !filter ?
+  filter : 
+  {
+    type: 'SET_VISIBILITY_FILTER',
+    filter
+  };
+
 const getVisibilityFilter = state => state ? state.visibilityFilter : undefined;
 
 const visibilityFilter = (
@@ -12,5 +19,5 @@ const visibilityFilter = (
   }
 };
 
-export { getVisibilityFilter }
+export { getVisibilityFilter, setVisibilityFilter }
 export default visibilityFilter;

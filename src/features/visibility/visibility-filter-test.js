@@ -1,5 +1,5 @@
 import { describe } from 'riteway';
-import visibilityFilter, { getVisibilityFilter } from './visibility-filter.js';
+import visibilityFilter, { getVisibilityFilter, setVisibilityFilter } from './visibility-filter.js';
 
 describe('getVisibilityFilter', async assert => {
   assert({
@@ -30,6 +30,30 @@ describe('getVisibilityFilter', async assert => {
       should: 'return valid visibilityFilter value',
       actual: getVisibilityFilter(state),
       expected: state.visibilityFilter
+    });
+  }
+});
+
+describe('setVisibilityFilter', async assert => {
+  assert({
+    given: 'no arguments',
+    should: 'return undefined',
+    actual: setVisibilityFilter(),
+    expected: undefined
+  });
+
+  { 
+    const filter = 'SHOW_ALL';
+    const expected = {
+      type: 'SET_VISIBILITY_FILTER',
+      filter
+    };
+
+    assert({
+      given: 'an argument',
+      should: 'return action object',
+      actual: setVisibilityFilter(filter),
+      expected
     });
   }
 });
