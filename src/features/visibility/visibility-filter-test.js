@@ -67,16 +67,13 @@ describe('visibilityFilter', async assert => {
   });
 
   {
-    const action = {
-      type: 'SET_VISIBILITY_FILTER',
-      filter: 'SHOW_ACCEPTED'
-    };
+    const filter = 'SHOW_ACCEPTED';;
 
     assert({
-      given: 'a new action',
+      given: 'a state and action creator',
       should: 'change state',
-      actual: visibilityFilter(visibilityFilter(), action),
-      expected: action.filter
+      actual: visibilityFilter(visibilityFilter(), setVisibilityFilter(filter)),
+      expected: filter
     });
   }
 });
