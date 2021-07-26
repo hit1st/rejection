@@ -29,8 +29,6 @@ const handleLocalState = (localState = { rejections: [] }) => {
   };
 };
 
-const clearRejections = () => ({ type: 'REJECTION::CLEAR_REJECTIONS' });
-
 const getScore = state =>
   state.reduce((score, question) => (
     question.status === 'Accepted' ? score + 1 :
@@ -55,4 +53,4 @@ const reducer = (
 };
 
 
-export { reducer, addQuestion, getRejections, getScore, handleLocalState, clearRejections };
+export { reducer, addQuestion, getRejections, getScore, handleLocalState };
