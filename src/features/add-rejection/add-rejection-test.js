@@ -78,24 +78,6 @@ describe ('AddRejection component', async assert => {
       question: '',
       askee: '',
       handleInputClick: () => {},
-      questionOnChangeHandler: () => {},
-      askeeOnChangeHandler: () => {}
-    }
-    const $ = createAddRejection(props);
-
-    assert({
-      given: 'missing handleClearClick prop',
-      should: 'not render',
-      actual: $('.add-question').html(),
-      expected: null
-    });
-  }
-
-  {
-    const props = {
-      question: '',
-      askee: '',
-      handleInputClick: () => {},
       handleClearClick: () => {},
       askeeOnChangeHandler: () => {}
     }

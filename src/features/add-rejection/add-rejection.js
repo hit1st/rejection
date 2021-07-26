@@ -4,7 +4,7 @@ import {
   createNamedWrapperReducer,
   createNamedWrapperActionCreator
 } from '../../utils/redux-wrappers';
-import { addQuestion, clearRejections } from '../rejection/rejection-reducer.js';
+import { addQuestion } from '../rejection/rejection-reducer.js';
 import Input, { inputReducer, updateInput, clearInput } from '../input/input.js';
 import Button from '../button/button.js';
 
@@ -23,12 +23,10 @@ const AddRejection = ({
   question,
   askee,
   handleInputClick,
-  handleClearClick,
   questionOnChangeHandler,
   askeeOnChangeHandler
 }) => [
     handleInputClick,
-    handleClearClick,
     questionOnChangeHandler,
     askeeOnChangeHandler
   ].every(el => el) &&
@@ -59,11 +57,6 @@ const AddRejection = ({
           buttonClass={'rejected'}
           handleClick={handleInputClick}
         />
-        <Button
-          label={'Clear rejections'}
-          buttonClass={'clear-rejections'}
-          handleClick={handleClearClick}
-        />
       </div>
     </div>
   ) : 
@@ -91,12 +84,6 @@ const AddRejectionContainer = () => {
         askee,
         status: e.target.outerText
       }));
-      dispatch(clearQuestion());
-      dispatch(clearAskee());
-    },
-    handleClearClick: e => {
-      e.preventDefault();
-      dispatch(clearRejections());
       dispatch(clearQuestion());
       dispatch(clearAskee());
     },
