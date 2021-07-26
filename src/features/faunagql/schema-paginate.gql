@@ -1,0 +1,7 @@
+type Letter {
+  letter: String!
+}
+
+type Query {
+  allLetters: [Letter!]
+}

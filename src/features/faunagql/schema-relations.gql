@@ -1,0 +1,17 @@
+type User {
+  name: String! @unique
+  rejections: [Rejection] @relation
+}
+
+type Rejection {
+  question: String!,
+  askee: String!,
+  status: String!,
+  user: User!
+}
+
+type Query {
+  allRejections: [Rejection!]
+  allUsers: [User!]
+  userByName(name: String!): [User!]
+}

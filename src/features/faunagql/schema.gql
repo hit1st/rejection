@@ -1,0 +1,9 @@
+type Rejection {
+  question: String!,
+  askee: String!,
+  status: String!,
+}
+
+type Query {
+  allRejections: [Rejection!]
+}
