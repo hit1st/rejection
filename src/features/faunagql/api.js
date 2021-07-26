@@ -1,6 +1,4 @@
-import { useSelector } from 'react-redux';
 import useFetch from '../../utils/useFetch.js';
-import { getID } from '../id-reducer/id-reducer.js';
 
 const getData = (data) => (!data || data.errors) ? null : data.data;
 
