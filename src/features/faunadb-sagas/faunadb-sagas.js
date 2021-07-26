@@ -1,6 +1,6 @@
 import { put, takeEvery, all, call, select } from 'redux-saga/effects';
 import { updateID, getID } from '../id-reducer/id-reducer.js';
-import { handleLocalState, getRejections } from '../rejection/rejection-reducer.js';
+import { handleLocalState } from '../rejection/rejection-reducer.js';
 import { useID, useRejections, createRejection } from '../faunagql/api.js';
 
 const handleFetchID = () => {
