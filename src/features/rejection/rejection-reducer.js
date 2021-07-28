@@ -45,8 +45,6 @@ const reducer = (
       return [...state, payload]
     case 'ADD_LOCAL_STATE':
       return [...state, ...payload]
-    case 'REJECTION::CLEAR_REJECTIONS':
-      return []
     default:
       return state;
   };

@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getRejections, getScore, handleLocalState } from './rejection-reducer.js';
+import { reducer, addQuestion, getRejections, getScore, handleLocalState, clearRejections } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
@@ -206,7 +206,6 @@ describe('reducer/getRejections', async assert => {
       actual: getRejections(state),
       expected: [...state.rejections]
     });
-
   }
 
 });
