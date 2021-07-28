@@ -1,23 +1,8 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  createNamedWrapperReducer,
-  createNamedWrapperActionCreator
-} from '../../utils/redux-wrappers';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { addQuestion } from '../rejection/rejection-reducer.js';
-import Input, { inputReducer, updateInput, clearInput } from '../input/input.js';
+import Input from '../input/input.js';
 import Button from '../button/button.js';
-
-const getQuestion = state => state ? state.question : undefined;
-const getAskee = state => state ? state.askee : undefined;
-
-const clearQuestion = clearInput('question');
-const clearAskee = clearInput('askee');
-
-const questionInputReducer = createNamedWrapperReducer(inputReducer, 'question');
-const askeeInputReducer = createNamedWrapperReducer(inputReducer, 'askee');
-const updateQuestion = createNamedWrapperActionCreator(updateInput, 'question');
-const updateAskee = createNamedWrapperActionCreator(updateInput, 'askee');
 
 const AddRejection = ({
   question,
@@ -64,12 +49,12 @@ const AddRejection = ({
 
 const AddRejectionContainer = () => {
   const dispatch = useDispatch();
-  const question = useSelector(getQuestion);
-  const askee = useSelector(getAskee);
+  const [question, setQuestion] = useState('');
+  const [askee, setAskee] = useState('');
 
-  const dispatchTo = setter => e => {
+  const changeHandler = setter => e => {
     e.preventDefault();
-    dispatch(setter(e.target.value));
+    setter(e.target.value);
   };
   
   const props = {
@@ -84,11 +69,11 @@ const AddRejectionContainer = () => {
         askee,
         status: e.target.outerText
       }));
-      dispatch(clearQuestion());
-      dispatch(clearAskee());
+      setQuestion('');
+      setAskee('');
     },
-    questionOnChangeHandler: dispatchTo(updateQuestion),
-    askeeOnChangeHandler: dispatchTo(updateAskee)
+    questionOnChangeHandler: changeHandler(setQuestion),
+    askeeOnChangeHandler: changeHandler(setAskee)
   };
 
   return <AddRejection {...props} />
@@ -96,4 +81,4 @@ const AddRejectionContainer = () => {
 
 export default AddRejectionContainer;
 
-export { AddRejection, questionInputReducer, askeeInputReducer };
+export { AddRejection };
