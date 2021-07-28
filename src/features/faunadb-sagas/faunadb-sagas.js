@@ -5,13 +5,13 @@ import { useID, useRejections, createRejection } from '../faunagql/api.js';
 
 const handleFetchID = () => {
   return {
-    type: 'FETCH_ID',
+    type: 'FETCH_ID'
   };
 };
 
 const handleFetchState = () => {
   return {
-    type: 'FETCH_STATE',
+    type: 'FETCH_STATE'
   };
 };
 
