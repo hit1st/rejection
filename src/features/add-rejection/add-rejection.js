@@ -8,12 +8,12 @@ const AddRejection = ({
   question,
   askee,
   handleInputClick,
-  questionOnChangeHandler,
-  askeeOnChangeHandler
+  questionChangeHandler,
+  askeeChangeHandler
 }) => [
     handleInputClick,
-    questionOnChangeHandler,
-    askeeOnChangeHandler
+    questionChangeHandler,
+    askeeChangeHandler
   ].every(el => el) &&
   question !== undefined &&
   askee !== undefined ?
@@ -23,13 +23,13 @@ const AddRejection = ({
         header={'Question'}
         value={question}
         inputClass={'question'}
-        onChangeHandler={questionOnChangeHandler}
+        onChangeHandler={questionChangeHandler}
       />
       <Input
         header={'Askee'}
         value={askee}
         inputClass={'askee'}
-        onChangeHandler={askeeOnChangeHandler}
+        onChangeHandler={askeeChangeHandler}
       />
       <div>
         <Button
@@ -63,7 +63,6 @@ const AddRejectionContainer = () => {
     handleInputClick: e => {
       e.preventDefault();
       if (!question || !askee) return;
-    
       dispatch(addQuestion({
         question,
         askee,
@@ -72,8 +71,8 @@ const AddRejectionContainer = () => {
       setQuestion('');
       setAskee('');
     },
-    questionOnChangeHandler: changeHandler(setQuestion),
-    askeeOnChangeHandler: changeHandler(setAskee)
+    questionChangeHandler: changeHandler(setQuestion),
+    askeeChangeHandler: changeHandler(setAskee)
   };
 
   return <AddRejection {...props} />
