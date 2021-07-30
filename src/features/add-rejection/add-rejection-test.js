@@ -114,9 +114,8 @@ describe ('AddRejection component', async assert => {
       question: '',
       askee: '',
       handleInputClick: () => {},
-      handleClearClick: () => {},
-      questionOnChangeHandler: () => {},
-      askeeOnChangeHandler: () => {}
+      questionChangeHandler: () => {},
+      askeeChangeHandler: () => {}
     }
     const $ = createAddRejection(props);
 
