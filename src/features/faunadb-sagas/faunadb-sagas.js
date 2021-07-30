@@ -17,8 +17,7 @@ const handleFetchState = () => {
 
 function* fetchID() {
   try {
-    const { data, errorMessage } = yield call(useID);
-    const { id } = data.userByName.data[0];
+    const id = yield call(useID);
     yield put(updateID({ id }));
     yield put(handleFetchState());
   } catch (err) {
@@ -30,8 +29,7 @@ function* fetchState() {
   try {
     const id = yield select(getID);
     const { data, errorMessage } = yield call(useRejections, id);
-    const rejections = data.findUserByID.rejections.data.map((data) => (data));
-    yield put(handleLocalState({rejections}));
+    yield put(handleLocalState({rejections: data}));
   } catch (err) {
     console.error(err);
   }

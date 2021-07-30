@@ -1,7 +1,5 @@
 import faunadb from 'faunadb';
 
-import useFetch from '../../utils/useFetch.js';
-
 const q = faunadb.query;
 
 const client = new faunadb.Client({
@@ -16,60 +14,43 @@ const getErrorMessage = (error, data) => {
   return null;
 };
 
-const getUseFetchOptions = (query) => ({
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_FAUNADB_SECRET}`,
-    'Content-type': 'application/json',
-    Accept: 'application/json',
-  },
-  body: JSON.stringify({
-    query
-  }),
-});
-
 const useFetchData = (data, error) => ({
   data: getData(data),
   errorMessage: getErrorMessage(error, data),
   error,
 });
 
-const useID = async (userName = "Imposter Developer") => {
-  const query = `query FindIdByUserName ($name: String = "${userName}") {
-    userByName(name: $name) {
-      data {
-        id: _id
-      }
-    }
-  }`;
-  const { data, error} = await useFetch(
-    process.env.NEXT_PUBLIC_FAUNADB_GRAPHQL_ENDPOINT,
-    getUseFetchOptions(query)
-  );
-
-  return useFetchData(data, error);
-}
+const useID = async (userName = "Imposter Developer") => await client.query(
+  q.Reduce(
+    q.Lambda(
+      (id, user) => q.If(
+        q.Equals(q.Select(["data", "name"], q.Get(user)), userName),
+        q.Select(["ref", "id"], q.Get(user)),
+        id
+      )
+    ),
+    '',
+    q.Select(["data"], q.Paginate(q.Match(q.Index("allUsers"))))
+  )
+);
 
 const useRejections = async (id = "304846704870425155") => {
-  const query = `query FindRejectionsByID ($id: ID = "${id}") {
-    findUserByID(id: $id) {
-      rejections {
-        data {
-          question
-          askee
-          status
-          id: _id
-          timestamp: created_at
-        }
-      }
-    }
-  }`;
-  const { data, error} = await useFetch(
-    process.env.NEXT_PUBLIC_FAUNADB_GRAPHQL_ENDPOINT,
-    getUseFetchOptions(query)
+  const data = await client.query(
+    q.Map(
+      q.Paginate(
+        q.Match(q.Index("rej_by_user"), q.Ref(q.Collection("User"), id))
+      ),
+      q.Lambda(rejection => ({
+        id: q.Select(["ref", "id"], q.Get(rejection)),
+        question: q.Select(["data", "question"], q.Get(rejection)),
+        askee: q.Select(["data", "askee"], q.Get(rejection)),
+        status: q.Select(["data", "status"], q.Get(rejection)),
+        timestamp: q.Select(["data", "created_at"], q.Get(rejection)),
+      }))
+    )
   );
 
-  return useFetchData(data, error);
+  return useFetchData(data);
 };
 
 const createRejection = async (newRejection = {}, userID) => {
