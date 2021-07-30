@@ -72,11 +72,12 @@ const useRejections = async (id = "304846704870425155") => {
   return useFetchData(data, error);
 };
 
-const createRejection = async ([newRejection = {}] = []) => {
+const createRejection = async (newRejection = {}, userID) => {
   const data = await client.query(
     q.Create(q.Collection("Rejection"), {
       data: {
         ...newRejection,
+        user: q.Ref(q.Collection("User"), userID),
         created_at: q.Time("now")
       }
     })

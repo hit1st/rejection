@@ -41,8 +41,7 @@ function* saveRejection({ payload } = {}) {
   try {
     const { question, askee, status } = payload
     const userID = yield select(getID);
-    const user = { connect: userID }
-    yield call(createRejection, [{ question, askee, status, user }]);
+    yield call(createRejection, { question, askee, status }, userID);
   } catch (err) {
     console.error(err);
   }
