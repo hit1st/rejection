@@ -59,7 +59,7 @@ const useRejections = async (id = "304846704870425155") => {
           askee
           status
           id: _id
-          timestamp: _ts
+          timestamp: created_at
         }
       }
     }
