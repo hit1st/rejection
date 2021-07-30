@@ -1,4 +1,12 @@
+import faunadb from 'faunadb';
+
 import useFetch from '../../utils/useFetch.js';
+
+const q = faunadb.query;
+
+const client = new faunadb.Client({
+  secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET
+});
 
 const getData = (data) => (!data || data.errors) ? null : data.data;
 
@@ -65,33 +73,15 @@ const useRejections = async (id = "304846704870425155") => {
 };
 
 const createRejection = async ([newRejection = {}] = []) => {
-  const query = `mutation CreateARejection($newRejection: RejectionInput!) {
-    createRejection(data: $newRejection) {
-      question
-      askee
-      status
-      id: _id
-      timestamp: _ts
-    }
-  }`;
-
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_FAUNADB_GRAPHQL_ENDPOINT,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_FAUNADB_SECRET}`,
-        'Content-type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({
-        query,
-        variables: { newRejection }
-      }),
-    }
+  const data = await client.query(
+    q.Create(q.Collection("Rejection"), {
+      data: {
+        ...newRejection,
+        created_at: q.Time("now")
+      }
+    })
   );
-  const data = await res.json();
-  
+
   return data;
 };
 
