@@ -21,17 +21,7 @@ const useFetchData = (data, error) => ({
 });
 
 const useID = async (userName = "Imposter Developer") => await client.query(
-  q.Reduce(
-    q.Lambda(
-      (id, user) => q.If(
-        q.Equals(q.Select(["data", "name"], q.Get(user)), userName),
-        q.Select(["ref", "id"], q.Get(user)),
-        id
-      )
-    ),
-    '',
-    q.Select(["data"], q.Paginate(q.Match(q.Index("allUsers"))))
-  )
+  q.Select(["ref", "id"], q.Get(q.Match(q.Index("user_id_by_name"), userName)))
 );
 
 const useRejections = async (id = "304846704870425155") => {
@@ -54,6 +44,7 @@ const useRejections = async (id = "304846704870425155") => {
 };
 
 const createRejection = async (newRejection = {}, userID) => {
+  console.log('newRejection: ', newRejection);
   const data = await client.query(
     q.Create(q.Collection("Rejection"), {
       data: {
@@ -63,8 +54,32 @@ const createRejection = async (newRejection = {}, userID) => {
       }
     })
   );
-
+  console.log('data: ', data);
   return data;
 };
 
 export { useID, useRejections, createRejection };
+
+
+// Reduce(
+//   Lambda(
+//     ["id", "user"],
+//     If(
+//       Equals(Select(["data", "name"], Get(Var("user"))), "Imposter Developer"),
+//       Select(["ref", "id"], Get(Var("user"))),
+//       Var("id")
+//     )
+//   ),
+//   "",
+//   Select(["data"], Paginate(Match(Index("allUsers"))))
+// )
+
+// Create(Collection("Rejection"), {
+//   data: {
+//     question: "456456",
+//     askee: "cvnbkjcvb",
+//     status: "Accepted",
+//     user: Ref(Collection("User"), "304846704870425155"),
+//     created_at: Time("now")
+//   }
+// })
