@@ -54,32 +54,7 @@ const createRejection = async (newRejection = {}, userID) => {
       }
     })
   );
-  console.log('data: ', data);
   return data;
 };
 
 export { useID, useRejections, createRejection };
-
-
-// Reduce(
-//   Lambda(
-//     ["id", "user"],
-//     If(
-//       Equals(Select(["data", "name"], Get(Var("user"))), "Imposter Developer"),
-//       Select(["ref", "id"], Get(Var("user"))),
-//       Var("id")
-//     )
-//   ),
-//   "",
-//   Select(["data"], Paginate(Match(Index("allUsers"))))
-// )
-
-// Create(Collection("Rejection"), {
-//   data: {
-//     question: "456456",
-//     askee: "cvnbkjcvb",
-//     status: "Accepted",
-//     user: Ref(Collection("User"), "304846704870425155"),
-//     created_at: Time("now")
-//   }
-// })
