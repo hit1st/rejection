@@ -9,9 +9,3 @@ type Rejection {
   status: String!,
   user: User!
 }
-
-type Query {
-  allRejections: [Rejection!]
-  allUsers: [User!]
-  userByName(name: String!): [User!]
-}
