@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getRejections, getScore, handleLocalState, clearRejections } from './rejection-reducer.js';
+import { reducer, addQuestion, getRejections, getScore, addFetchedQuestions } from './rejection-reducer.js';
 
 describe('reducer/addQuestion', async assert => {
   assert({
@@ -63,47 +63,45 @@ describe('reducer/addQuestion', async assert => {
   }
 });
 
-describe('reducer/handleLocalState', async assert => {
+describe('reducer/addFetchedQuestions', async assert => {
   assert({
     given: 'no arguments',
     should: 'return action object',
-    actual: handleLocalState(),
+    actual: addFetchedQuestions(),
     expected: {
-      type: 'ADD_LOCAL_STATE',
+      type: 'ADD_FETCHED_QUESTIONS',
       payload: []
     },
   });
 
   {
-    const state = {
-      rejections: [
-        {
-          question: 'Can I have a raise?',
-          askee: 'Boss',
-          status: 'Accepted'
-        },
-        {
-          question: 'Can you buy me a burger?',
-          askee: 'Coworker',
-          status: 'Rejected'
-        },
-        {
-          question: 'Can I take some time to grab my wallet?',
-          askee: 'Boss',
-          status: 'Accepted'
-        },
-      ]
-    };
+    const state = [
+      {
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: 'Accepted'
+      },
+      {
+        question: 'Can you buy me a burger?',
+        askee: 'Coworker',
+        status: 'Rejected'
+      },
+      {
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: 'Accepted'
+      },
+    ];
 
     const expected = {
-      type: 'ADD_LOCAL_STATE',
-      payload: [...state.rejections]
+      type: 'ADD_FETCHED_QUESTIONS',
+      payload: state
     };
 
     assert({
       given: 'a local state',
       should: 'return an action object',
-      actual: handleLocalState(state),
+      actual: addFetchedQuestions(state),
       expected
     });
   }
@@ -135,37 +133,35 @@ describe('reducer', async assert => {
   }
 
   {
-    const state = {
-      rejections: [
-        {
-          question: 'Can I have a raise?',
-          askee: 'Boss',
-          status: 'Accepted',
-          id: 12345,
-          timestamp: 12345
-        },
-        {
-          question: 'Can you buy me a burger?',
-          askee: 'Coworker',
-          status: 'Rejected',
-          id: 12346,
-          timestamp: 12346
-        },
-        {
-          question: 'Can I take some time to grab my wallet?',
-          askee: 'Boss',
-          status: 'Accepted',
-          id: 12347,
-          timestamp: 12347
-        },
-      ]
-    };
+    const state = [
+      {
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: 'Accepted',
+        id: 12345,
+        timestamp: 12345
+      },
+      {
+        question: 'Can you buy me a burger?',
+        askee: 'Coworker',
+        status: 'Rejected',
+        id: 12346,
+        timestamp: 12346
+      },
+      {
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: 'Accepted',
+        id: 12347,
+        timestamp: 12347
+      },
+    ];
 
     assert({
       given: 'a new state',
       should: 'return new state',
-      actual: reducer(reducer(), handleLocalState(state)),
-      expected: state.rejections
+      actual: reducer(reducer(), addFetchedQuestions(state)),
+      expected: state
     });
   }
 });

@@ -1,6 +1,6 @@
 import { put, takeEvery, all, call, select } from 'redux-saga/effects';
 import { updateID, getID } from '../id-reducer/id-reducer.js';
-import { handleLocalState } from '../rejection/rejection-reducer.js';
+import { addFetchedQuestions, addQuestion } from '../rejection/rejection-reducer.js';
 import { useID, useRejections, createRejection } from '../faunagql/api.js';
 
 const handleFetchID = () => {
@@ -29,7 +29,8 @@ function* fetchState() {
   try {
     const id = yield select(getID);
     const { data, errorMessage } = yield call(useRejections, id);
-    yield put(handleLocalState({rejections: data}));
+    console.log('fetchState data: ', data);
+    yield put(addFetchedQuestions(data));
   } catch (err) {
     console.error(err);
   }
@@ -39,7 +40,8 @@ function* saveRejection({ payload } = {}) {
   try {
     const { question, askee, status } = payload
     const userID = yield select(getID);
-    yield call(createRejection, { question, askee, status }, userID);
+    const data = yield call(createRejection, { question, askee, status }, userID);
+    yield put(addQuestion(data));
   } catch (err) {
     console.error(err);
   }
@@ -54,7 +56,7 @@ function* watchFetchState() {
 };
 
 function* watchSaveRejection() {
-  yield takeEvery('REJECTION::ADD_QUESTION', saveRejection);
+  yield takeEvery('REJECTION::CREATE_QUESTION', saveRejection);
 };
 
 function* rootSaga() {

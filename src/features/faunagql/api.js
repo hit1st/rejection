@@ -44,17 +44,24 @@ const useRejections = async (id = "304846704870425155") => {
 };
 
 const createRejection = async (newRejection = {}, userID) => {
-  console.log('newRejection: ', newRejection);
-  const data = await client.query(
+  const { data, ref } = await client.query(
     q.Create(q.Collection("Rejection"), {
       data: {
         ...newRejection,
+        created_at: q.Time("now"),
         user: q.Ref(q.Collection("User"), userID),
-        created_at: q.Time("now")
       }
     })
   );
-  return data;
+
+  const { question, askee, status, created_at } = data;
+  return { 
+    question,
+    askee,
+    status,
+    timestamp: created_at,
+    id: ref.value.id
+  };
 };
 
 export { useID, useRejections, createRejection };

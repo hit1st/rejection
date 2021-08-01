@@ -1,6 +1,23 @@
 import cuid from 'cuid';
+import { ContainsField } from 'faunadb';
 
 const getRejections = state => state ? state.rejections : undefined;
+
+const createQuestion = ({
+  question = '',
+  askee = '',
+  status = '',
+} = {}) => {
+  if (!question || !askee || !status) return;
+  return {
+    type: 'REJECTION::CREATE_QUESTION',
+    payload: {
+      question,
+      askee,
+      status,
+    }
+  };
+};
 
 const addQuestion = ({
   question = '',
@@ -22,10 +39,10 @@ const addQuestion = ({
   };
 };
 
-const handleLocalState = (localState = { rejections: [] }) => {
+const addFetchedQuestions = (fetchedQuestions = []) => {
   return {
-    type: 'ADD_LOCAL_STATE',
-    payload: localState.rejections
+    type: 'ADD_FETCHED_QUESTIONS',
+    payload: fetchedQuestions
   };
 };
 
@@ -43,12 +60,12 @@ const reducer = (
   switch (type) {
     case 'REJECTION::ADD_QUESTION':
       return [...state, payload]
-    case 'ADD_LOCAL_STATE':
-      return [...state, ...payload]
+    case 'ADD_FETCHED_QUESTIONS':
+      return [...payload]
     default:
       return state;
   };
 };
 
 
-export { reducer, addQuestion, getRejections, getScore, handleLocalState };
+export { reducer, createQuestion, addQuestion, getRejections, getScore, addFetchedQuestions };
