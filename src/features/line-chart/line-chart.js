@@ -2,49 +2,25 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { getRejections } from '../rejection/rejection-reducer.js';
 
-// const Rejection = ({
-//   question,
-//   askee,
-//   status
-// }) => {
-//   return (
-//     <li>
-//       <p>Question: {question}</p>
-//       <p>Askee: {askee}</p>
-//       <p>Status: {status}</p>
-//     </li>
-//   );
-// };
+const format = number => number < 10 ? `0${number}` : `${number}`;
 
-// const RejectionsList = ({
-//   rejections
-// }) => (
-//   <ul>
-//     {rejections.map(rejection => 
-//       <Rejection
-//         key={rejection.id}
-//         {...rejection}
-//       />)}
-//   </ul>
-// );
+const dateMaker = (date) => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
 
-// const getVisibleRejections = (
-//   rejections,
-//   filter
-// ) => {
-//   switch (filter) {
-//     case 'SHOW_ALL':
-//       return rejections;
-//     case 'SHOW_ACCEPTED':
-//       return rejections.filter(rejection => rejection.status === 'Accepted');
-//     case 'SHOW_REJECTED':
-//       return rejections.filter(rejection => rejection.status === 'Rejected');
-//   };
-// };
+const today = new Date();
+const week = [];
+
+for (let i = 7; i > 0; i -= 1) {
+  const newDay = new Date();
+  newDay.setDate(today.getDate() - i)
+  week.push(dateMaker(newDay));
+}
+
+console.log('week: ', week);
 
 const LineChart = () => {
   const rejections = useSelector(getRejections);
-  const mapped = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value }));
+  console.log('LineChart rejections: ', rejections);
+  const mapped = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value.slice(0, 10) }));
   mapped.sort((a, b) => {
     if (a.timestamp < b.timestamp) return -1;
     if (a.timestamp > b.timestamp) return 1;
@@ -53,11 +29,33 @@ const LineChart = () => {
 
   console.log('LineChart mapped: ', mapped);
 
+  let day = 0;
+  let mappedIdx = 0;
+  let score = 0;
+  const dailyScoreForTheWeek = [];
+
+  while (day < week.length) {
+    while (mappedIdx < mapped.length) {
+      if (mapped[mappedIdx].timestamp <= week[day]) {
+        score += mapped[mappedIdx].status === 'Rejected' ? 10 : 1;
+      }
+      mappedIdx += 1;
+      if (mappedIdx < mapped.length && mapped[mappedIdx].timestamp > week[day]) {
+        dailyScoreForTheWeek.push(score);
+        day += 1;
+      }
+    }
+    dailyScoreForTheWeek.push(score);
+    day += 1;
+  }
+  console.log('dailyScoreForTheWeek: ', dailyScoreForTheWeek);
+
   return (
     <>
     </> 
   )
 };
 
-// export { Rejection, RejectionsList, getVisibleRejections };
 export default LineChart;
+
+export { dateMaker };
