@@ -166,7 +166,7 @@ describe('reducer', async assert => {
   }
 });
 
-describe('reducer/getRejections', async assert => {
+describe('getRejections', async assert => {
   assert({
     given: 'no arguments',
     should: 'return undefined',
