@@ -1,5 +1,4 @@
 import cuid from 'cuid';
-import { ContainsField } from 'faunadb';
 
 const getRejections = state => state ? state.rejections : undefined;
 
@@ -8,7 +7,6 @@ const createQuestion = ({
   askee = '',
   status = '',
 } = {}) => {
-  if (!question || !askee || !status) return;
   return {
     type: 'REJECTION::CREATE_QUESTION',
     payload: {
@@ -26,7 +24,6 @@ const addQuestion = ({
   id = cuid(),
   timestamp = Date.now()
 } = {}) => {
-  if (!question || !askee || !status) return;
   return {
     type: 'REJECTION::ADD_QUESTION',
     payload: {
@@ -58,9 +55,9 @@ const reducer = (
   { type, payload } = {}
 ) => {
   switch (type) {
-    case 'REJECTION::ADD_QUESTION':
+    case addQuestion().type:
       return [...state, payload]
-    case 'ADD_FETCHED_QUESTIONS':
+    case addFetchedQuestions().type:
       return [...payload]
     default:
       return state;
