@@ -2,21 +2,6 @@ import cuid from 'cuid';
 
 const getRejections = state => state ? state.rejections : undefined;
 
-const createQuestion = ({
-  question = '',
-  askee = '',
-  status = '',
-} = {}) => {
-  return {
-    type: 'REJECTION::CREATE_QUESTION',
-    payload: {
-      question,
-      askee,
-      status,
-    }
-  };
-};
-
 const addQuestion = ({
   question = '',
   askee = '',
@@ -65,4 +50,4 @@ const reducer = (
 };
 
 
-export { reducer, createQuestion, addQuestion, getRejections, getScore, addFetchedQuestions };
+export { reducer, addQuestion, getRejections, getScore, addFetchedQuestions };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createQuestion } from '../rejection/rejection-reducer.js';
+import { createQuestion } from '../faunadb-sagas/faunadb-sagas.js';
 import Input from '../input/input.js';
 import Button from '../button/button.js';
 

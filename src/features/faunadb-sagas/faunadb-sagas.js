@@ -15,6 +15,21 @@ const handleFetchState = () => {
   };
 };
 
+const createQuestion = ({
+  question = '',
+  askee = '',
+  status = '',
+} = {}) => {
+  return {
+    type: 'REJECTION::CREATE_QUESTION',
+    payload: {
+      question,
+      askee,
+      status,
+    }
+  };
+};
+
 function* fetchID() {
   try {
     const id = yield call(useID);
@@ -48,15 +63,15 @@ function* saveRejection({ payload } = {}) {
 }
 
 function* watchFetchID() {
-  yield takeEvery('FETCH_ID', fetchID)
+  yield takeEvery(handleFetchID().type, fetchID)
 };
 
 function* watchFetchState() {
-  yield takeEvery('FETCH_STATE', fetchState);
+  yield takeEvery(handleFetchState().type, fetchState);
 };
 
 function* watchSaveRejection() {
-  yield takeEvery('REJECTION::CREATE_QUESTION', saveRejection);
+  yield takeEvery(createQuestion().type, saveRejection);
 };
 
 function* rootSaga() {
@@ -72,5 +87,7 @@ export {
   fetchState,
   handleFetchID,
   handleFetchState,
+  createQuestion
 };
+
 export default rootSaga;
