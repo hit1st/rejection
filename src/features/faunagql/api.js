@@ -39,7 +39,7 @@ const useRejections = async (id = "304846704870425155") => {
       }))
     )
   );
-
+      console.log('useRejection data: ', data);
   return useFetchData(data);
 };
 

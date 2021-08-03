@@ -43,17 +43,18 @@ function* fetchID() {
 function* fetchState() {
   try {
     const id = yield select(getID);
-    const { data, errorMessage } = yield call(useRejections, id);
-    console.log('fetchState data: ', data);
+    const fetchedData = yield call(useRejections, id);
+    const rejections = fetchedData ? fetchedData : { data: undefined };
+    const { data, errorMessage } = rejections;
     yield put(addFetchedQuestions(data));
   } catch (err) {
     console.error(err);
   }
 };
 
-function* saveRejection({ payload } = {}) {
+function* saveRejection({ payload } = { payload: { question: '', askee: '', status: '' } }) {
   try {
-    const { question, askee, status } = payload
+    const { question, askee, status } = payload;
     const userID = yield select(getID);
     const data = yield call(createRejection, { question, askee, status }, userID);
     yield put(addQuestion(data));
@@ -85,6 +86,7 @@ function* rootSaga() {
 export {
   fetchID,
   fetchState,
+  saveRejection,
   handleFetchID,
   handleFetchState,
   createQuestion
