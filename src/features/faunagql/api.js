@@ -6,20 +6,6 @@ const client = new faunadb.Client({
   secret: process.env.NEXT_PUBLIC_FAUNADB_SECRET
 });
 
-const getData = (data) => (!data || data.errors) ? null : data.data;
-
-const getErrorMessage = (error, data) => {
-  if (error) return error.message;
-  if (data && data.errors) return data.errors[0].message;
-  return null;
-};
-
-const useFetchData = (data, error) => ({
-  data: getData(data),
-  errorMessage: getErrorMessage(error, data),
-  error,
-});
-
 const useID = async (userName = "Imposter Developer") => await client.query(
   q.Select(["ref", "id"], q.Get(q.Match(q.Index("user_id_by_name"), userName)))
 );
@@ -40,7 +26,7 @@ const useRejections = async (id = "304846704870425155") => {
     )
   );
       console.log('useRejection data: ', data);
-  return useFetchData(data);
+  return data.data;
 };
 
 const createRejection = async (newRejection = {}, userID) => {
