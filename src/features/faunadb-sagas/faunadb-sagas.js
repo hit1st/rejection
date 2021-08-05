@@ -20,8 +20,8 @@ const handleFetchStateError = err => ({
   payload: err
 });
 
-const handleError = err => ({
-  type: 'IO_ERROR',
+const handleSaveRejectionError = err => ({
+  type: 'IO_ERROR_SAVE_REJECTION',
   payload: err
 });
 
@@ -67,7 +67,7 @@ function* saveRejection({ payload } = { payload: { question: '', askee: '', stat
     const data = yield call(createRejection, { question, askee, status }, userID);
     yield put(addQuestion(data));
   } catch (err) {
-    yield put(handleError(err));
+    yield put(handleSaveRejectionError(err));
   }
 }
 
@@ -97,7 +97,7 @@ export {
   saveRejection,
   handleFetchID,
   handleFetchState,
-  handleError,
+  handleSaveRejectionError,
   handleFetchStateError,
   createQuestion
 };
