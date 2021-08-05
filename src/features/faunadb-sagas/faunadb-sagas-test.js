@@ -10,6 +10,7 @@ import {
   fetchState,
   saveRejection,
   handleFetchState,
+  handleFetchStateError,
   handleError
 } from './faunadb-sagas'
 import { updateID, getID } from '../id-reducer/id-reducer.js';
@@ -81,6 +82,21 @@ describe('fetchState', async (assert) => {
     actual: iterator.next(),
     expected: { done: true, value: undefined }
   });
+
+  {
+    const NetworkError = 'this is an error';
+    const iterator = fetchState();
+
+    iterator.next().value;
+    iterator.next().value;
+    assert({
+      given: 'a network error',
+      should: 'put handleError(err)',
+      actual: iterator.throw(NetworkError).value,
+      expected: put(handleFetchStateError(NetworkError))
+    });
+    iterator.next();
+  }
 });
 
 describe('saveRejection', async (assert) => {

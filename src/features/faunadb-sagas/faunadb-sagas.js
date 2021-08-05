@@ -15,6 +15,11 @@ const handleFetchState = () => {
   };
 };
 
+const handleFetchStateError = err => ({
+  type: 'IO_ERROR_FETCH_STATE',
+  payload: err
+});
+
 const handleError = err => ({
   type: 'IO_ERROR',
   payload: err
@@ -51,8 +56,7 @@ function* fetchState() {
     const data = yield call(useRejections, id);
     yield put(addFetchedQuestions(data));
   } catch (err) {
-    console.error(err);
-    yield put(handleError(err));
+    yield put(handleFetchStateError(err));
   }
 };
 
@@ -94,6 +98,7 @@ export {
   handleFetchID,
   handleFetchState,
   handleError,
+  handleFetchStateError,
   createQuestion
 };
 
