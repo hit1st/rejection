@@ -1,5 +1,4 @@
 import { describe } from 'riteway'
-
 import {
   put,
   call,
@@ -11,11 +10,11 @@ import {
   fetchState,
   saveRejection,
   handleFetchState,
+  handleError
 } from './faunadb-sagas'
 import { updateID, getID } from '../id-reducer/id-reducer.js';
 import { addFetchedQuestions, addQuestion } from '../rejection/rejection-reducer.js';
 import { useID, useRejections, createRejection } from '../faunagql/api.js';
-
 
 describe('fetchID', async (assert) => {
   const iterator = fetchID();
@@ -66,30 +65,25 @@ describe('fetchState', async (assert) => {
     expected: call(useRejections, undefined)
   });
 
-  assert({
-    given: 'no arguments',
-    should: 'put addFetchedQuestions()',
-    actual: iterator.next().value,
-    expected: put(addFetchedQuestions())
-  });
+  {
+    const simulatedNetworkResponseData = 'simulated network response data';
+    assert({
+      given: 'no arguments',
+      should: 'put addFetchedQuestions(simulatedNetworkResponseData)',
+      actual: iterator.next(simulatedNetworkResponseData).value,
+      expected: put(addFetchedQuestions(simulatedNetworkResponseData))
+    });
+  }
 
   assert({
     given: 'no arguments',
     should: 'be done',
     actual: iterator.next(),
     expected: { done: true, value: undefined }
-  })
+  });
 });
 
 describe('saveRejection', async (assert) => {
-  // const action = {
-  //   payload: {
-  //     question: 'question',
-  //     askee: 'askee',
-  //     status: 'Accepted'
-  //   }
-  // };
-
   const iterator = saveRejection();
 
   assert({
@@ -107,15 +101,18 @@ describe('saveRejection', async (assert) => {
   });
 
   {
-    const actual = iterator.next().value.payload.action.type;
-    const expected = put(addQuestion()).payload.action.type;
+    const data = {
+      question: 'question',
+      askee: 'askee',
+      status: 'Accepted'
+    };
 
     assert({
       given: 'no arguments',
-      should: 'put addQuestion()',
-      actual,
-      expected
-    })
+      should: 'put addQuestion(data)',
+      actual: iterator.next(data).value,
+      expected: put(addQuestion(data))
+    });
   }
 
   assert({
@@ -123,5 +120,20 @@ describe('saveRejection', async (assert) => {
     should: 'be done',
     actual: iterator.next(),
     expected: { done: true, value: undefined }
-  })
-})
+  });
+
+  {
+    const NetworkError = 'this is an error';
+    const iterator = saveRejection();
+
+    iterator.next().value;
+    iterator.next().value;
+    assert({
+      given: 'a network error',
+      should: 'put handleError(err)',
+      actual: iterator.throw(NetworkError).value,
+      expected: put(handleError(NetworkError))
+    });
+    iterator.next();
+  }
+});

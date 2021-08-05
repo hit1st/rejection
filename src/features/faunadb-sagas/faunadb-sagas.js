@@ -15,6 +15,11 @@ const handleFetchState = () => {
   };
 };
 
+const handleError = err => ({
+  type: 'IO_ERROR',
+  payload: err
+});
+
 const createQuestion = ({
   question = '',
   askee = '',
@@ -43,12 +48,11 @@ function* fetchID() {
 function* fetchState() {
   try {
     const id = yield select(getID);
-    const fetchedData = yield call(useRejections, id);
-    const rejections = fetchedData ? fetchedData : { data: undefined };
-    const { data, errorMessage } = rejections;
+    const data = yield call(useRejections, id);
     yield put(addFetchedQuestions(data));
   } catch (err) {
     console.error(err);
+    yield put(handleError(err));
   }
 };
 
@@ -59,7 +63,7 @@ function* saveRejection({ payload } = { payload: { question: '', askee: '', stat
     const data = yield call(createRejection, { question, askee, status }, userID);
     yield put(addQuestion(data));
   } catch (err) {
-    console.error(err);
+    yield put(handleError(err));
   }
 }
 
@@ -89,6 +93,7 @@ export {
   saveRejection,
   handleFetchID,
   handleFetchState,
+  handleError,
   createQuestion
 };
 
