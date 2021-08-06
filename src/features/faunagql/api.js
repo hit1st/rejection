@@ -12,21 +12,23 @@ const useID = async (userName = "Imposter Developer") => await client.query(
 
 const useRejections = async (id = "304846704870425155") => {
   const data = await client.query(
-    q.Map(
-      q.Paginate(
-        q.Match(q.Index("rej_by_user"), q.Ref(q.Collection("User"), id))
-      ),
-      q.Lambda(rejection => ({
-        id: q.Select(["ref", "id"], q.Get(rejection)),
-        question: q.Select(["data", "question"], q.Get(rejection)),
-        askee: q.Select(["data", "askee"], q.Get(rejection)),
-        status: q.Select(["data", "status"], q.Get(rejection)),
-        timestamp: q.Select(["data", "created_at"], q.Get(rejection)),
-      }))
+    q.Select(["data"],
+      q.Map(
+        q.Paginate(
+          q.Match(q.Index("rej_by_user"), q.Ref(q.Collection("User"), id))
+        ),
+        q.Lambda(rejection => ({
+          id: q.Select(["ref", "id"], q.Get(rejection)),
+          question: q.Select(["data", "question"], q.Get(rejection)),
+          askee: q.Select(["data", "askee"], q.Get(rejection)),
+          status: q.Select(["data", "status"], q.Get(rejection)),
+          timestamp: q.Select(["data", "created_at"], q.Get(rejection)),
+        }))
+      )
     )
   );
       console.log('useRejection data: ', data);
-  return data.data;
+  return data;
 };
 
 const createRejection = async (newRejection = {}, userID) => {
