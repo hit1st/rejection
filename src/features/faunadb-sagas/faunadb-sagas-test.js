@@ -120,7 +120,9 @@ describe('saveRejection', async (assert) => {
     const data = {
       question: 'question',
       askee: 'askee',
-      status: 'Accepted'
+      status: 'Accepted',
+      id: 'id',
+      timestamp: 'timestamp'
     };
 
     assert({

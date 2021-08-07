@@ -16,7 +16,9 @@ describe('reducer/addQuestion', async assert => {
     const question = {
       question: 'Can I have a raise?',
       askee: 'Boss',
-      status: 'Accepted'
+      status: 'Accepted',
+      id: 'id',
+      timestamp: 'ts'
     };
 
     assert({

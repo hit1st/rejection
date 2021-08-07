@@ -5,14 +5,18 @@ const getRejections = state => state ? state.rejections : undefined;
 const addQuestion = ({
   question = '',
   askee = '',
-  status = ''
+  status = '',
+  id = '',
+  timestamp = ''
 } = {}) => {
   return {
     type: 'REJECTION::ADD_QUESTION',
     payload: {
       question,
       askee,
-      status
+      status,
+      id,
+      timestamp
     }
   };
 };
