@@ -6,6 +6,22 @@ const format = number => number < 10 ? `0${number}` : `${number}`;
 
 const dateMaker = (date) => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
 
+const daysBeforeDate = (date = new Date()) => (numberOfDaysBefore = 0) => {
+  const daysBefore = new Date(date);
+  daysBefore.setDate(daysBefore.getDate() - numberOfDaysBefore);
+  return  daysBefore;
+};
+
+const daysForTheWeek = (date = new Date()) => {
+  const dates = [];
+
+  for (let i = 6; i > -1; i -= 1) {
+    dates.push(new Date(date.getFullYear(), date.getMonth(), date.getDate() - i));
+  }
+
+  return dates;
+};
+
 const today = new Date();
 const week = [];
 
@@ -58,4 +74,4 @@ const LineChart = () => {
 
 export default LineChart;
 
-export { dateMaker };
+export { dateMaker, daysBeforeDate, daysForTheWeek };
