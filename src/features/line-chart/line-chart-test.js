@@ -1,7 +1,7 @@
 import { DayOfMonth } from 'faunadb';
 import { describe } from 'riteway';
 
-import { dateMaker, daysBeforeDate, daysForTheWeek } from './line-chart.js';
+import { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration } from './line-chart.js';
 
 describe('dateMaker', async assert => {
   {
@@ -86,6 +86,59 @@ describe('daysForTheWeek', async assert => {
   }
 });
 
+describe('getDailyScoreForTheDuration', async assert => {
+  assert({
+    given: 'no arguments',
+    should: 'return default scores',
+    actual: getDailyScoreForTheDuration(),
+    expected: []
+  });
+
+  {
+    const rejections = [
+      { status: "Rejected", timestamp: { value: "2021-07-14" } },
+      { status: "Rejected", timestamp: { value: "2021-07-15" } },
+      { status: "Rejected", timestamp: { value: "2021-07-21" } },
+      { status: "Rejected", timestamp: { value: "2021-07-26" } },
+      { status: "Rejected", timestamp: { value: "2021-07-27" } },
+      { status: "Accepted", timestamp: { value: "2021-07-27" } },
+      { status: "Rejected", timestamp: { value: "2021-07-28" } },
+      { status: "Accepted", timestamp: { value: "2021-08-01" } },
+      { status: "Accepted", timestamp: { value: "2021-08-07" } }
+    ];
+
+    const duration = [
+      '2021-08-01',
+      '2021-08-02',
+      '2021-08-03',
+      '2021-08-04',
+      '2021-08-05',
+      '2021-08-06',
+      '2021-08-07'
+    ];
+
+    const actual = getDailyScoreForTheDuration(rejections, duration);
+
+    const expected = [
+      { date: "2021-08-01", score: 62 },
+      { date: "2021-08-02", score: 62 },
+      { date: "2021-08-03", score: 62 },
+      { date: "2021-08-04", score: 62 },
+      { date: "2021-08-05", score: 62 },
+      { date: "2021-08-06", score: 62 },
+      { date: "2021-08-07", score: 63 },
+    ]
+
+    assert({
+      given: 'rejections and duration',
+      should: 'return daily scores',
+      actual,
+      expected
+    });
+  }
+});
+
+
 // [
 //   {status: "Rejected", timestamp: "2021-07-14"},
 //   {status: "Rejected", timestamp: "2021-07-15"},
@@ -95,3 +148,35 @@ describe('daysForTheWeek', async assert => {
 //   {status: "Accepted", timestamp: "2021-07-27"},
 //   {status: "Rejected", timestamp: "2021-07-28"}
 // ]
+
+// const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
+//   const statuses = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value.slice(0, 10) }));
+//   const dailyScoreForTheDuration = [];
+//   let day = 0;
+//   let statusesIdx = 0;
+//   let score = 0;
+
+//   statuses.sort((a, b) => {
+//     if (a.timestamp < b.timestamp) return -1;
+//     if (a.timestamp > b.timestamp) return 1;
+//     return 0;
+//   });
+//   console.log('LineChart getDailyScoreForTheDuration statuses: ', statuses);
+
+//   while (day < duration.length) {
+//     while (statusesIdx < statuses.length) {
+//       if (statuses[statusesIdx].timestamp <= duration[day]) {
+//         score += statuses[statusesIdx].status === 'Rejected' ? 10 : 1;
+//         statusesIdx += 1;
+//       }
+//       if (statusesIdx < statuses.length && statuses[statusesIdx].timestamp > duration[day]) {
+//         dailyScoreForTheDuration.push({ date: duration[day], score });
+//         day += 1;
+//       }
+//     }
+//     dailyScoreForTheDuration.push({ date: duration[day], score });
+//     day += 1;
+//   }
+
+//   return dailyScoreForTheDuration;
+// };

@@ -22,48 +22,47 @@ const daysForTheWeek = (date = new Date()) => {
   return dates;
 };
 
-const today = new Date();
-const week = [];
-
-for (let i = 7; i > 0; i -= 1) {
-  const newDay = new Date();
-  newDay.setDate(today.getDate() - i)
-  week.push(dateMaker(newDay));
-}
-
-console.log('week: ', week);
-
-const LineChart = () => {
-  const rejections = useSelector(getRejections);
-  console.log('LineChart rejections: ', rejections);
-  const mapped = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value.slice(0, 10) }));
-  mapped.sort((a, b) => {
+const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
+  const dailyScoreForTheDuration = [];
+  const statuses = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value.slice(0, 10) }));
+  statuses.sort((a, b) => {
     if (a.timestamp < b.timestamp) return -1;
     if (a.timestamp > b.timestamp) return 1;
     return 0
   });
 
-  console.log('LineChart mapped: ', mapped);
-
   let day = 0;
-  let mappedIdx = 0;
+  let statusesIdx = 0;
   let score = 0;
-  const dailyScoreForTheWeek = [];
 
-  while (day < week.length) {
-    while (mappedIdx < mapped.length) {
-      if (mapped[mappedIdx].timestamp <= week[day]) {
-        score += mapped[mappedIdx].status === 'Rejected' ? 10 : 1;
-      }
-      mappedIdx += 1;
-      if (mappedIdx < mapped.length && mapped[mappedIdx].timestamp > week[day]) {
-        dailyScoreForTheWeek.push(score);
-        day += 1;
-      }
+  while (day < duration.length && statusesIdx < statuses.length) {
+    if (statuses[statusesIdx].timestamp <= duration[day]) {
+      score += statuses[statusesIdx].status === 'Rejected' ? 10 : 1;
+      statusesIdx += 1;
     }
-    dailyScoreForTheWeek.push(score);
+
+    if (statusesIdx < statuses.length) {
+      if (statuses[statusesIdx].timestamp > duration[day]) {
+        dailyScoreForTheDuration.push({ date: duration[day], score });
+        day += 1;
+      } 
+    } else {
+      statusesIdx += 1;
+    }
+  }
+  while (day < duration.length) {
+    dailyScoreForTheDuration.push({ date: duration[day], score });
     day += 1;
   }
+  return dailyScoreForTheDuration;
+};
+
+
+const LineChart = () => {
+  const rejections = useSelector(getRejections);
+  const week = daysForTheWeek().map(date => dateMaker(date));
+  const dailyScoreForTheWeek = getDailyScoreForTheDuration(rejections, week);
+
   console.log('dailyScoreForTheWeek: ', dailyScoreForTheWeek);
 
   return (
@@ -74,4 +73,4 @@ const LineChart = () => {
 
 export default LineChart;
 
-export { dateMaker, daysBeforeDate, daysForTheWeek };
+export { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration };
