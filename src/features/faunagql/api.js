@@ -22,12 +22,12 @@ const useRejections = async (id = "304846704870425155") => {
           question: q.Select(["data", "question"], q.Get(rejection)),
           askee: q.Select(["data", "askee"], q.Get(rejection)),
           status: q.Select(["data", "status"], q.Get(rejection)),
-          timestamp: q.Select(["data", "created_at"], q.Get(rejection)),
+          timestamp: q.Select(["data", "timestamp"], q.Get(rejection)),
         }))
       )
     )
   );
-      console.log('api useRejection data: ', data);
+  console.log('api useRejection data: ', data);
   return data;
 };
 
@@ -36,19 +36,14 @@ const createRejection = async (newRejection = {}, userID) => {
     q.Create(q.Collection("Rejection"), {
       data: {
         ...newRejection,
-        // created_at: q.Time("now"),
-        created_at: Date(),
+        timestamp: Date(),
         user: q.Ref(q.Collection("User"), userID),
       }
     })
   );
 
-  const { question, askee, status, created_at } = data;
   return { 
-    question,
-    askee,
-    status,
-    timestamp: created_at,
+    ...data,
     id: ref.value.id
   };
 };

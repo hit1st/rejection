@@ -1,7 +1,8 @@
 import { DayOfMonth } from 'faunadb';
 import { describe } from 'riteway';
 
-import { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration } from './line-chart.js';
+import { dateMaker, daysForTheWeek, getDailyScoreForTheDuration } from './line-chart.js';
+// import { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration } from './line-chart.js';
 
 describe('dateMaker', async assert => {
   {
@@ -18,39 +19,39 @@ describe('dateMaker', async assert => {
   }
 });
 
-describe('daysBeforeDate', async assert => {
-  assert({
-    given: 'no arguments',
-    should: 'return new Date object',
-    actual: daysBeforeDate()(),
-    expected: new Date()
-  });
+// describe('daysBeforeDate', async assert => {
+//   assert({
+//     given: 'no arguments',
+//     should: 'return new Date object',
+//     actual: daysBeforeDate()(),
+//     expected: new Date()
+//   });
 
-  const dayOfMonth = 6;
-  const daysBefore = daysBeforeDate(new Date(2021, 7, dayOfMonth));
+//   const dayOfMonth = 6;
+//   const daysBefore = daysBeforeDate(new Date(2021, 7, dayOfMonth));
 
-  {
-    const expected = new Date(2021, 7, dayOfMonth - 2);
+//   {
+//     const expected = new Date(2021, 7, dayOfMonth - 2);
 
-    assert({
-      given: 'date and 2 days before date',
-      should: 'return date object 2 days before date',
-      actual: daysBefore(2),
-      expected
-    });
-  }
+//     assert({
+//       given: 'date and 2 days before date',
+//       should: 'return date object 2 days before date',
+//       actual: daysBefore(2),
+//       expected
+//     });
+//   }
 
-  {
-    const expected = new Date(2021, 7, dayOfMonth - 3);
+//   {
+//     const expected = new Date(2021, 7, dayOfMonth - 3);
 
-    assert({
-      given: 'date and 3 days before date',
-      should: 'return date object 3 days before date',
-      actual: daysBefore(3),
-      expected
-    });
-  }
-});
+//     assert({
+//       given: 'date and 3 days before date',
+//       should: 'return date object 3 days before date',
+//       actual: daysBefore(3),
+//       expected
+//     });
+//   }
+// });
 
 describe('daysForTheWeek', async assert => {
   {
@@ -96,16 +97,16 @@ describe('getDailyScoreForTheDuration', async assert => {
 
   {
     const rejections = [
-      { status: "Rejected", timestamp: { value: "2021-07-14" } },
-      { status: "Rejected", timestamp: { value: "2021-07-15" } },
-      { status: "Rejected", timestamp: { value: "2021-07-21" } },
-      { status: "Rejected", timestamp: { value: "2021-07-26" } },
-      { status: "Rejected", timestamp: { value: "2021-07-27" } },
-      { status: "Accepted", timestamp: { value: "2021-07-27" } },
-      { status: "Rejected", timestamp: { value: "2021-07-28" } },
-      { status: "Accepted", timestamp: { value: "2021-08-01" } },
-      { status: "Accepted", timestamp: { value: "2021-08-07" } },
-      { status: "Rejected", timestamp: { value: "2021-08-07" } }
+      { status: "Rejected", timestamp: new Date(2021, 6, 14) },
+      { status: "Rejected", timestamp: new Date(2021, 6, 15) },
+      { status: "Rejected", timestamp: new Date(2021, 6, 21) },
+      { status: "Rejected", timestamp: new Date(2021, 6, 26) },
+      { status: "Rejected", timestamp: new Date(2021, 6, 27) },
+      { status: "Accepted", timestamp: new Date(2021, 6, 27) },
+      { status: "Rejected", timestamp: new Date(2021, 6, 28) },
+      { status: "Accepted", timestamp: new Date(2021, 7, 1) },
+      { status: "Accepted", timestamp: new Date(2021, 7, 7) },
+      { status: "Rejected", timestamp: new Date(2021, 7, 7) }
     ];
 
     const duration = [

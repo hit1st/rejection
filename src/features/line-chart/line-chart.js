@@ -6,11 +6,11 @@ const format = number => number < 10 ? `0${number}` : `${number}`;
 
 const dateMaker = (date) => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
 
-const daysBeforeDate = (date = new Date()) => (numberOfDaysBefore = 0) => {
-  const daysBefore = new Date(date);
-  daysBefore.setDate(daysBefore.getDate() - numberOfDaysBefore);
-  return  daysBefore;
-};
+// const daysBeforeDate = (date = new Date()) => (numberOfDaysBefore = 0) => {
+//   const daysBefore = new Date(date);
+//   daysBefore.setDate(daysBefore.getDate() - numberOfDaysBefore);
+//   return  daysBefore;
+// };
 
 const daysForTheWeek = (date = new Date()) => {
   const dates = [];
@@ -24,51 +24,23 @@ const daysForTheWeek = (date = new Date()) => {
 
 const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
   const dailyScoreForTheDuration = [];
-  const statuses = rejections.map(({ status, timestamp }) => ({ status, timestamp: timestamp.value.slice(0, 10) }));
+  const statuses = rejections.map(({ status, timestamp }) => ({
+    status,
+    timestamp: dateMaker(new Date(timestamp)) 
+  }));
+  let day = 0;
+  let statusesIdx = 0;
+  let score = 0;
+
   statuses.sort((a, b) => {
     if (a.timestamp < b.timestamp) return -1;
     if (a.timestamp > b.timestamp) return 1;
     return 0
   });
 
-  let day = 0;
-  let statusesIdx = 0;
-  let score = 0;
-
-  // while (day < duration.length && statusesIdx < statuses.length) {
-  //   // current status timestamp <= current day update score and update status index
-  //   if (statuses[statusesIdx].timestamp <= duration[day]) {
-  //     score += statuses[statusesIdx].status === 'Rejected' ? 10 : 1;
-  //     statusesIdx += 1;
-  //   }
-
-  //   // if status
-  //   if (statusesIdx < statuses.length) {
-  //     if (statuses[statusesIdx].timestamp > duration[day]) {
-  //       dailyScoreForTheDuration.push({ date: duration[day], score });
-  //       day += 1;
-  //     } 
-  //   } else {
-  //     statusesIdx += 1;
-  //   }
-  // }
-  // while (day < duration.length) {
-  //   dailyScoreForTheDuration.push({ date: duration[day], score });
-  //   day += 1;
-  // }
-  /*        
-
-    faunatime and date do not coincide. need to change created_at to use new Date()
-
-
-  */
   while (day < duration.length) {
     // current status timestamp <= current day update score and update status index
-    console.log('statusesIdx: ', statusesIdx);
     if (statusesIdx < statuses.length) {
-      console.log(`statuses[${statusesIdx}].timestamp: ${statuses[statusesIdx].timestamp}`);
-      console.log(`duration[${day}]: ${duration[day]}`);
-      console.log(statuses[statusesIdx].timestamp <= duration[day]);
       if (statuses[statusesIdx].timestamp <= duration[day]) {
         score += statuses[statusesIdx].status === 'Rejected' ? 10 : 1;
         statusesIdx += 1;
@@ -88,10 +60,11 @@ const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
 
 const LineChart = () => {
   const rejections = useSelector(getRejections);
+  console.log('LineChart rejections: ', rejections);
   const week = daysForTheWeek().map(date => dateMaker(date));
-  // const dailyScoreForTheWeek = getDailyScoreForTheDuration(rejections, week);
+  const dailyScoreForTheWeek = getDailyScoreForTheDuration(rejections, week);
 
-  // console.log('dailyScoreForTheWeek: ', dailyScoreForTheWeek);
+  console.log('dailyScoreForTheWeek: ', dailyScoreForTheWeek);
 
   return (
     <>
@@ -101,4 +74,5 @@ const LineChart = () => {
 
 export default LineChart;
 
-export { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration };
+// export { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration };
+export { dateMaker, daysForTheWeek, getDailyScoreForTheDuration };
