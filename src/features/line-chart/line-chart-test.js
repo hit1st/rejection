@@ -1,4 +1,3 @@
-import { DayOfMonth } from 'faunadb';
 import { describe } from 'riteway';
 
 import { dateMaker, daysForTheWeek, getDailyScoreForTheDuration } from './line-chart.js';
