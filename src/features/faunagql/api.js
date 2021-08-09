@@ -36,7 +36,8 @@ const createRejection = async (newRejection = {}, userID) => {
     q.Create(q.Collection("Rejection"), {
       data: {
         ...newRejection,
-        created_at: q.Time("now"),
+        // created_at: q.Time("now"),
+        created_at: Date(),
         user: q.Ref(q.Collection("User"), userID),
       }
     })

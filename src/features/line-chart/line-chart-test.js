@@ -104,7 +104,8 @@ describe('getDailyScoreForTheDuration', async assert => {
       { status: "Accepted", timestamp: { value: "2021-07-27" } },
       { status: "Rejected", timestamp: { value: "2021-07-28" } },
       { status: "Accepted", timestamp: { value: "2021-08-01" } },
-      { status: "Accepted", timestamp: { value: "2021-08-07" } }
+      { status: "Accepted", timestamp: { value: "2021-08-07" } },
+      { status: "Rejected", timestamp: { value: "2021-08-07" } }
     ];
 
     const duration = [
@@ -126,7 +127,7 @@ describe('getDailyScoreForTheDuration', async assert => {
       { date: "2021-08-04", score: 62 },
       { date: "2021-08-05", score: 62 },
       { date: "2021-08-06", score: 62 },
-      { date: "2021-08-07", score: 63 },
+      { date: "2021-08-07", score: 73 },
     ]
 
     assert({
