@@ -1,5 +1,3 @@
-import cuid from 'cuid';
-
 const getRejections = state => state ? state.rejections : undefined;
 
 const addQuestion = ({
