@@ -10,26 +10,22 @@ const useID = async (userName = "Imposter Developer") => await client.query(
   q.Select(["ref", "id"], q.Get(q.Match(q.Index("user_id_by_name"), userName)))
 );
 
-const useRejections = async (id = "304846704870425155") => {
-  const data = await client.query(
-    q.Select(["data"],
-      q.Map(
-        q.Paginate(
-          q.Match(q.Index("rej_by_user"), q.Ref(q.Collection("User"), id))
-        ),
-        q.Lambda(rejection => ({
-          id: q.Select(["ref", "id"], q.Get(rejection)),
-          question: q.Select(["data", "question"], q.Get(rejection)),
-          askee: q.Select(["data", "askee"], q.Get(rejection)),
-          status: q.Select(["data", "status"], q.Get(rejection)),
-          timestamp: q.Select(["data", "timestamp"], q.Get(rejection)),
-        }))
-      )
+const useRejections = async (id = "304846704870425155") => await client.query(
+  q.Select(["data"],
+    q.Map(
+      q.Paginate(
+        q.Match(q.Index("rej_by_user"), q.Ref(q.Collection("User"), id))
+      ),
+      q.Lambda(rejection => ({
+        id: q.Select(["ref", "id"], q.Get(rejection)),
+        question: q.Select(["data", "question"], q.Get(rejection)),
+        askee: q.Select(["data", "askee"], q.Get(rejection)),
+        status: q.Select(["data", "status"], q.Get(rejection)),
+        timestamp: q.Select(["data", "timestamp"], q.Get(rejection)),
+      }))
     )
-  );
-  console.log('api useRejection data: ', data);
-  return data;
-};
+  )
+);
 
 const createRejection = async (newRejection = {}, userID) => {
   const { data, ref } = await client.query(
