@@ -13,6 +13,13 @@ import {
   select
 } from 'd3';
 
+import {
+  getXScale,
+  getYScale,
+  applyAxisLabelStyles,
+  drawAxis
+} from './chart-utils.js';
+
 
 const dateConverter = timeParse("%Y-%m-%d");
 
@@ -29,13 +36,9 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
 
   console.log('data: ', data);
   // Step 3. Create x and y axes.
-  const xScale = scaleTime()
-    .domain(extent(data, d => d.date))
-    .range([margin.left, width - margin.right]);
+  const xScale = getXScale(data, width, margin);
 
-  const yScale = scaleLinear()
-    .domain([0, max(data, (d) => d.score)]).nice()
-    .range([height - margin.bottom, margin.top]);
+  const yScale = getYScale(data, height, margin);
 
   // Create root container where we will append all other chart elements
   const svgEl = select(svgRef.current);
@@ -60,23 +63,36 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
     .x(d => xScale(d.date))
     .y(d => yScale(d.score));
 
-  // increasing subtraction from height moves text up to view in display  
-  svg.append('g').call(xAxis);
-  svg.append('text')
-    .attr('x', width / 2)
-    .attr('y', height - 25)
-    .style('text-anchor', 'middle')
-    .attr('font-family', 'sans-serif')
-    .text('Days of the Week');
+  // increasing subtraction from height moves text up to view in display
+  drawAxis({
+    container: svg,
+    xScale,
+    ticks: width / 115,
+    tickFormat: timeFormat("%b %d"),
+    tickSizeOuter: 0,
+    transform: `translate(0,${height - margin.bottom})`
+  });
+  // svg.append('g').call(xAxis);
+  applyAxisLabelStyles({
+    container: svg,
+    x: width / 2,
+    y: height - 25, 
+    text: 'Days of the Week'
+  });
 
-  svg.append('g').call(yAxis);
-  svg.append('text')
-    .attr('transform', `rotate(-90,15,${height / 2})`)
-    .attr('x', 15)
-    .attr('y', height / 2)
-    .style('text-anchor', 'middle')
-    .attr('font-family', 'sans-serif')
-    .text('Score');
+  drawAxis({
+    container: svg,
+    yScale,
+    transform: `translate(${margin.left},0)`
+  });
+  // svg.append('g').call(yAxis);
+  applyAxisLabelStyles({
+    container: svg,
+    transform: `rotate(-90,15,${height / 2})`,
+    x: 15,
+    y: height / 2,
+    text: 'Score'
+  });
 
   // Draw the line.
   svg.append('path')
