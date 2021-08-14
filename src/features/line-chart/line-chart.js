@@ -19,9 +19,11 @@ const dateConverter = timeParse("%Y-%m-%d");
 const LineChart = ({ rawData = [], dimensions = {} }) => {
   const svgRef = useRef(null);
   const data = rawData.map(({ date, score }) => ({ date: dateConverter(date), score }));
+  // increasing margin.right fits the end of x axis to the chart
+  // increasing margin.bottom pushes bottom of chart up to move it away from chart label
   const {
     width = 960,
-    height = 520,
+    height = 500,
     margin = {top: 20, right: 60, bottom: 60, left: 40}
   } = dimensions;
 
@@ -58,6 +60,7 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
     .x(d => xScale(d.date))
     .y(d => yScale(d.score));
 
+  // increasing subtraction from height moves text up to view in display  
   svg.append('g').call(xAxis);
   svg.append('text')
     .attr('x', width / 2)
@@ -81,7 +84,7 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
     .attr('d', linePath)
     .style('fill', 'none')
     .style('stroke', 'steelblue')
-    .style('stroke-width', '1.50')
+    .style('stroke-width', 1.50)
     .style('stroke-linejoin', 'round')
     .style('stroke-linecap', 'round');
 
