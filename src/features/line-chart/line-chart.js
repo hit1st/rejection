@@ -83,7 +83,7 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
   drawLine();
 
   return (
-    <svg ref={svgRef} width={width} height={height} /> 
+    <svg ref={svgRef} width={width} height={height} />
   )
 };
 
