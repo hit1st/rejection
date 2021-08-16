@@ -5,14 +5,17 @@ const Line = ({
   data,
   xScale,
   yScale,
+  xValue,
+  yValue,
+  yValueIsaN,
   color,
   ...props
 }) => {
   const ref = useRef(null);
   const linePath = line()
-    .defined(d => !isNaN(d.score))
-    .x(d => xScale(d.date))
-    .y(d => yScale(d.score));
+    .defined(yValueIsaN)
+    .x(d => xScale(xValue(d)))
+    .y(d => yScale(yValue(d)));
   
   return (
     <path

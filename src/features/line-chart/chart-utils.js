@@ -5,12 +5,12 @@ import {
   max,
 } from 'd3';
 
-const getXScale = (data, width, margin) => scaleTime()
-  .domain(extent(data, d => d.date))
+const getXScale = (data, width, margin, xValue) => scaleTime()
+  .domain(extent(data, xValue))
   .range([margin.left, width - margin.right]);
 
-const getYScale = (data, height, margin) => scaleLinear()
-  .domain([0, max(data, (d) => d.score)]).nice()
+const getYScale = (data, height, margin, yValue) => scaleLinear()
+  .domain([0, max(data, yValue)]).nice()
   .range([height - margin.bottom, margin.top]);
 
 export { getXScale, getYScale }

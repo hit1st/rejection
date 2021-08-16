@@ -31,7 +31,6 @@ const Axis = ({
       .attr('color', 'black')
       .attr('font-size', '0.75rem')
       .attr('text-anchor', textAnchor);
-    console.log('axisGroup: ', axisGroup);
   }, [scale, ticks, tickFormat]);
     
   return <g ref={gRef} transform={transform} {...props} />

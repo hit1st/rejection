@@ -10,7 +10,6 @@ const dateConverter = timeParse("%Y-%m-%d");
 
 const LineChart = ({ rawData = [], dimensions = {} }) => {
   const data = rawData.map(({ date, score }) => ({ date: dateConverter(date), score }));
-  // increasing margin.right fits the end of x axis to the chart
   // increasing margin.bottom pushes bottom of chart up to move it away from chart label
   const {
     width = 480,
@@ -18,10 +17,12 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
     margin = {top: 20, right: 60, bottom: 60, left: 40}
   } = dimensions;
 
-  console.log('data: ', data);
-  // Create x and y axes.
-  const xScale = getXScale(data, width, margin);
-  const yScale = getYScale(data, height, margin);
+  const xValue = d => d.date;
+  const yValue = d => d.score;
+  const yValueIsaN = d => !isNaN(d.score);
+
+  const xScale = getXScale(data, width, margin, xValue);
+  const yScale = getYScale(data, height, margin, yValue);
 
   return (
     <svg  width={width} height={height}>
@@ -51,6 +52,9 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
           data={data}
           xScale={xScale}
           yScale={yScale}
+          xValue={xValue}
+          yValue={yValue}
+          yValueIsaN={yValueIsaN}
           color='steelblue'
         />
       </g>
