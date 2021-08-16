@@ -26,9 +26,6 @@ const Axis = ({
     const axisGroup = select(gRef.current);
 
     axisGroup.call(axis);
-    
-    axisGroup.select('.domain').remove();
-    axisGroup.select('line').remove();
     axisGroup.selectAll('text')
       .attr('opacity', .5)
       .attr('color', 'black')
