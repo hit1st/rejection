@@ -37,4 +37,29 @@ const Axis = ({
   return <g ref={gRef} transform={transform} {...props} />
 };
 
+const BottomAxis = ({
+  height,
+  width,
+  margin,
+  ...props
+}) => (
+  <Axis
+    type='bottom'
+    transform={`translate(0,${height - margin.bottom})`}
+    textAnchor='middle'
+    tickSizeOuter={0}
+    {...props}
+  />
+);
+
+const LeftAxis = ({ margin, ...props }) => (
+  <Axis
+    type='left'
+    transform={`translate(${margin.left},0)`}
+    textAnchor='end'
+    {...props}
+  />
+);
+
 export default Axis;
+export { BottomAxis, LeftAxis };

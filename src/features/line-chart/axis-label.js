@@ -26,4 +26,16 @@ const AxisLabel = ({
   return <text ref={textRef} transform={transform} {...props}>{text}</text>
 };
 
+const BottomAxisLabel = ({ height, width, ...props }) => (
+  <AxisLabel x={width / 2} y={height - 25} {...props} />
+);
+
+const LeftAxisLabel = ({ height, ...props }) => {
+  const axisHeight = height / 2;
+  return (
+    <AxisLabel transform={`rotate(-90,15,${axisHeight})`} x={15} y={axisHeight} {...props} />
+  );
+};
+
 export default AxisLabel;
+export { BottomAxisLabel, LeftAxisLabel };
