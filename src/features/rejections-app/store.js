@@ -1,5 +1,6 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+
 import { idReducer } from '../id-reducer/id-reducer.js';
 import { reducer } from '../rejection/rejection-reducer.js';
 import visibilityFilter from '../visibility/visibility-filter.js';
@@ -15,6 +16,14 @@ const composeEnhancers = typeof window !== 'undefined' &&
 
 const sagaMiddleware = createSagaMiddleware();
 
+let middlewares = [sagaMiddleware];
+
+if (process.env.NODE_ENV !== 'production') {
+  const { logger } = require('redux-logger');
+
+  middlewares = [...middlewares, logger];
+}
+
 const rejectionsApp = combineReducers({
   id: idReducer,
   rejections: reducer,
@@ -24,7 +33,7 @@ const rejectionsApp = combineReducers({
 const initializeStore = () => {
   const store = createStore(
     rejectionsApp,
-    composeEnhancers(applyMiddleware(sagaMiddleware))
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 
   sagaMiddleware.run(rootSaga);
