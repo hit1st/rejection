@@ -35,6 +35,7 @@
     "nodemon": "^2.0.7",
     "nyc": "^15.1.0",
     "redux-devtools-extension": "^2.13.9",
+    "redux-logger": "^3.0.6",
     "riteway": "^6.2.1",
     "tap-nirvana": "^1.1.0",
     "testcafe": "^1.14.2",
