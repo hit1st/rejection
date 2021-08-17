@@ -2,16 +2,16 @@ import { describe } from 'riteway';
 
 import { reducer, addQuestion, getRejections, getScore, addFetchedQuestions } from './rejection-reducer.js';
 
-describe('reducer', async assert => {
+describe('getRejections/reducer', async assert => {
   assert({
     given: 'no arguments',
     should: 'return a valid initial state',
-    actual: reducer(),
+    actual: getRejections({ rejections: reducer() }),
     expected: []
   });
 });
 
-describe('reducer/addQuestion', async assert => {
+describe('getRejections/reducer/addQuestion', async assert => {
   {
     const question = {
       question: 'Can I have a raise?',
@@ -24,13 +24,13 @@ describe('reducer/addQuestion', async assert => {
     assert({
       given: 'a new question',
       should: 'add the question to the state',
-      actual: reducer(reducer(), addQuestion(question)),
+      actual: getRejections({ rejections: reducer(reducer(), addQuestion(question)) }),
       expected: [question]
     });
   }
 });
 
-describe('reducer/addFetchedQuestions', async assert => {
+describe('getRejections/reducer/addFetchedQuestions', async assert => {
   {
     const state = [
       {
@@ -59,50 +59,10 @@ describe('reducer/addFetchedQuestions', async assert => {
     assert({
       given: 'questions',
       should: 'return questions in state',
-      actual: reducer(reducer(), addFetchedQuestions(state)),
+      actual: getRejections({ rejections: reducer(reducer(), addFetchedQuestions(state)) }),
       expected: state
     });
   }
-});
-
-describe('getRejections', async assert => {
-  assert({
-    given: 'no arguments',
-    should: 'return undefined',
-    actual: getRejections(),
-    expected: undefined
-  });
-  
-  {
-    const state = {};
-
-    assert({
-      given: 'invalid state',
-      should: 'return undefined',
-      actual: getRejections(state),
-      expected: undefined
-    });    
-  }
-
-  {
-    const state = {
-      rejections: [
-        {
-          question: 'Can I have a raise?',
-          askee: 'Boss',
-          status: 'Accepted'
-        }
-      ]
-    };
-
-    assert({
-      given: 'state',
-      should: 'return an array of rejections',
-      actual: getRejections(state),
-      expected: [...state.rejections]
-    });
-  }
-
 });
 
 describe('reducer/getScore', async assert => {
