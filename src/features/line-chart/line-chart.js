@@ -14,7 +14,7 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
   const {
     width = 480,
     height = 250,
-    margin = {top: 20, right: 60, bottom: 60, left: 40}
+    margin = {top: 20, right: 60, bottom: 65, left: 40}
   } = dimensions;
 
   const xValue = d => d.date;
