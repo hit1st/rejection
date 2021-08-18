@@ -33,7 +33,7 @@ const BottomAxisLabel = ({ height, width, ...props }) => (
 const LeftAxisLabel = ({ height, ...props }) => {
   const axisHeight = height / 2;
   return (
-    <AxisLabel transform={`rotate(-90,15,${axisHeight})`} x={15} y={axisHeight} {...props} />
+    <AxisLabel transform={`rotate(-90,10,${axisHeight})`} x={10} y={axisHeight} {...props} />
   );
 };
 
