@@ -1,0 +1,11 @@
+div.container {
+  width: 480px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input {
+  width: 380px;
+  height: 14px;
+}

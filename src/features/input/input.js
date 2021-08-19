@@ -1,12 +1,20 @@
 import React from 'react';
 
-const displayView = ({ header, value, inputClass, onChangeHandler }) => {
+import styles from './input.module.css';
+
+const displayView = ({ header, value, inputClass, onChangeHandler, placeholder='placeholder' }) => {
   if (!header || !onChangeHandler) return null;
+
   return (
-    <>
+    <div className={styles.container}>
       <h3 className={'input-header'}>{header}</h3>
-      <input className={inputClass} value={value} onChange={onChangeHandler} style={{ width: 480 }}/>
-    </>
+      <input        
+        className={`${inputClass} ${styles.input}`}
+        value={value}
+        onChange={onChangeHandler}
+        placeholder={placeholder}
+      />
+    </div>
   )
 };
 
@@ -14,7 +22,7 @@ const Input = (values = {
   header: '',
   value: '',
   inputClass: 'input',
-  onChangeHandler: () => {}
+  onChangeHandler: () => {},
 }) => displayView(values);
 
 export default Input;
