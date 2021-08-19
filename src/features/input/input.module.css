@@ -1,8 +1,12 @@
 div.container {
   width: 480px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+}
+
+.label {
+  margin-right: 2px
 }
 
 .input {

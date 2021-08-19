@@ -12,7 +12,7 @@ const displayView = ({
   if (!header || !onChangeHandler) return null;
   return (
     <div className={styles.container}>
-      <h3 className={'input-label'}>{header}</h3>
+      <h3 className={`input-label ${styles.label}`}>{header}</h3>
       <input
         className={`${inputClass} ${styles.input}`}
         value={value}
