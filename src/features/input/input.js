@@ -1,14 +1,19 @@
 import React from 'react';
 
-import styles from './input.module.css';
+const styles = process.env.NODE_ENV === 'test' ? {} : require('./input.module.css');
 
-const displayView = ({ header, value, inputClass, onChangeHandler, placeholder='placeholder' }) => {
+const displayView = ({
+  header,
+  value,
+  inputClass,
+  onChangeHandler,
+  placeholder = 'placeholder'
+}) => {
   if (!header || !onChangeHandler) return null;
-
   return (
     <div className={styles.container}>
-      <h3 className={'input-header'}>{header}</h3>
-      <input        
+      <h3 className={'input-label'}>{header}</h3>
+      <input
         className={`${inputClass} ${styles.input}`}
         value={value}
         onChange={onChangeHandler}
@@ -22,7 +27,7 @@ const Input = (values = {
   header: '',
   value: '',
   inputClass: 'input',
-  onChangeHandler: () => {},
+  onChangeHandler: () => {}
 }) => displayView(values);
 
 export default Input;

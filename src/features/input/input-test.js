@@ -64,7 +64,7 @@ describe('Input component', async assert => {
       onChangeHandler: () => {}
     };
     const $ = createInput(values);
-    const contains = match($('.input-header').html());
+    const contains = match($('.input-label').html());
 
     assert({
       given: 'a header argument',
