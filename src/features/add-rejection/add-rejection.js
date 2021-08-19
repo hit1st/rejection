@@ -13,10 +13,10 @@ const AddRejection = ({
 }) => [
     handleInputClick,
     questionChangeHandler,
-    askeeChangeHandler
-  ].every(el => el) &&
-  question !== undefined &&
-  askee !== undefined ?
+    askeeChangeHandler,
+    question,
+    askee
+  ].every(prop => prop !== undefined) ?
   (
     <div className={'add-question'}>
       <Input
