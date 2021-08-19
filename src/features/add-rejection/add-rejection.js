@@ -24,12 +24,14 @@ const AddRejection = ({
         value={question}
         inputClass={'question'}
         onChangeHandler={questionChangeHandler}
+        placeholder={'type question here'}
       />
       <Input
         header={'Askee'}
         value={askee}
         inputClass={'askee'}
         onChangeHandler={askeeChangeHandler}
+        placeholder={'type askee here'}
       />
       <div>
         <Button
