@@ -7,9 +7,9 @@ import { getScore, getRejections } from '../rejection/rejection-reducer.js';
 const DisplayScore = createHeadingComponent('h3')('Score');
 
 const Score = () => {
-  const rejections = useSelector(getRejections);
+  const score = getScore(useSelector(getRejections));
 
-  return <DisplayScore value={getScore(rejections)} />;
+  return <DisplayScore value={score} />;
 };
 
 export default Score;

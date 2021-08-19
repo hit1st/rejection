@@ -65,7 +65,7 @@ describe('getRejections/reducer/addFetchedQuestions', async assert => {
   }
 });
 
-describe('reducer/getScore', async assert => {
+describe('getRejections/reducer/getScore', async assert => {
   const actions = [
     addQuestion({
       question: 'Can I have a raise?',
@@ -84,12 +84,12 @@ describe('reducer/getScore', async assert => {
     }),
   ];
 
-  const state = actions.reduce(reducer, []);
+  const state = { rejections: actions.reduce(reducer, []) };
 
   assert({
     given: 'some questions',
     should: 'calculate the correct score',
-    actual: getScore(state),
+    actual: getScore(getRejections(state)),
     expected: 12
   });
 });
