@@ -5,7 +5,7 @@ const displayView = ({ header, value, inputClass, onChangeHandler }) => {
   return (
     <>
       <h3 className={'input-header'}>{header}</h3>
-      <input className={inputClass} value={value} onChange={onChangeHandler} />
+      <input className={inputClass} value={value} onChange={onChangeHandler} style={{ width: 480 }}/>
     </>
   )
 };
