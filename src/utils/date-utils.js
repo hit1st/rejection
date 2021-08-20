@@ -2,11 +2,6 @@ const format = number => number < 10 ? `0${number}` : `${number}`;
 
 const dateMaker = (date) => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
 
-// const daysBeforeDate = (date = new Date()) => (numberOfDaysBefore = 0) => {
-//   const daysBefore = new Date(date);
-//   daysBefore.setDate(daysBefore.getDate() - numberOfDaysBefore);
-//   return  daysBefore;
-// };
 
 const daysForTheWeek = (date = new Date()) => {
   const dates = [];
@@ -53,5 +48,4 @@ const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
   return dailyScoreForTheDuration;
 };
 
-// export { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration };
 export { dateMaker, daysForTheWeek, getDailyScoreForTheDuration };

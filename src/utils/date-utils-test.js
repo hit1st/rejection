@@ -18,40 +18,6 @@ describe('date-utils/dateMaker', async assert => {
   }
 });
 
-// describe('daysBeforeDate', async assert => {
-//   assert({
-//     given: 'no arguments',
-//     should: 'return new Date object',
-//     actual: daysBeforeDate()(),
-//     expected: new Date()
-//   });
-
-//   const dayOfMonth = 6;
-//   const daysBefore = daysBeforeDate(new Date(2021, 7, dayOfMonth));
-
-//   {
-//     const expected = new Date(2021, 7, dayOfMonth - 2);
-
-//     assert({
-//       given: 'date and 2 days before date',
-//       should: 'return date object 2 days before date',
-//       actual: daysBefore(2),
-//       expected
-//     });
-//   }
-
-//   {
-//     const expected = new Date(2021, 7, dayOfMonth - 3);
-
-//     assert({
-//       given: 'date and 3 days before date',
-//       should: 'return date object 3 days before date',
-//       actual: daysBefore(3),
-//       expected
-//     });
-//   }
-// });
-
 describe('date-utils/daysForTheWeek', async assert => {
   {
     const date = new Date(2021, 7, 5);
