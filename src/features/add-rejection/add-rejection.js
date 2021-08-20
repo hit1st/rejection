@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+
 import { createQuestion } from '../faunadb-sagas/faunadb-sagas.js';
 import Input from '../input/input.js';
 import Button from '../button/button.js';
+
+const styles = process.env.NODE_ENV === 'test' ? {} : require('./add-rejection.module.css');
 
 const AddRejection = ({
   question,
@@ -33,7 +36,7 @@ const AddRejection = ({
         onChangeHandler={askeeChangeHandler}
         placeholder={'type askee here'}
       />
-      <div>
+      <div className={styles.buttons}>
         <Button
           label={'Accepted'}
           buttonClass={'accepted'}

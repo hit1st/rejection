@@ -12,3 +12,19 @@ body {
   background-color: #c91912;
   color: white;
 }
+
+button {
+  border: 0;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+button.rejected:hover {
+  background-color: #537009;
+  transition: 0.3s;
+}
+
+button.accepted:hover {
+  background-color: #91110D;
+  transition: 0.3s;
+}
