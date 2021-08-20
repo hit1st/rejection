@@ -27,7 +27,7 @@ const addFetchedQuestions = (fetchedQuestions = []) => {
 };
 
 const getScore = state =>
-  state.reduce((score, question) => (
+  state.rejections.reduce((score, question) => (
     question.status === 'Accepted' ? score + 1 :
     question.status === 'Rejected' ? score + 10 :
     score
