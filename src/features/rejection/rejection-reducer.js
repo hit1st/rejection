@@ -33,7 +33,7 @@ const getScore = state =>
     score
   ), 0);
 
-const reducer = (
+const rejectionsReducer = (
   state = [],
   { type, payload } = {}
 ) => {
@@ -47,5 +47,5 @@ const reducer = (
   };
 };
 
-
-export { reducer, addQuestion, getRejections, getScore, addFetchedQuestions };
+export default rejectionsReducer;
+export { addQuestion, getRejections, getScore, addFetchedQuestions };

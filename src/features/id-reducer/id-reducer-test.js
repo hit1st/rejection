@@ -1,6 +1,6 @@
 import { describe } from 'riteway';
 
-import { getID, idReducer, updateID } from './id-reducer.js';
+import idReducer, { getID, updateID } from './id-reducer.js';
 
 describe('getID/idReducer/updateID', async assert => {
   assert({

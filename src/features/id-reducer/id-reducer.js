@@ -13,4 +13,5 @@ const idReducer = (state = '', { type, payload } = {}
   }
 };
 
-export { idReducer, updateID, getID };
+export default idReducer;
+export { updateID, getID };

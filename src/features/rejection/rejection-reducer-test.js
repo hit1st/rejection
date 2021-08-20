@@ -1,17 +1,23 @@
 import { describe } from 'riteway';
 
-import { reducer, addQuestion, getRejections, getScore, addFetchedQuestions } from './rejection-reducer.js';
+import rejectionReducer,
+{ 
+  addQuestion,
+  getRejections,
+  getScore,
+  addFetchedQuestions
+} from './rejection-reducer.js';
 
-describe('getRejections/reducer', async assert => {
+describe('getRejections/rejectionReducer', async assert => {
   assert({
     given: 'no arguments',
     should: 'return a valid initial state',
-    actual: getRejections({ rejections: reducer() }),
+    actual: getRejections({ rejections: rejectionReducer() }),
     expected: []
   });
 });
 
-describe('getRejections/reducer/addQuestion', async assert => {
+describe('getRejections/rejectionReducer/addQuestion', async assert => {
   {
     const question = {
       question: 'Can I have a raise?',
@@ -24,13 +30,13 @@ describe('getRejections/reducer/addQuestion', async assert => {
     assert({
       given: 'a new question',
       should: 'add the question to the state',
-      actual: getRejections({ rejections: reducer(reducer(), addQuestion(question)) }),
+      actual: getRejections({ rejections: rejectionReducer(rejectionReducer(), addQuestion(question)) }),
       expected: [question]
     });
   }
 });
 
-describe('getRejections/reducer/addFetchedQuestions', async assert => {
+describe('getRejections/rejectionReducer/addFetchedQuestions', async assert => {
   {
     const state = [
       {
@@ -59,13 +65,13 @@ describe('getRejections/reducer/addFetchedQuestions', async assert => {
     assert({
       given: 'questions',
       should: 'return questions in state',
-      actual: getRejections({ rejections: reducer(reducer(), addFetchedQuestions(state)) }),
+      actual: getRejections({ rejections: rejectionReducer(rejectionReducer(), addFetchedQuestions(state)) }),
       expected: state
     });
   }
 });
 
-describe('getRejections/reducer/getScore', async assert => {
+describe('getRejections/rejectionReducer/getScore', async assert => {
   const actions = [
     addQuestion({
       question: 'Can I have a raise?',
@@ -84,7 +90,7 @@ describe('getRejections/reducer/getScore', async assert => {
     }),
   ];
 
-  const state = { rejections: actions.reduce(reducer, []) };
+  const state = { rejections: actions.reduce(rejectionReducer, []) };
 
   assert({
     given: 'some questions',

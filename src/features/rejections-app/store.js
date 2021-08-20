@@ -1,8 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 
-import { idReducer } from '../id-reducer/id-reducer.js';
-import { reducer } from '../rejection/rejection-reducer.js';
+import idReducer from '../id-reducer/id-reducer.js';
+import rejectionsReducer from '../rejection/rejection-reducer.js';
 import visibilityFilter from '../visibility/visibility-filter.js';
 import rootSaga from '../faunadb-sagas/faunadb-sagas.js';
 
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const rejectionsApp = combineReducers({
   id: idReducer,
-  rejections: reducer,
+  rejections: rejectionsReducer,
   visibilityFilter
 });
 
