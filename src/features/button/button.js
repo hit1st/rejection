@@ -1,7 +1,9 @@
 import React from 'react';
 
+import styles from './button.module.css';
+
 const Button = ({ buttonClass, label, handleClick }) => (
-  <button className={buttonClass} onClick={handleClick} style={{ margin: 10 }}>{label}</button>
+  <button className={`${buttonClass} ${styles.button}`} onClick={handleClick} >{label}</button>
 );
 
 export default Button;

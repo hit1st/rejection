@@ -1,0 +1,10 @@
+ul.rejections {
+  padding: 0;
+}
+
+li.rejection {
+  list-style: none;
+  padding: 0.5rem 2rem 0.5rem 2rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+}

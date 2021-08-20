@@ -1,27 +1,29 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+
 import { handleFetchID } from '../faunadb-sagas/faunadb-sagas.js';
 import { getRejections } from '../rejection/rejection-reducer.js';
 import { getVisibilityFilter } from '../visibility/visibility-filter.js';
+import styles from './styles.module.css';
 
 const Rejection = ({
   question,
   askee,
   status
-}) => {
-  return (
-    <li>
-      <p>Question: {question}</p>
-      <p>Askee: {askee}</p>
-      <p>Status: {status}</p>
-    </li>
-  );
-};
+}) => (
+  <li 
+    className={`${styles.rejection} ${status === 'Rejected' ? 'rejected' : 'accepted'}`}
+  >
+    <p>Question: {question}</p>
+    <p>Askee: {askee}</p>
+    <p>Status: {status}</p>
+  </li>
+);
 
 const RejectionsList = ({
   rejections
 }) => (
-  <ul>
+  <ul className={styles.rejections}>
     {rejections.map(rejection => 
       <Rejection
         key={rejection.id}

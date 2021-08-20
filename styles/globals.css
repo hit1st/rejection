@@ -1,3 +1,14 @@
 body {
   font-family: sans-serif;
+  width: 480px;
+}
+
+.rejected {
+  background-color: #739b0d;
+  color: white;
+}
+
+.accepted {
+  background-color: #c91912;
+  color: white;
 }
