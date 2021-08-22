@@ -35,7 +35,7 @@ const getScore = state =>
     score
   ), 0);
 
-const getDailyScoresForTheDuration = (state = {}, duration = []) => {
+const getDailyScoresForTheDuration = (state, duration = []) => {
   const dailyScoreForTheDuration = [];
   const statuses = getRejections(state)
     .map(({ status, timestamp }) => ({
