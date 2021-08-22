@@ -5,13 +5,13 @@ import {
   dateMaker,
   daysForTheWeek
 } from '../../utils/date-utils.js';
-import LineChart from './line-chart';
+import SevenDayLineChart from './seven-day-line-chart';
 
 const LineChartWithDailyScoreForTheWeek = (props) => {
   const week = daysForTheWeek().map(date => dateMaker(date));
   const dailyScoresForTheWeek = useSelector(state => getDailyScoresForTheDuration(state, week));
 
-  return <LineChart rawData={dailyScoresForTheWeek} {...props} />
+  return <SevenDayLineChart rawData={dailyScoresForTheWeek} {...props} />
 };
 
 export default LineChartWithDailyScoreForTheWeek;

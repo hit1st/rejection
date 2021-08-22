@@ -8,7 +8,7 @@ import Line from './line.js';
 
 const dateConverter = timeParse("%Y-%m-%d");
 
-const LineChart = ({ rawData = [], dimensions = {} }) => {
+const SevenDayLineChart = ({ rawData = [], dimensions = {} }) => {
   const data = rawData.map(({ date, score }) => ({ date: dateConverter(date), score }));
   // increasing margin.bottom pushes bottom of chart up to move it away from chart label
   const {
@@ -62,4 +62,4 @@ const LineChart = ({ rawData = [], dimensions = {} }) => {
   )
 };
 
-export default LineChart;
+export default SevenDayLineChart;
