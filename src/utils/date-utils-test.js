@@ -1,7 +1,6 @@
 import { describe } from 'riteway';
 
-import { dateMaker, daysForTheWeek, getDailyScoreForTheDuration } from './date-utils.js';
-// import { dateMaker, daysBeforeDate, daysForTheWeek, getDailyScoreForTheDuration } from './date-utils.js';
+import { dateMaker, daysForTheWeek } from './date-utils.js';
 
 describe('date-utils/dateMaker', async assert => {
   {
@@ -47,59 +46,6 @@ describe('date-utils/daysForTheWeek', async assert => {
       given: 'no arguments',
       should: 'return dates of the past week',
       actual: daysForTheWeek(),
-      expected
-    });
-  }
-});
-
-describe('date-utils/getDailyScoreForTheDuration', async assert => {
-  assert({
-    given: 'no arguments',
-    should: 'return default scores',
-    actual: getDailyScoreForTheDuration(),
-    expected: []
-  });
-
-  {
-    const rejections = [
-      { status: "Rejected", timestamp: new Date(2021, 6, 14) },
-      { status: "Rejected", timestamp: new Date(2021, 6, 15) },
-      { status: "Rejected", timestamp: new Date(2021, 6, 21) },
-      { status: "Rejected", timestamp: new Date(2021, 6, 26) },
-      { status: "Rejected", timestamp: new Date(2021, 6, 27) },
-      { status: "Accepted", timestamp: new Date(2021, 6, 27) },
-      { status: "Rejected", timestamp: new Date(2021, 6, 28) },
-      { status: "Accepted", timestamp: new Date(2021, 7, 1) },
-      { status: "Accepted", timestamp: new Date(2021, 7, 7) },
-      { status: "Rejected", timestamp: new Date(2021, 7, 7) }
-    ];
-
-    const duration = [
-      '2021-08-01',
-      '2021-08-02',
-      '2021-08-03',
-      '2021-08-04',
-      '2021-08-05',
-      '2021-08-06',
-      '2021-08-07'
-    ];
-
-    const actual = getDailyScoreForTheDuration(rejections, duration);
-
-    const expected = [
-      { date: "2021-08-01", score: 62 },
-      { date: "2021-08-02", score: 62 },
-      { date: "2021-08-03", score: 62 },
-      { date: "2021-08-04", score: 62 },
-      { date: "2021-08-05", score: 62 },
-      { date: "2021-08-06", score: 62 },
-      { date: "2021-08-07", score: 73 },
-    ]
-
-    assert({
-      given: 'rejections and duration',
-      should: 'return daily scores',
-      actual,
       expected
     });
   }

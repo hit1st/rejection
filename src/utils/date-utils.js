@@ -13,39 +13,4 @@ const daysForTheWeek = (date = new Date()) => {
   return dates;
 };
 
-const getDailyScoreForTheDuration = (rejections = [], duration = []) => {
-  const dailyScoreForTheDuration = [];
-  const statuses = rejections.map(({ status, timestamp }) => ({
-    status,
-    timestamp: dateMaker(new Date(timestamp)) 
-  }));
-  let day = 0;
-  let statusesIdx = 0;
-  let score = 0;
-
-  statuses.sort((a, b) => {
-    if (a.timestamp < b.timestamp) return -1;
-    if (a.timestamp > b.timestamp) return 1;
-    return 0
-  });
-
-  while (day < duration.length) {
-    // current status timestamp <= current day update score and update status index
-    if (statusesIdx < statuses.length) {
-      if (statuses[statusesIdx].timestamp <= duration[day]) {
-        score += statuses[statusesIdx].status === 'Rejected' ? 10 : 1;
-        statusesIdx += 1;
-      } else {
-        dailyScoreForTheDuration.push({ date: duration[day], score });
-        day += 1;
-      }
-    } else {
-      dailyScoreForTheDuration.push({ date: duration[day], score });
-      day += 1;
-      statusesIdx += 1;
-    }
-  }
-  return dailyScoreForTheDuration;
-};
-
-export { dateMaker, daysForTheWeek, getDailyScoreForTheDuration };
+export { dateMaker, daysForTheWeek };
