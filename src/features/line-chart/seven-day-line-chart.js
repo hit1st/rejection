@@ -1,15 +1,12 @@
 import React from 'react';
-import { timeParse, timeFormat } from 'd3';
+import { timeFormat } from 'd3';
 
 import { getXScale, getYScale } from './chart-utils.js';
 import { BottomAxis, LeftAxis } from './axis.js';
 import { BottomAxisLabel, LeftAxisLabel } from './axis-label.js';
 import Line from './line.js';
 
-const dateConverter = timeParse("%Y-%m-%d");
-
-const SevenDayLineChart = ({ rawData = [], dimensions = {} }) => {
-  const data = rawData.map(({ date, score }) => ({ date: dateConverter(date), score }));
+const SevenDayLineChart = ({ data = [], dimensions = {} }) => {
   // increasing margin.bottom pushes bottom of chart up to move it away from chart label
   const {
     width = 480,

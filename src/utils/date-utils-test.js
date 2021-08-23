@@ -1,23 +1,8 @@
 import { describe } from 'riteway';
 
-import { dateMaker, daysForTheWeek } from './date-utils.js';
+import { getDaysForTheWeek } from './date-utils.js';
 
-describe('date-utils/dateMaker', async assert => {
-  {
-    const date = new Date(2021, 7, 1);
-    const expected = `2021-08-01`;
-    
-
-    assert({
-      given: 'a date',
-      should: 'return a formatted date',
-      actual: dateMaker(date),
-      expected 
-    })
-  }
-});
-
-describe('date-utils/daysForTheWeek', async assert => {
+describe('date-utils/getDaysForTheWeek', async assert => {
   {
     const date = new Date(2021, 7, 5);
     const expected = [];
@@ -29,7 +14,7 @@ describe('date-utils/daysForTheWeek', async assert => {
     assert({
       given: 'a date',
       should: 'return dates of date and past six days',
-      actual: daysForTheWeek(date),
+      actual: getDaysForTheWeek(date),
       expected
     });
   }
@@ -45,7 +30,7 @@ describe('date-utils/daysForTheWeek', async assert => {
     assert({
       given: 'no arguments',
       should: 'return dates of the past week',
-      actual: daysForTheWeek(),
+      actual: getDaysForTheWeek(),
       expected
     });
   }

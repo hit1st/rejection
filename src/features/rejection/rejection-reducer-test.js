@@ -8,7 +8,6 @@ import rejectionsReducer,
   addFetchedQuestions,
   getDailyScoresForTheDuration
 } from './rejection-reducer.js';
-import { dateMaker } from "../../utils/date-utils";
 
 describe('getRejections/rejectionsReducer', async assert => {
   assert({
@@ -138,87 +137,89 @@ describe('rejectionsReducer/getDailyScoresForTheDuration', async assert => {
         question: 'Can I have a raise?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 14)
+        timestamp: (new Date(2021, 6, 14)).toString()
       }),
       addQuestion({ 
         question: 'Can you buy me a burger??',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 15)
+        timestamp: (new Date(2021, 6, 15)).toString()
       }),
       addQuestion({ 
         question: 'Can I take some time to grab my wallet?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 21)
+        timestamp: (new Date(2021, 6, 21)).toString()
       }),
       addQuestion({ 
         question: 'Can I have a raise again?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 26)
+        timestamp: (new Date(2021, 6, 26)).toString()
       }),
       addQuestion({ 
         question: 'Can I have a raise this time?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 27)
+        timestamp: (new Date(2021, 6, 27)).toString()
       }),
       addQuestion({ 
         question: 'Can I have a job?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: new Date(2021, 6, 27)
+        timestamp: (new Date(2021, 6, 27)).toString()
       }),
       addQuestion({ 
         question: 'Can I have a job again?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 6, 28)
+        timestamp: (new Date(2021, 6, 28)).toString()
       }),
       addQuestion({ 
         question: 'Can I have a job this time?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: new Date(2021, 7, 1)
+        timestamp: (new Date(2021, 7, 1)).toString()
       }),
       addQuestion({ 
         question: 'Can you buy me lunch?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: new Date(2021, 7, 7)
+        timestamp: (new Date(2021, 7, 7)).toString()
       }),
       addQuestion({ 
         question: 'Can you buy me dinner?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: new Date(2021, 7, 7)
+        timestamp: (new Date(2021, 7, 7)).toString()
       })
     ];
 
     const state = { rejections: actions.reduce(rejectionsReducer, []) };
 
     const duration = [
-      '2021-08-01',
-      '2021-08-02',
-      '2021-08-03',
-      '2021-08-04',
-      '2021-08-05',
-      '2021-08-06',
-      '2021-08-07'
+      new Date(2021, 7, 1),
+      new Date(2021, 7, 2),
+      new Date(2021, 7, 3),
+      new Date(2021, 7, 4),
+      new Date(2021, 7, 5),
+      new Date(2021, 7, 6),
+      new Date(2021, 7, 7)
     ];
 
     const actual = getDailyScoresForTheDuration(state, duration);
 
     const expected = [
-      { date: "2021-08-01", score: 62 },
-      { date: "2021-08-02", score: 62 },
-      { date: "2021-08-03", score: 62 },
-      { date: "2021-08-04", score: 62 },
-      { date: "2021-08-05", score: 62 },
-      { date: "2021-08-06", score: 62 },
-      { date: "2021-08-07", score: 73 },
-    ]
+      { date: new Date(2021, 7, 1), score: 62 },
+      { date: new Date(2021, 7, 2), score: 62 },
+      { date: new Date(2021, 7, 3), score: 62 },
+      { date: new Date(2021, 7, 4), score: 62 },
+      { date: new Date(2021, 7, 5), score: 62 },
+      { date: new Date(2021, 7, 6), score: 62 },
+      { date: new Date(2021, 7, 7), score: 73 },
+    ];
+
+    console.log('actual: ', actual);
 
     assert({
       given: 'state and duration',

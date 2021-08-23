@@ -1,9 +1,4 @@
-const format = number => number < 10 ? `0${number}` : `${number}`;
-
-const dateMaker = (date) => `${date.getFullYear()}-${format(date.getMonth() + 1)}-${format(date.getDate())}`;
-
-
-const daysForTheWeek = (date = new Date()) => {
+const getDaysForTheWeek = (date = new Date()) => {
   const dates = [];
 
   for (let i = 6; i > -1; i -= 1) {
@@ -13,4 +8,4 @@ const daysForTheWeek = (date = new Date()) => {
   return dates;
 };
 
-export { dateMaker, daysForTheWeek };
+export { getDaysForTheWeek };

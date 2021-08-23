@@ -1,5 +1,3 @@
-import { dateMaker } from "../../utils/date-utils";
-
 const getRejections = state => state ? state.rejections : undefined;
 
 const addQuestion = ({
@@ -38,15 +36,8 @@ const getScore = state =>
 const getDailyScoresForTheDuration = (state, duration = []) => {
   const dailyScoreForTheDuration = [];
   const statuses = getRejections(state)
-    .map(({ status, timestamp }) => ({
-      status,
-      timestamp: dateMaker(new Date(timestamp)) 
-    }))
-    .sort((a, b) => {
-      if (a.timestamp < b.timestamp) return -1;
-      if (a.timestamp > b.timestamp) return 1;
-      return 0
-    });
+    .map(({ status, timestamp }) => ({ status, timestamp: new Date(timestamp) }))
+    .sort((a, b) => a.timestamp - b.timestamp);
   let day = 0;
   let statusesIdx = 0;
   let score = 0;
