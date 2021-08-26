@@ -219,8 +219,6 @@ describe('rejectionsReducer/getDailyScoresForTheDuration', async assert => {
       { date: new Date(2021, 7, 7), score: 73 },
     ];
 
-    console.log('actual: ', actual);
-
     assert({
       given: 'state and duration',
       should: 'return daily scores',
