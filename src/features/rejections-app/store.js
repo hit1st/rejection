@@ -4,6 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import idReducer from '../id-reducer/id-reducer.js';
 import rejectionsReducer from '../rejection/rejection-reducer.js';
 import visibilityFilter from '../visibility/visibility-filter.js';
+import isLoadingReducer from '../is-loading/is-loading-reducer.js';
 import rootSaga from '../faunadb-sagas/faunadb-sagas.js';
 
 const composeEnhancers = typeof window !== 'undefined' &&
@@ -27,7 +28,8 @@ if (process.env.NODE_ENV !== 'production') {
 const rejectionsApp = combineReducers({
   id: idReducer,
   rejections: rejectionsReducer,
-  visibilityFilter
+  visibilityFilter,
+  isLoading: isLoadingReducer
 });
 
 const initializeStore = () => {

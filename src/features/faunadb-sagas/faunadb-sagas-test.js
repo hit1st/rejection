@@ -16,6 +16,7 @@ import {
 import { updateID, getID } from '../id-reducer/id-reducer.js';
 import { addFetchedQuestions, addQuestion } from '../rejection/rejection-reducer.js';
 import { useID, useRejections, createRejection } from '../faunagql/api.js';
+import { isLoading, isNotLoading } from '../is-loading/is-loading-reducer.js';
 
 describe('fetchID', async (assert) => {
   const iterator = fetchID();
@@ -61,6 +62,13 @@ describe('fetchState', async (assert) => {
 
   assert({
     given: 'no arguments',
+    should: 'put isLoading(undefined)',
+    actual: iterator.next().value,
+    expected: put(isLoading())
+  });
+
+  assert({
+    given: 'no arguments',
     should: 'call useRejections(undefined)',
     actual: iterator.next().value,
     expected: call(useRejections, undefined)
@@ -75,6 +83,13 @@ describe('fetchState', async (assert) => {
       expected: put(addFetchedQuestions(simulatedNetworkResponseData))
     });
   }
+
+  assert({
+    given: 'no arguments',
+    should: 'put isNotLoading(undefined)',
+    actual: iterator.next().value,
+    expected: put(isNotLoading())
+  });
 
   assert({
     given: 'no arguments',
@@ -95,6 +110,7 @@ describe('fetchState', async (assert) => {
       actual: iterator.throw(NetworkError).value,
       expected: put(handleFetchStateError(NetworkError))
     });
+    iterator.next();
     iterator.next();
   }
 });

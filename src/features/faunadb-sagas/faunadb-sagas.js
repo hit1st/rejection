@@ -2,6 +2,7 @@ import { put, takeEvery, all, call, select } from 'redux-saga/effects';
 import { updateID, getID } from '../id-reducer/id-reducer.js';
 import { addFetchedQuestions, addQuestion } from '../rejection/rejection-reducer.js';
 import { useID, useRejections, createRejection } from '../faunagql/api.js';
+import { isLoading, isNotLoading } from '../is-loading/is-loading-reducer.js';
 
 const handleFetchID = () => {
   return {
@@ -53,8 +54,10 @@ function* fetchID() {
 function* fetchState() {
   try {
     const id = yield select(getID);
+    yield put(isLoading());
     const data = yield call(useRejections, id);
     yield put(addFetchedQuestions(data));
+    yield put(isNotLoading());
   } catch (err) {
     yield put(handleFetchStateError(err));
   }
