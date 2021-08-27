@@ -1,12 +1,11 @@
 import React from 'react';
 import { describe } from 'riteway';
 import render from 'riteway/render-component';
-import match from 'riteway/match';
 
-import { AddRejection } from './add-rejection.js';
+import { AddRejectionView } from './add-rejection-view.js';
 
 describe ('AddRejection component', async assert => {
-  const createAddRejection = props => render(<AddRejection {...props} />);
+  const createAddRejection = props => render(<AddRejectionView {...props} />);
 
   {
     const $ = createAddRejection();
