@@ -1,6 +1,4 @@
-import withRedux from '../src/features/with-redux/with-redux.js';
+import appHOC from '../src/features/app-hoc/app-hoc.js';
 import RejectionsApp from '../src/features/rejections-app/rejections-app.js';
 
-const Home = withRedux(RejectionsApp);
-
-export default Home;
+export default appHOC(RejectionsApp);

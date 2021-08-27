@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { handleFetchID } from '../faunadb-sagas/faunadb-sagas.js';
 import { getRejections } from '../rejection/rejection-reducer.js';
 import { getVisibilityFilter } from '../visibility/visibility-filter.js';
 import styles from './styles.module.css';
@@ -49,11 +48,6 @@ const getVisibleRejections = (
 const VisibleRejectionsList = () => {
   const rejections = useSelector(getRejections);
   const visibilityFilter = useSelector(getVisibilityFilter);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(handleFetchID());
-  }, []);
 
   return (
     <RejectionsList
