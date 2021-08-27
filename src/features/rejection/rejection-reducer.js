@@ -22,7 +22,7 @@ const addQuestion = ({
 const addFetchedQuestions = (fetchedQuestions = []) => {
   return {
     type: 'ADD_FETCHED_QUESTIONS',
-    payload: fetchedQuestions
+    payload: fetchedQuestions.map(question => ({ ...question, timestamp: new Date(question.timestamp) }))
   };
 };
 
@@ -36,7 +36,10 @@ const getScore = state =>
 const getDailyScoresForTheDuration = (state, duration = []) => {
   const dailyScoreForTheDuration = [];
   const statuses = getRejections(state)
-    .map(({ status, timestamp }) => ({ status, timestamp: new Date(timestamp) }))
+    .map(({ status, timestamp }) => ({
+      status,
+      timestamp: new Date(timestamp.getFullYear(), timestamp.getMonth(), timestamp.getDate())
+    }))
     .sort((a, b) => a.timestamp - b.timestamp);
   let day = 0;
   let statusesIdx = 0;
