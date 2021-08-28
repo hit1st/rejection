@@ -6,8 +6,16 @@ import rejectionsReducer,
   getRejections,
   getScore,
   addFetchedQuestions,
-  getDailyScoresForTheDuration
+  getDailyScoresForTheDuration,
+  getVisibleRejections
 } from './rejection-reducer.js';
+import {
+  showAll,
+  showAccepted,
+  showRejected
+} from '../visibility/visibility-filter.js';
+
+
 
 describe('getRejections/rejectionsReducer', async assert => {
   assert({
@@ -45,21 +53,21 @@ describe('getRejections/rejectionsReducer/addFetchedQuestions', async assert => 
         askee: 'Boss',
         status: 'Accepted',
         id: 12345,
-        timestamp: 12345
+        timestamp: new Date(2021, 6, 14)
       },
       {
         question: 'Can you buy me a burger?',
         askee: 'Coworker',
         status: 'Rejected',
         id: 12346,
-        timestamp: 12346
+        timestamp: new Date(2021, 6, 15)
       },
       {
         question: 'Can I take some time to grab my wallet?',
         askee: 'Boss',
         status: 'Accepted',
         id: 12347,
-        timestamp: 12347
+        timestamp: new Date(2021, 6, 21)
       },
     ];
 
@@ -137,61 +145,61 @@ describe('rejectionsReducer/getDailyScoresForTheDuration', async assert => {
         question: 'Can I have a raise?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 14)).toString()
+        timestamp: new Date(2021, 6, 14)
       }),
       addQuestion({ 
         question: 'Can you buy me a burger??',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 15)).toString()
+        timestamp: new Date(2021, 6, 15)
       }),
       addQuestion({ 
         question: 'Can I take some time to grab my wallet?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 21)).toString()
+        timestamp: new Date(2021, 6, 21)
       }),
       addQuestion({ 
         question: 'Can I have a raise again?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 26)).toString()
+        timestamp: new Date(2021, 6, 26)
       }),
       addQuestion({ 
         question: 'Can I have a raise this time?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 27)).toString()
+        timestamp: new Date(2021, 6, 27)
       }),
       addQuestion({ 
         question: 'Can I have a job?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: (new Date(2021, 6, 27)).toString()
+        timestamp: new Date(2021, 6, 27)
       }),
       addQuestion({ 
         question: 'Can I have a job again?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 6, 28)).toString()
+        timestamp: new Date(2021, 6, 28)
       }),
       addQuestion({ 
         question: 'Can I have a job this time?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: (new Date(2021, 7, 1)).toString()
+        timestamp: new Date(2021, 7, 1)
       }),
       addQuestion({ 
         question: 'Can you buy me lunch?',
         askee: 'Boss',
         status: "Accepted",
-        timestamp: (new Date(2021, 7, 7)).toString()
+        timestamp: new Date(2021, 7, 7)
       }),
       addQuestion({ 
         question: 'Can you buy me dinner?',
         askee: 'Boss',
         status: "Rejected",
-        timestamp: (new Date(2021, 7, 7)).toString()
+        timestamp: new Date(2021, 7, 7)
       })
     ];
 
@@ -222,6 +230,261 @@ describe('rejectionsReducer/getDailyScoresForTheDuration', async assert => {
     assert({
       given: 'state and duration',
       should: 'return daily scores',
+      actual,
+      expected
+    });
+  }
+});
+
+describe('rejectionsReducer/getVisibleRejections', async assert => {
+  const actions = [
+    addQuestion({ 
+      question: 'Can I have a raise?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 14)
+    }),
+    addQuestion({ 
+      question: 'Can you buy me a burger??',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 15)
+    }),
+    addQuestion({ 
+      question: 'Can I take some time to grab my wallet?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 21)
+    }),
+    addQuestion({ 
+      question: 'Can I have a raise again?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 26)
+    }),
+    addQuestion({ 
+      question: 'Can I have a raise this time?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 27)
+    }),
+    addQuestion({ 
+      question: 'Can I have a job?',
+      askee: 'Boss',
+      status: "Accepted",
+      timestamp: new Date(2021, 6, 27)
+    }),
+    addQuestion({ 
+      question: 'Can I have a job again?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 6, 28)
+    }),
+    addQuestion({ 
+      question: 'Can I have a job this time?',
+      askee: 'Boss',
+      status: "Accepted",
+      timestamp: new Date(2021, 7, 1)
+    }),
+    addQuestion({ 
+      question: 'Can you buy me lunch?',
+      askee: 'Boss',
+      status: "Accepted",
+      timestamp: new Date(2021, 7, 7)
+    }),
+    addQuestion({ 
+      question: 'Can you buy me dinner?',
+      askee: 'Boss',
+      status: "Rejected",
+      timestamp: new Date(2021, 7, 7)
+    })
+  ];
+
+  const state = { rejections: actions.reduce(rejectionsReducer, []) };
+
+  {
+    const filter = showAll();
+
+    const actual = getVisibleRejections(state, filter);
+
+    const expected = [
+      { 
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 14)
+      },
+      { 
+        question: 'Can you buy me a burger??',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 15)
+      },
+      { 
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 21)
+      },
+      { 
+        question: 'Can I have a raise again?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 26)
+      },
+      { 
+        question: 'Can I have a raise this time?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 27)
+      },
+      { 
+        question: 'Can I have a job?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 6, 27)
+      },
+      { 
+        question: 'Can I have a job again?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 28)
+      },
+      { 
+        question: 'Can I have a job this time?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 7, 1)
+      },
+      { 
+        question: 'Can you buy me lunch?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 7, 7)
+      },
+      { 
+        question: 'Can you buy me dinner?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 7, 7)
+      }
+    ];
+
+    assert({
+      given: 'state and showAll() filter',
+      should: 'return state',
+      actual,
+      expected
+    });
+  }
+
+  {
+    const filter = showRejected();
+
+    const actual = getVisibleRejections(state, filter);
+
+    const expected = [
+      { 
+        question: 'Can I have a raise?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 14)
+      },
+      { 
+        question: 'Can you buy me a burger??',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 15)
+      },
+      { 
+        question: 'Can I take some time to grab my wallet?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 21)
+      },
+      { 
+        question: 'Can I have a raise again?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 26)
+      },
+      { 
+        question: 'Can I have a raise this time?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 27)
+      },
+      { 
+        question: 'Can I have a job again?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 6, 28)
+      },
+      { 
+        question: 'Can you buy me dinner?',
+        askee: 'Boss',
+        status: "Rejected",
+        id: '',
+        timestamp: new Date(2021, 7, 7)
+      }
+    ];
+
+    assert({
+      given: 'state and showRejected() filter',
+      should: 'return rejected questions',
+      actual,
+      expected
+    });
+  }
+
+  {
+    const filter = showAccepted();
+
+    const actual = getVisibleRejections(state, filter);
+
+    const expected = [
+      { 
+        question: 'Can I have a job?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 6, 27)
+      },
+      { 
+        question: 'Can I have a job this time?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 7, 1)
+      },
+      { 
+        question: 'Can you buy me lunch?',
+        askee: 'Boss',
+        status: "Accepted",
+        id: '',
+        timestamp: new Date(2021, 7, 7)
+      }
+    ];
+
+    assert({
+      given: 'state and showAccepted() filter',
+      should: 'return accepted questions',
       actual,
       expected
     });

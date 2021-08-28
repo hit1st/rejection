@@ -1,3 +1,9 @@
+import {
+  showAll,
+  showAccepted,
+  showRejected
+} from '../visibility/visibility-filter.js';
+
 const getRejections = state => state ? state.rejections : undefined;
 
 const addQuestion = ({
@@ -64,6 +70,22 @@ const getDailyScoresForTheDuration = (state, duration = []) => {
   return dailyScoreForTheDuration;
 };
 
+const getVisibleRejections = (
+  state,
+  filter = showAll()
+) => {
+  const rejections = getRejections(state);
+
+  switch (filter) {
+    case showAll():
+      return rejections;
+    case showAccepted():
+      return rejections.filter(rejection => rejection.status === 'Accepted');
+    case showRejected():
+      return rejections.filter(rejection => rejection.status === 'Rejected');
+  };
+};
+
 const rejectionsReducer = (
   state = [],
   { type, payload } = {}
@@ -84,5 +106,6 @@ export {
   getRejections,
   getScore,
   addFetchedQuestions,
-  getDailyScoresForTheDuration
+  getDailyScoresForTheDuration,
+  getVisibleRejections
 };

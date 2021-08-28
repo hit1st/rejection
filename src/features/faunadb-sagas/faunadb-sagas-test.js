@@ -75,7 +75,7 @@ describe('fetchState', async (assert) => {
   });
 
   {
-    const simulatedNetworkResponseData = 'simulated network response data';
+    const simulatedNetworkResponseData = [];
     assert({
       given: 'no arguments',
       should: 'put addFetchedQuestions(simulatedNetworkResponseData)',

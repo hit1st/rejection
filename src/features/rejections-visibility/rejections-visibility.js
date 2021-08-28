@@ -1,7 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from '../link/link.js';
-import { getVisibilityFilter, setVisibilityFilter } from '../visibility/visibility-filter.js';
+import {
+  getVisibilityFilter,
+  setVisibilityFilter,
+  showAll,
+  showAccepted,
+  showRejected
+} from '../visibility/visibility-filter.js';
 
 const FilterLink = ({
   filter,
@@ -28,19 +34,19 @@ const RejectionsVisibility = () => (
     Show:
     {'  '}
     <FilterLink
-      filter='SHOW_ALL'
+      filter={showAll()}
     >
       All
     </FilterLink>
     {'  '}
     <FilterLink
-      filter='SHOW_ACCEPTED'
+      filter={showAccepted()}
     >
       Accepted
     </FilterLink>
     {'  '}
     <FilterLink
-      filter='SHOW_REJECTED'
+      filter={showRejected()}
     >
       Rejected
     </FilterLink>

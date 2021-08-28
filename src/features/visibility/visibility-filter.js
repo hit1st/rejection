@@ -1,4 +1,8 @@
-const setVisibilityFilter = (filter) => !filter ?
+const showAll = () => 'SHOW_ALL';
+const showAccepted = () => 'SHOW_ACCEPTED';
+const showRejected = () => 'SHOW_REJECTED';
+
+const setVisibilityFilter = filter => !filter ?
   filter : 
   {
     type: 'SET_VISIBILITY_FILTER',
@@ -8,7 +12,7 @@ const setVisibilityFilter = (filter) => !filter ?
 const getVisibilityFilter = state => state ? state.visibilityFilter : undefined;
 
 const visibilityFilter = (
-  state = 'SHOW_ALL',
+  state = showAll(),
   { type, filter } = {}
 ) => {
   switch (type) {
@@ -19,5 +23,11 @@ const visibilityFilter = (
   }
 };
 
-export { getVisibilityFilter, setVisibilityFilter }
 export default visibilityFilter;
+export {
+  getVisibilityFilter,
+  setVisibilityFilter,
+  showAll,
+  showAccepted,
+  showRejected
+};
