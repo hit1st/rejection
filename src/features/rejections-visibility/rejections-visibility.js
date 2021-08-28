@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Link from '../link/link.js';
+
+import FilterLink from '../filter-link/filter-link.js';
 import {
   getVisibilityFilter,
   setVisibilityFilter,
@@ -9,47 +9,27 @@ import {
   showRejected
 } from '../visibility/visibility-filter.js';
 
-const FilterLink = ({
-  filter,
-  children
-}) => {
-  const visibilityFilter = useSelector(getVisibilityFilter);
-  const dispatch = useDispatch();
-  return (
-    <Link
-      active={
-        filter === visibilityFilter
-      }
-      onClick={
-        () => dispatch(setVisibilityFilter(filter))
-      }
+const links = [
+  { text: 'All', filter: showAll() },
+  { text: 'Accepted', filter: showAccepted() },
+  { text: 'Rejected', filter: showRejected() },
+].map(({ text, filter }) => (
+  <>
+    {' '}
+    <FilterLink
+      filter={filter}
+      selector={getVisibilityFilter}
+      actionCreator={setVisibilityFilter}
     >
-      {children}
-    </Link>
-  );
-};
+      {text}
+    </FilterLink>
+  </>
+));
 
 const RejectionsVisibility = () => (
   <p>
     Show:
-    {'  '}
-    <FilterLink
-      filter={showAll()}
-    >
-      All
-    </FilterLink>
-    {'  '}
-    <FilterLink
-      filter={showAccepted()}
-    >
-      Accepted
-    </FilterLink>
-    {'  '}
-    <FilterLink
-      filter={showRejected()}
-    >
-      Rejected
-    </FilterLink>
+    {links}
   </p>
 );
 
