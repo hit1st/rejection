@@ -1,8 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { getVisibleRejections } from '../rejection/rejection-reducer.js';
-import { getVisibilityFilter } from '../visibility/visibility-filter.js';
 import styles from './styles.module.css';
 
 const Rejection = ({
@@ -31,16 +28,4 @@ const RejectionsList = ({
   </ul>
 );
 
-const VisibleRejectionsList = () => {
-  const visibilityFilter = useSelector(getVisibilityFilter);
-  const rejections = useSelector(state => getVisibleRejections(state, visibilityFilter));
-
-  return (
-    <RejectionsList
-      rejections={rejections}
-    /> 
-  )
-};
-
-export { Rejection, RejectionsList, getVisibleRejections };
-export default VisibleRejectionsList;
+export { Rejection, RejectionsList };

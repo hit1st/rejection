@@ -6,10 +6,11 @@ const FilterLink = ({
   filter,
   selector,
   actionCreator,
-  children
+  children,
+  visibility,
+  dispatch = useDispatch(),
 }) => {
-  const visibilityFilter = useSelector(selector);
-  const dispatch = useDispatch();
+  const visibilityFilter = visibility || useSelector(selector);
   return (
     <Link
       active={
