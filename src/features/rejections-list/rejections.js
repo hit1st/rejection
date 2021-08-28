@@ -21,4 +21,11 @@ const Rejections = () => {
   );
 };
 
+// const Rejections = () => (
+//   <>
+//     <RejectionsVisibilityBar />
+//     <VisibleRejectionsList />
+//   </>
+// );
+
 export default Rejections;
