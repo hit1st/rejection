@@ -18,7 +18,6 @@ const RejectionsVisibilityBar = props => {
     <Fragment key={text}>
       {' '}
       <FilterLink
-        
         filter={filter}
         selector={getVisibilityFilter}
         actionCreator={setVisibilityFilter}
