@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import FilterLink from '../filter-link/filter-link.js';
 import {
@@ -9,15 +9,16 @@ import {
   showRejected
 } from '../visibility/visibility-filter.js';
 
-const RejectionsVisibilityBar = (props) => {
+const RejectionsVisibilityBar = props => {
   const links = [
     { text: 'All', filter: showAll() },
     { text: 'Accepted', filter: showAccepted() },
     { text: 'Rejected', filter: showRejected() },
   ].map(({ text, filter }) => (
-    <>
+    <Fragment key={text}>
       {' '}
       <FilterLink
+        
         filter={filter}
         selector={getVisibilityFilter}
         actionCreator={setVisibilityFilter}
@@ -25,7 +26,7 @@ const RejectionsVisibilityBar = (props) => {
       >
         {text}
       </FilterLink>
-    </>
+    </Fragment>
   ));
 
   return (
